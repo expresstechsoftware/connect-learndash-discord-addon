@@ -99,5 +99,26 @@ class Learndash_Discord_Admin {
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/learndash-discord-admin.js', array( 'jquery' ), $this->version, false );
 
 	}
+        
+	/**
+	 * Method to add discord setting sub-menu under top level menu of learndash-lms
+	 *
+	 * @since    1.0.0
+	 */
+	public function ets_learndash_Discord_add_settings_menu() {
+		add_submenu_page( 'learndash-lms', __( 'Discord Settings', 'learndash-discord' ), __( 'Discord Settings', 'learndash-discord' ), 'manage_options', 'learndash-discord', array( $this, 'ets_learndash_discord_setting_page' ) );
+	}
+        
+	/**
+	 * Callback to Display settings page
+	 *
+	 * @since    1.0.0
+	 */
+	public function ets_learndash_discord_setting_page() {
+		if ( ! current_user_can( 'administrator' ) ) {
+			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			exit();
+		}
+	}
 
 }
