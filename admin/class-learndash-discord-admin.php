@@ -72,7 +72,8 @@ class Learndash_Discord_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
+		wp_enqueue_style('select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css' );
+		wp_enqueue_style( $this->plugin_name . 'discord_tabs_css', plugin_dir_url( __FILE__ ) . 'css/skeletabs.css', array(), $this->version, 'all' );
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/learndash-discord-admin.css', array(), $this->version, 'all' );
 
 	}
@@ -95,7 +96,10 @@ class Learndash_Discord_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
+            
+		wp_enqueue_script('select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js', array( 'jquery' ), $this->version, false );
+            
+		wp_enqueue_script( $this->plugin_name . '-tabs-js', plugin_dir_url( __FILE__ ) . 'js/skeletabs.js', array( 'jquery' ), $this->version, false );
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/learndash-discord-admin.js', array( 'jquery' ), $this->version, false );
 
 	}
@@ -118,6 +122,65 @@ class Learndash_Discord_Admin {
 		if ( ! current_user_can( 'administrator' ) ) {
 			wp_send_json_error( 'You do not have sufficient rights', 403 );
 			exit();
+		}
+                require_once LEARNDASH_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/learndash-discord-admin-display.php';
+	}
+        
+	/*
+	Save application details
+	*/
+	public function ets_learndash_discord_application_settings() {
+		if ( ! current_user_can( 'administrator' ) ) {
+			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			exit();
+		}
+		$ets_learndash_discord_client_id = isset( $_POST['ets_learndash_discord_client_id'] ) ? sanitize_text_field( trim( $_POST['ets_learndash_discord_client_id'] ) ) : '';
+
+		$ets_learndash_discord_client_secret = isset( $_POST['ets_learndash_discord_client_secret'] ) ? sanitize_text_field( trim( $_POST['ets_learndash_discord_client_secret'] ) ) : '';
+
+		$ets_learndash_discord_bot_token = isset( $_POST['ets_learndash_discord_bot_token'] ) ? sanitize_text_field( trim( $_POST['ets_learndash_discord_bot_token'] ) ) : '';
+
+		$ets_learndash_discord_redirect_url = isset( $_POST['ets_learndash_discord_redirect_url'] ) ? sanitize_text_field( trim( $_POST['ets_learndash_discord_redirect_url'] ) ) : '';
+                
+                $ets_learndash_discord_redirect_page_id  = isset( $_POST['ets_learndash_discord_redirect_page_id'] ) ? sanitize_text_field( trim( $_POST['ets_learndash_discord_redirect_page_id'] ) ) : '';
+
+		$ets_learndash_discord_server_id = isset( $_POST['ets_learndash_discord_server_id'] ) ? sanitize_text_field( trim( $_POST['ets_learndash_discord_server_id'] ) ) : '';
+
+		if ( isset( $_POST['submit'] ) ) {
+			if ( isset( $_POST['ets_learndash_discord_save_settings'] ) && wp_verify_nonce( $_POST['ets_learndash_discord_save_settings'], 'save_learndash_discord_general_settings' ) ) {
+				if ( $ets_learndash_discord_client_id ) {
+					update_option( 'ets_learndash_discord_client_id', $ets_learndash_discord_client_id );
+				}
+
+				if ( $ets_learndash_discord_client_secret ) {
+					update_option( 'ets_learndash_discord_client_secret', $ets_learndash_discord_client_secret );
+				}
+
+				if ( $ets_learndash_discord_bot_token ) {
+					update_option( 'ets_learndash_discord_bot_token', $ets_learndash_discord_bot_token );
+				}
+
+				if ( $ets_learndash_discord_redirect_url ) {
+					// Save page is
+					update_option( 'ets_learndash_discord_redirect_page_id', $ets_learndash_discord_redirect_url );
+					// add a query string param `via` GH #185.
+					$ets_learndash_discord_redirect_url = ets_get_learndash_discord_formated_discord_redirect_url( $ets_learndash_discord_redirect_url );
+					update_option( 'ets_learndash_discord_redirect_url', $ets_learndash_discord_redirect_url );
+                                        //update_option( 'ets_learndash_discord_redirect_page_id', $ets_learndash_discord_redirect_page_id );
+				}
+
+				if ( $ets_learndash_discord_server_id ) {
+					update_option( 'ets_learndash_discord_server_id', $ets_learndash_discord_server_id );
+				}
+
+				$message = 'Your settings are saved successfully.';
+				if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
+					
+					
+					$pre_location = $_SERVER['HTTP_REFERER'] . '&save_settings_msg=' . $message . '#ets_learndash_application_details';
+					wp_safe_redirect( $pre_location );
+				}
+			}
 		}
 	}
 

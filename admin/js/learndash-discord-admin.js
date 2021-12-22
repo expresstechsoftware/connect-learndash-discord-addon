@@ -1,4 +1,4 @@
-(function( $ ) {
+jQuery(function($){
 	'use strict';
 
 	/**
@@ -28,5 +28,12 @@
 	 * Although scripts in the WordPress core, Plugins and Themes may be
 	 * practising this, we should strive to set a better example in our own work.
 	 */
+        $('#ets_learndash_discord_redirect_url').select2({});
 
-})( jQuery );
+});
+if ( 1 ) {
+	/*Tab options*/
+	jQuery.skeletabs.setDefaults({
+		keyboard: false
+	});
+}

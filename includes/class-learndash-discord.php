@@ -98,6 +98,12 @@ class Learndash_Discord {
 	 * @access   private
 	 */
 	private function load_dependencies() {
+            
+		/**
+		 * Common functions file.
+		 * core plugin.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/functions.php';
 
 		/**
 		 * The class responsible for orchestrating the actions and filters of the
@@ -157,6 +163,7 @@ class Learndash_Discord {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
                 $this->loader->add_action( 'admin_menu', $plugin_admin, 'ets_learndash_Discord_add_settings_menu' );
+                $this->loader->add_action( 'admin_post_learndash_discord_application_settings', $plugin_admin, 'ets_learndash_discord_application_settings' );
 
 	}
 
