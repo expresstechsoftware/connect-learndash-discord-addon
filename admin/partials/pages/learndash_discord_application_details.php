@@ -24,16 +24,12 @@ $ets_learndash_discord_server_id     = sanitize_text_field( trim( get_option( 'e
     ?>" required placeholder="Discord Client Secret">
 	</div>
 	<div class="ets-input-group">
-            
-                
-<?php //var_dump(ets_learndash_discord_pages_list())?>
-            
             <label><?php echo __( 'Redirect URL', 'learndash-discord' ); ?> :</label>
             <p><b><?php echo $ets_learndash_discord_redirect_url ?></b></p>
 		<select class= "ets-input" id="ets_learndash_discord_redirect_url" name="ets_learndash_discord_redirect_url" style="max-width: 100%" required>
 		<?php echo ets_learndash_discord_pages_list( $ets_learndash_discord_redirect_page_id ) ; ?>
 		</select>
-		<p class="description"><?php echo __( 'Registered discord app url', 'learndash-discord' ); ?></p>
+		<p class="description"><?php echo __( 'Registered discord app redirect url', 'learndash-discord' ); ?></p>
 	</div>
 	<div class="ets-input-group">
 	  <label><?php echo __( 'Bot Token', 'learndash-discord' ); ?> :</label>

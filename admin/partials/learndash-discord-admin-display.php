@@ -25,7 +25,7 @@ if ( isset( $_GET['save_settings_msg'] ) ) {
 <div id="learndash-discord-outer" class="skltbs-theme-light" data-skeletabs='{ "startIndex": 0 }'>
   <ul class="skltbs-tab-group">
   <li class="skltbs-tab-item">
-		<button class="skltbs-tab" data-identity="settings" ><?php echo __( 'Application details', 'learndash-discord' ); ?><span class="initialtab spinner"></span></button>
+		<button class="skltbs-tab" data-identity="settings" ><?php echo __( 'Application Details', 'learndash-discord' ); ?><span class="initialtab spinner"></span></button>
   </li>
 
   </ul>

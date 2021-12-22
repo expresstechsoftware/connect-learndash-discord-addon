@@ -72,7 +72,7 @@ class Learndash_Discord_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-		wp_enqueue_style('select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css' );
+		wp_enqueue_style( $this->plugin_name .'-select2', plugin_dir_url( __FILE__ ) . 'css/select2.css', array(), $this->version, 'all' );
 		wp_enqueue_style( $this->plugin_name . 'discord_tabs_css', plugin_dir_url( __FILE__ ) . 'css/skeletabs.css', array(), $this->version, 'all' );
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/learndash-discord-admin.css', array(), $this->version, 'all' );
 
@@ -97,7 +97,7 @@ class Learndash_Discord_Admin {
 		 * class.
 		 */
             
-		wp_enqueue_script('select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name . '-select2',  plugin_dir_url( __FILE__ ) . 'js/select2.js', array( 'jquery' ), $this->version, false );
             
 		wp_enqueue_script( $this->plugin_name . '-tabs-js', plugin_dir_url( __FILE__ ) . 'js/skeletabs.js', array( 'jquery' ), $this->version, false );
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/learndash-discord-admin.js', array( 'jquery' ), $this->version, false );
@@ -161,12 +161,10 @@ class Learndash_Discord_Admin {
 				}
 
 				if ( $ets_learndash_discord_redirect_url ) {
-					// Save page is
-					update_option( 'ets_learndash_discord_redirect_page_id', $ets_learndash_discord_redirect_url );
-					// add a query string param `via` GH #185.
+					update_option( 'ets_learndash_discord_redirect_page_id', $ets_learndash_discord_redirect_url );					
 					$ets_learndash_discord_redirect_url = ets_get_learndash_discord_formated_discord_redirect_url( $ets_learndash_discord_redirect_url );
 					update_option( 'ets_learndash_discord_redirect_url', $ets_learndash_discord_redirect_url );
-                                        //update_option( 'ets_learndash_discord_redirect_page_id', $ets_learndash_discord_redirect_page_id );
+                                        
 				}
 
 				if ( $ets_learndash_discord_server_id ) {
