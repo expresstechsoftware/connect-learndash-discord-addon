@@ -100,7 +100,17 @@ class Learndash_Discord_Admin {
 		wp_enqueue_script( $this->plugin_name . '-select2',  plugin_dir_url( __FILE__ ) . 'js/select2.js', array( 'jquery' ), $this->version, false );
             
 		wp_enqueue_script( $this->plugin_name . '-tabs-js', plugin_dir_url( __FILE__ ) . 'js/skeletabs.js', array( 'jquery' ), $this->version, false );
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/learndash-discord-admin.js', array( 'jquery' ), $this->version, false );
+		wp_register_script( 'learndash-discord-add-on-admin', plugin_dir_url( __FILE__ ) . 'js/learndash-discord-admin.js', array( 'jquery' ), $this->version, false );
+                wp_enqueue_script( 'learndash-discord-add-on-admin' );                
+                wp_enqueue_script( 'jquery-ui-draggable' );
+                wp_enqueue_script( 'jquery-ui-droppable' );
+		$script_params = array(
+			'admin_ajax'                       => admin_url( 'admin-ajax.php' ),
+			'permissions_const'                => LEARNDASH_DISCORD_BOT_PERMISSIONS,
+			'is_admin'                         => is_admin(),
+			'ets_learndash_discord_nonce' => wp_create_nonce( 'ets-learndiscord-ajax-nonce' ),
+		);
+		wp_localize_script( 'learndash-discord-add-on-admin', 'etsLearnDashParams', $script_params );                                
 
 	}
         

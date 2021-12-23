@@ -98,7 +98,7 @@
 }
 .ets-btn.learndash-btn-connect-to-bot{
   font-weight:normal;
-  //display: none;
+  display: none;
   text-transform: none;
 }
 .ets-btn.not-active {

@@ -43,6 +43,11 @@ define( 'LEARNDASH_DISCORD_VERSION', '1.0.0' );
 define( 'LEARNDASH_DISCORD_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
 
 /**
+ * Discord Bot Permissions.
+ */
+define( 'LEARNDASH_DISCORD_BOT_PERMISSIONS', 8 );
+
+/**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-learndash-discord-activator.php
  */
