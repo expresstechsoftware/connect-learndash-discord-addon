@@ -450,8 +450,8 @@ div.mapping-json{
   text-align: center;
   margin-top: 10px;
 }
-#learndash_maaping_json_val{
-  width: 50%;
+#ets_learndash_mapping_json_val{
+  width: 100%;
   display: none;
 }
 .notice.ets-notice{

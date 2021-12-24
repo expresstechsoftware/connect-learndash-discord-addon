@@ -48,6 +48,11 @@ define( 'LEARNDASH_DISCORD_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'LEARNDASH_DISCORD_BOT_PERMISSIONS', 8 );
 
 /**
+ * Discord API url. 
+ */
+define( 'ETS_LEARNDASH_DISCORD_API_URL', 'https://discord.com/api/v6/' );
+
+/**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-learndash-discord-activator.php
  */

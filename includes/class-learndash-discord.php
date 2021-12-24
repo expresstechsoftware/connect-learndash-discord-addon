@@ -164,6 +164,7 @@ class Learndash_Discord {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
                 $this->loader->add_action( 'admin_menu', $plugin_admin, 'ets_learndash_Discord_add_settings_menu' );
                 $this->loader->add_action( 'admin_post_learndash_discord_application_settings', $plugin_admin, 'ets_learndash_discord_application_settings' );
+                $this->loader->add_action( 'admin_post_learndash_discord_save_role_mapping', $plugin_admin, 'ets_learndash_discord_save_role_mapping' );
                 $this->loader->add_action( 'wp_ajax_ets_learndash_discord_load_discord_roles', $plugin_admin, 'ets_learndash_discord_load_discord_roles' );
 
 	}

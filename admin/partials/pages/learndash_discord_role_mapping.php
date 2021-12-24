@@ -1,11 +1,13 @@
 <?php
 
-//learndash_get_courses_count();
-//learndash_get_all_courses_with_groups();
-//learndash_course_ge
-echo '<pre>';
-var_dump(learndash_get_courses_count());
-echo '</pre>';
+$args_courses = array(
+    'orderby'          => 'title',
+    'order'            => 'ASC',
+    'post_status'    => 'publish',
+    'numberposts' => -1,
+    'post_type'   => 'sfwd-courses'
+);
+$courses = get_posts( $args_courses );
 
 $default_role        = sanitize_text_field( trim( get_option( 'ets_learndash_discord_default_role_id' ) ) );
 ?>
@@ -26,10 +28,10 @@ $default_role        = sanitize_text_field( trim( get_option( 'ets_learndash_dis
 	<hr>
 	<div class="learndash-discord-courses">
 	<?php
-	foreach ( $courses as $key => $value ) {
+	foreach ( $courses as $course ) {
 		
 			?>
-		  <div class="makeMeDroppable" data-learndash_course_id="<?php echo esc_attr($key); ?>" ><span><?php echo esc_html($value); ?></span></div>
+		  <div class="makeMeDroppable" data-learndash_course_id="<?php echo esc_attr( $course->ID ); ?>" ><span><?php echo esc_html( $course->post_title ); ?></span></div>
 			<?php
 		
 	}
