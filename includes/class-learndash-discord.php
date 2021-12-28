@@ -116,6 +116,11 @@ class Learndash_Discord {
 		 * of the plugin.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-learndash-discord-i18n.php';
+                
+		/**
+		 * The class responsible for Checking plugin dependencies.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-learndash-discord-dependencies.php';                
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
@@ -159,6 +164,10 @@ class Learndash_Discord {
 	private function define_admin_hooks() {
 
 		$plugin_admin = new Learndash_Discord_Admin( $this->get_plugin_name(), $this->get_version() );
+                $plugin_dependencies = new Learndash_Discord_Dependencies( $this->get_plugin_name(), $this->get_version() );
+                
+		$this->loader->add_action( 'admin_init', $plugin_dependencies, 'check_environment' );
+		$this->loader->add_action( 'admin_notices', $plugin_dependencies, 'admin_notices' , 15 );                
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
