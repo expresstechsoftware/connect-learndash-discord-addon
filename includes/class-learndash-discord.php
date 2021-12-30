@@ -191,6 +191,7 @@ class Learndash_Discord {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		$this->loader->add_filter( 'do_shortcode_tag', $plugin_public, 'ets_learndash_show_discord_button' , 10 , 3  );                
 
 	}
 

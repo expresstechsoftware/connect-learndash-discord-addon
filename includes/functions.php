@@ -70,3 +70,16 @@ function learndash_discord_check_saved_settings_status() {
 
 		 return $status;
 }
+
+/**
+ * Get student's courses ids
+ *
+ * @param INT $user_id
+ * @return ARRAY|NULL $curr_course_id
+ */
+function ets_learndash_discord_get_student_courses_id( $user_id ) {
+    
+    $user_courses = learndash_user_get_enrolled_courses( $user_id );
+
+    return $user_courses ;
+}
