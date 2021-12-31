@@ -56,7 +56,7 @@ $ets_learndash_discord_server_id     = sanitize_text_field( trim( get_option( 'e
 		<?php echo __( 'Save Settings', 'learndash-discord' ); ?>
 	  </button>
 	  <?php if ( get_option( 'ets_learndash_discord_client_id' ) ) : ?>
-		<a href="?action=discord-connect-to-bot" class="ets-btn learndash-btn-connect-to-bot" id="learndash-connect-discord-bot"><?php echo __( 'Connect your Bot', 'learndash-discord' ); ?> <i class='fab fa-discord'></i></a>
+		<a href="?action=learndash-discord-connect-to-bot" class="ets-btn learndash-btn-connect-to-bot" id="learndash-connect-discord-bot"><?php echo __( 'Connect your Bot', 'learndash-discord' ); ?> <i class='fab fa-discord'></i></a>
 	  <?php endif; ?>
 	</p>
 </form>

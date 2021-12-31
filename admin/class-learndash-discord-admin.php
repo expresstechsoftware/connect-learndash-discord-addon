@@ -136,6 +136,30 @@ class Learndash_Discord_Admin {
                 require_once LEARNDASH_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/learndash-discord-admin-display.php';
 	}
         
+	/**
+	 * Callback to Connect to bot
+	 *
+	 * @since    1.0.0
+	 */
+	public function ets_learndash_discord_connect_to_bot() {
+		if ( ! current_user_can( 'administrator' ) ) {
+			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			exit();
+		}
+		if ( isset( $_GET['action'] ) && $_GET['action'] == 'learndash-discord-connect-to-bot' ) {
+			$params                    = array(
+				'client_id'   => sanitize_text_field( trim( get_option( 'ets_learndash_discord_client_id' ) ) ),
+				'permissions' => LEARNDASH_DISCORD_BOT_PERMISSIONS,
+				'scope'       => 'bot',
+				'guild_id'    => sanitize_text_field( trim( get_option( 'ets_learndash_discord_server_id' ) ) ),
+			);
+			$discord_authorise_api_url = ETS_LEARNDASH_DISCORD_API_URL . 'oauth2/authorize?' . http_build_query( $params );
+
+			wp_redirect( $discord_authorise_api_url, 302, get_site_url() );
+			exit;
+		}                
+	}        
+        
 	/*
 	Save application details
 	*/
