@@ -48,9 +48,18 @@ define( 'LEARNDASH_DISCORD_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'LEARNDASH_DISCORD_BOT_PERMISSIONS', 8 );
 
 /**
+ * Discord api call scopes.
+ */
+define( 'LEARNDASH_DISCORD_OAUTH_SCOPES', 'identify email connections guilds guilds.join gdm.join rpc rpc.notifications.read rpc.voice.read rpc.voice.write rpc.activities.write bot webhook.incoming messages.read applications.builds.upload applications.builds.read applications.commands applications.store.update applications.entitlements activities.read activities.write relationships.read' );
+
+/**
+ * Define group name for action scheduler actions
+ */
+define( 'LEARNDASH_DISCORD_AS_GROUP_NAME', 'ets-learndash-discord' );
+/**
  * Discord API url. 
  */
-define( 'ETS_LEARNDASH_DISCORD_API_URL', 'https://discord.com/api/v6/' );
+define( 'LEARNDASH_DISCORD_API_URL', 'https://discord.com/api/v6/' );
 
 /**
  * The code that runs during plugin activation.

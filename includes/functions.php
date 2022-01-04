@@ -79,7 +79,12 @@ function learndash_discord_check_saved_settings_status() {
  */
 function ets_learndash_discord_get_student_courses_id( $user_id ) {
     
-    $user_courses = learndash_user_get_enrolled_courses( $user_id );
+	$user_courses = learndash_user_get_enrolled_courses( $user_id );
+    
+	if ( $user_courses ) {
+		return $user_courses;
+	} else {
+		return null;
+	}    
 
-    return $user_courses ;
 }
