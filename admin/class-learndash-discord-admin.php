@@ -153,7 +153,7 @@ class Learndash_Discord_Admin {
 				'scope'       => 'bot',
 				'guild_id'    => sanitize_text_field( trim( get_option( 'ets_learndash_discord_server_id' ) ) ),
 			);
-			$discord_authorise_api_url = ETS_LEARNDASH_DISCORD_API_URL . 'oauth2/authorize?' . http_build_query( $params );
+			$discord_authorise_api_url = LEARNDASH_DISCORD_API_URL . 'oauth2/authorize?' . http_build_query( $params );
 
 			wp_redirect( $discord_authorise_api_url, 302, get_site_url() );
 			exit;
@@ -237,7 +237,7 @@ class Learndash_Discord_Admin {
 		$guild_id          = sanitize_text_field( trim( get_option( 'ets_learndash_discord_server_id' ) ) );
 		$discord_bot_token = sanitize_text_field( trim( get_option( 'ets_learndash_discord_bot_token' ) ) );
 		if ( $guild_id && $discord_bot_token ) {
-			$discod_server_roles_api = ETS_LEARNDASH_DISCORD_API_URL . 'guilds/' . $guild_id . '/roles';
+			$discod_server_roles_api = LEARNDASH_DISCORD_API_URL . 'guilds/' . $guild_id . '/roles';
 			$guild_args              = array(
 				'method'  => 'GET',
 				'headers' => array(
@@ -315,6 +315,130 @@ class Learndash_Discord_Admin {
 			$pre_location = $_SERVER['HTTP_REFERER'] . '&save_settings_msg=' . $message . '#ets_learndash_discord_role_mapping';
 			wp_safe_redirect( $pre_location );
 		}
+	}
+        
+	/**
+	 * Save advanced settings
+	 *
+	 * @param NONE
+	 * @return NONE
+	 */        
+	public function ets_learndash_discord_save_advance_settings() {
+
+		if ( ! current_user_can( 'administrator' ) || ! wp_verify_nonce( $_POST['ets_learndash_discord_advance_settings_nonce'], 'learndash_discord_advance_settings_nonce' ) ) {
+			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			exit();
+		}
+
+			$ets_learndash_discord_send_welcome_dm = isset( $_POST['ets_learndash_discord_send_welcome_dm'] ) ? sanitize_textarea_field( trim( $_POST['ets_learndash_discord_send_welcome_dm'] ) ) : '';
+			$ets_learndash_discord_welcome_message = isset( $_POST['ets_learndash_discord_welcome_message'] ) ? sanitize_textarea_field( trim( $_POST['ets_learndash_discord_welcome_message'] ) ) : '';
+			$ets_learndash_discord_send_course_complete_dm = isset( $_POST['ets_learndash_discord_send_course_complete_dm'] ) ? sanitize_textarea_field( trim( $_POST['ets_learndash_discord_send_course_complete_dm'] ) ) : '';                        
+			$ets_learndash_discord_course_complete_message = isset( $_POST['ets_learndash_discord_course_complete_message'] ) ? sanitize_textarea_field( trim( $_POST['ets_learndash_discord_course_complete_message'] ) ) : '';                                                
+			$ets_learndash_discord_send_lesson_complete_dm = isset( $_POST['ets_learndash_discord_send_lesson_complete_dm'] ) ? sanitize_textarea_field( trim( $_POST['ets_learndash_discord_send_lesson_complete_dm'] ) ) : '';                        
+			$ets_learndash_discord_lesson_complete_message = isset( $_POST['ets_learndash_discord_lesson_complete_message'] ) ? sanitize_textarea_field( trim( $_POST['ets_learndash_discord_lesson_complete_message'] ) ) : '';                                                
+			$ets_learndash_discord_send_topic_complete_dm = isset( $_POST['ets_learndash_discord_send_topic_complete_dm'] ) ? sanitize_textarea_field( trim( $_POST['ets_learndash_discord_send_topic_complete_dm'] ) ) : '';                                                                        
+			$ets_learndash_discord_topic_complete_message = isset( $_POST['ets_learndash_discord_topic_complete_message'] ) ? sanitize_textarea_field( trim( $_POST['ets_learndash_discord_topic_complete_message'] ) ) : '';                                                                                                
+			$retry_failed_api                           = isset( $_POST['retry_failed_api'] ) ? sanitize_textarea_field( trim( $_POST['retry_failed_api'] ) ) : '';
+			$kick_upon_disconnect                       = isset( $_POST['kick_upon_disconnect'] ) ? sanitize_textarea_field( trim( $_POST['kick_upon_disconnect'] ) ) : '';                        
+			$log_messages                       = isset( $_POST['log_messages'] ) ? sanitize_textarea_field( trim( $_POST['log_messages'] ) ) : '';                                                
+			$retry_api_count                            = isset( $_POST['ets_learndash_retry_api_count'] ) ? sanitize_textarea_field( trim( $_POST['ets_learndash_retry_api_count'] ) ) : '';
+			$set_job_cnrc                               = isset( $_POST['set_job_cnrc'] ) ? sanitize_textarea_field( trim( $_POST['set_job_cnrc'] ) ) : '';
+			$set_job_q_batch_size                       = isset( $_POST['set_job_q_batch_size'] ) ? sanitize_textarea_field( trim( $_POST['set_job_q_batch_size'] ) ) : '';
+			$log_api_res                                = isset( $_POST['log_api_res'] ) ? sanitize_textarea_field( trim( $_POST['log_api_res'] ) ) : '';
+
+		if ( isset( $_POST['ets_learndash_discord_advance_settings_nonce'] ) && wp_verify_nonce( $_POST['ets_learndash_discord_advance_settings_nonce'], 'learndash_discord_advance_settings_nonce' ) ) {
+			if ( isset( $_POST['adv_submit'] ) ) {
+
+				if ( isset( $_POST['ets_learndash_discord_send_welcome_dm'] ) ) {
+					update_option( 'ets_learndash_discord_send_welcome_dm', true );
+				} else {
+					update_option( 'ets_learndash_discord_send_welcome_dm', false );
+				}
+				if ( isset( $_POST['ets_learndash_discord_welcome_message'] ) && $_POST['ets_learndash_discord_welcome_message'] != '' ) {
+					update_option( 'ets_learndash_discord_welcome_message', $ets_learndash_discord_welcome_message );
+				} else {
+					update_option( 'ets_learndash_discord_welcome_message', '' );
+				}
+				if ( isset( $_POST['ets_learndash_discord_send_course_complete_dm'] ) ) {
+					update_option( 'ets_learndash_discord_send_course_complete_dm', true );
+				} else {
+					update_option( 'ets_learndash_discord_send_course_complete_dm', false );
+				}
+				if ( isset( $_POST['ets_learndash_discord_course_complete_message'] ) && $_POST['ets_learndash_discord_course_complete_message'] != '' ) {
+					update_option( 'ets_learndash_discord_course_complete_message', $ets_learndash_discord_course_complete_message );
+				} else {
+					update_option( 'ets_learndash_discord_course_complete_message', '' );
+				}
+				if ( isset( $_POST['ets_learndash_discord_send_lesson_complete_dm'] ) ) {
+					update_option( 'ets_learndash_discord_send_lesson_complete_dm', true );
+				} else {
+					update_option( 'ets_learndash_discord_send_lesson_complete_dm', false );
+				}
+				if ( isset( $_POST['ets_learndash_discord_lesson_complete_message'] ) && $_POST['ets_learndash_discord_lesson_complete_message'] != '' ) {
+					update_option( 'ets_learndash_discord_lesson_complete_message', $ets_learndash_discord_lesson_complete_message );
+				} else {
+					update_option( 'ets_learndash_discord_lesson_complete_message', '' );
+				}
+				if ( isset( $_POST['ets_learndash_discord_send_topic_complete_dm'] ) ) {
+					update_option( 'ets_learndash_discord_send_topic_complete_dm', true );
+				} else {
+					update_option( 'ets_learndash_discord_send_topic_complete_dm', false );
+				}
+				if ( isset( $_POST['ets_learndash_discord_topic_complete_message'] ) && $_POST['ets_learndash_discord_topic_complete_message'] != '' ) {
+					update_option( 'ets_learndash_discord_topic_complete_message', $ets_learndash_discord_topic_complete_message );
+				} else {
+					update_option( 'ets_learndash_discord_topic_complete_message', '' );
+				}
+				if ( isset( $_POST['retry_failed_api'] ) ) {
+					update_option( 'ets_learndash_discord_retry_failed_api', true );
+				} else {
+					update_option( 'ets_learndash_discord_retry_failed_api', false );
+				}
+				if ( isset( $_POST['kick_upon_disconnect'] ) ) {
+					update_option( 'ets_learndash_discord_kick_upon_disconnect', true );
+				} else {
+					update_option( 'ets_learndash_discord_kick_upon_disconnect', false );
+				}
+				if ( isset( $_POST['log_messages'] ) ) {
+					update_option( 'ets_learndash_discord_log_messages', true );
+				} else {
+					update_option( 'ets_learndash_discord_log_messages', false );
+				}                                
+				if ( isset( $_POST['ets_learndash_retry_api_count'] ) ) {
+					if ( $retry_api_count < 1 ) {
+						update_option( 'ets_learndash_discord_retry_api_count', 1 );
+					} else {
+						update_option( 'ets_learndash_discord_retry_api_count', $retry_api_count );
+					}
+				}
+				if ( isset( $_POST['set_job_cnrc'] ) ) {
+					if ( $set_job_cnrc < 1 ) {
+						update_option( 'ets_learndash_discord_job_queue_concurrency', 1 );
+					} else {
+						update_option( 'ets_learndash_discord_job_queue_concurrency', $set_job_cnrc );
+					}
+				}
+				if ( isset( $_POST['set_job_q_batch_size'] ) ) {
+					if ( $set_job_q_batch_size < 1 ) {
+						update_option( 'ets_learndash_discord_job_queue_batch_size', 1 );
+					} else {
+						update_option( 'ets_learndash_discord_job_queue_batch_size', $set_job_q_batch_size );
+					}
+				}
+				if ( isset( $_POST['log_api_res'] ) ) {
+					update_option( 'ets_learndash_discord_log_api_response', true );
+				} else {
+					update_option( 'ets_learndash_discord_log_api_response', false );
+				}
+
+				$message = 'Your settings are saved successfully.';
+				if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
+						$pre_location = $_SERVER['HTTP_REFERER'] . '&save_settings_msg=' . $message . '#ets_learndash_discord_advanced';
+						wp_safe_redirect( $pre_location );
+				}
+			}
+		}
+
 	}        
 
 }

@@ -164,7 +164,7 @@ class Learndash_Discord {
 	private function define_admin_hooks() {
 
 		$plugin_admin = new Learndash_Discord_Admin( $this->get_plugin_name(), $this->get_version() );
-                $plugin_dependencies = new Learndash_Discord_Dependencies( $this->get_plugin_name(), $this->get_version() );
+		$plugin_dependencies = new Learndash_Discord_Dependencies( $this->get_plugin_name(), $this->get_version() );
                 
 		$this->loader->add_action( 'admin_init', $plugin_dependencies, 'check_environment' );
 		$this->loader->add_action( 'admin_notices', $plugin_dependencies, 'admin_notices' , 15 );                
@@ -172,10 +172,11 @@ class Learndash_Discord {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'ets_learndash_discord_connect_to_bot' );
-                $this->loader->add_action( 'admin_menu', $plugin_admin, 'ets_learndash_Discord_add_settings_menu' );
-                $this->loader->add_action( 'admin_post_learndash_discord_application_settings', $plugin_admin, 'ets_learndash_discord_application_settings' );
-                $this->loader->add_action( 'admin_post_learndash_discord_save_role_mapping', $plugin_admin, 'ets_learndash_discord_save_role_mapping' );
-                $this->loader->add_action( 'wp_ajax_ets_learndash_discord_load_discord_roles', $plugin_admin, 'ets_learndash_discord_load_discord_roles' );
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'ets_learndash_Discord_add_settings_menu' );
+		$this->loader->add_action( 'admin_post_learndash_discord_application_settings', $plugin_admin, 'ets_learndash_discord_application_settings' );
+		$this->loader->add_action( 'admin_post_learndash_discord_save_role_mapping', $plugin_admin, 'ets_learndash_discord_save_role_mapping' );
+		$this->loader->add_action( 'admin_post_learndash_discord_save_advance_settings', $plugin_admin, 'ets_learndash_discord_save_advance_settings' );
+		$this->loader->add_action( 'wp_ajax_ets_learndash_discord_load_discord_roles', $plugin_admin, 'ets_learndash_discord_load_discord_roles' );
 
 	}
 
@@ -194,6 +195,7 @@ class Learndash_Discord {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 		$this->loader->add_filter( 'do_shortcode_tag', $plugin_public, 'ets_learndash_show_discord_button' , 10 , 3  );
 		$this->loader->add_shortcode( 'learndash_discord', $plugin_public, 'ets_learndash_discord_add_connect_discord_button' );
+		$this->loader->add_action( 'init', $plugin_public, 'ets_learndash_discord_api_callback' );                
 
 	}
 

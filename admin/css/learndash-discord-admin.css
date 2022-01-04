@@ -488,4 +488,4 @@ select#defaultRole{
   display: none;
   color: #2ca450;
 }
-.ets_learndash_discord_dm_textarea{height:130px;}
+div#ets_learndash_discord_advanced textarea{height:130px;}

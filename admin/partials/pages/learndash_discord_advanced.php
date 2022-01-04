@@ -135,19 +135,19 @@ $log_api_res                                   = sanitize_text_field( trim( get_
 	<tr>
 		<th scope="row"><?php echo __( 'How many times a failed API call should get re-try', 'learndash-discord' ); ?></th>
 		<td> <fieldset>
-		<input name="ets_learndash_retry_api_count" type="number" min="1" id="ets_learndash_retry_api_count" value="<?php if ( isset( $retry_api_count ) ) { echo intval($retry_api_count); } else { echo 1; } ?>">
+		<input name="ets_learndash_retry_api_count" type="number" min="1" id="ets_learndash_retry_api_count" value="<?php if ( isset( $retry_api_count ) ) { echo intval( $retry_api_count ); } else { echo 1; } ?>">
 		</fieldset></td>
 	  </tr> 
 	  <tr>
 		<th scope="row"><?php echo __( 'Set job queue concurrency', 'learndash-discord' ); ?></th>
 		<td> <fieldset>
-		<input name="set_job_cnrc" type="number" min="1" id="set_job_cnrc" value="<?php if ( isset( $set_job_cnrc ) ) { echo intval($set_job_cnrc); } else { echo 1; } ?>">
+		<input name="set_job_cnrc" type="number" min="1" id="set_job_cnrc" value="<?php if ( isset( $set_job_cnrc ) ) { echo intval( $set_job_cnrc ); } else { echo 1; } ?>">
 		</fieldset></td>
 	  </tr>
 	  <tr>
 		<th scope="row"><?php echo __( 'Set job queue batch size', 'learndash-discord' ); ?></th>
 		<td> <fieldset>
-		<input name="set_job_q_batch_size" type="number" min="1" id="set_job_q_batch_size" value="<?php if ( isset( $set_job_q_batch_size ) ) { echo intval($set_job_q_batch_size); } else { echo 10; } ?>">
+		<input name="set_job_q_batch_size" type="number" min="1" id="set_job_q_batch_size" value="<?php if ( isset( $set_job_q_batch_size ) ) { echo intval( $set_job_q_batch_size ); } else { echo 10; } ?>">
 		</fieldset></td>
 	  </tr>
 	<tr>
