@@ -107,13 +107,11 @@ class Learndash_Discord_Public {
         * @return NONE
         */
         public function ets_learndash_discord_add_connect_discord_button(){
-		if ( ! is_user_logged_in() ) {
-			wp_send_json_error( 'Unauthorized user', 401 );
-			exit();
-		}
+
 		$user_id = sanitize_text_field( trim( get_current_user_id() ) );
 
 		$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_access_token', true ) ) );
+		$allow_none_student  = sanitize_text_field( trim( get_option( 'ets_learndash_discord_allow_none_student' ) ) );
 
 		$default_role                   = sanitize_text_field( trim( get_option( 'ets_learndash_discord_default_role_id' ) ) );
 		$ets_learndash_discord_role_mapping = json_decode( get_option( 'ets_learndash_discord_role_mapping' ), true );
@@ -156,7 +154,9 @@ class Learndash_Discord_Public {
                                 $restrictcontent_discord .= '</div>';
 				
 		
-                        } else {
+                        } elseif( ets_learndash_discord_get_student_courses_id( $user_id ) && $allow_none_student == 'yes'  ) {
+                            
+                            
 				
                                 $restrictcontent_discord .= '<div class="">';
 				$restrictcontent_discord .= '<h3>' . esc_html__( 'Discord connection', 'learndash-discord' ) .'</h3>';
@@ -189,7 +189,7 @@ class Learndash_Discord_Public {
 			}
 		}
                 wp_enqueue_style( $this->plugin_name );
-                wp_enqueue_script( $this->plugin_name ); 
+                wp_enqueue_script( $this->plugin_name );
                 
                 return $restrictcontent_discord ;
         }        
@@ -299,9 +299,9 @@ class Learndash_Discord_Public {
 		}
 		// stop users who having the direct URL of discord Oauth.
 		// We must check IF NONE Student is set to NO and user having no learndash account.
-		$allow_none_member = sanitize_text_field( trim( get_option( 'ets_learndash_allow_none_member' ) ) );
-		$curr_level_id     = sanitize_text_field( ets_learndash_discord_get_student_courses_id( $user_id ) );
-		if ( $curr_level_id == null && $allow_none_member == 'no' ) {
+		$allow_none_student = sanitize_text_field( trim( get_option( 'ets_learndash_discord_allow_none_student' ) ) );
+		$enrolled_courses     = sanitize_text_field( ets_learndash_discord_get_student_courses_id( $user_id ) );
+		if ( $enrolled_courses == null && $allow_none_student == 'no' ) {
 			return;
 		}
 		$response              = '';
@@ -388,8 +388,250 @@ class Learndash_Discord_Public {
 
 	}
         
+	/**
+	 * Add new member into discord guild
+	 *
+	 * @param INT    $_ets_learndash_discord_user_id
+	 * @param INT    $user_id
+	 * @param STRING $access_token
+	 * @return NONE
+	 */
+	public function add_discord_member_in_guild( $_ets_learndash_discord_user_id, $user_id, $access_token ) {
+		if ( ! is_user_logged_in() ) {
+			wp_send_json_error( 'Unauthorized user', 401 );
+			exit();
+		}
+		$enrolled_courses = sanitize_text_field( trim( ets_learndash_discord_get_student_courses_id( $user_id ) ) );
+		if ( $enrolled_courses !== null ) {
+			// It is possible that we may exhaust API rate limit while adding members to guild, so handling off the job to queue.
+			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_handle_add_member_to_guild', array( $_ets_learndash_discord_user_id, $user_id, $access_token ), LEARNDASH_DISCORD_AS_GROUP_NAME );
+		}
+	}
+        
+	/**
+	 * Method to add new members to discord guild.
+	 *
+	 * @param INT    $_ets_learndash_discord_user_id
+	 * @param INT    $user_id
+	 * @param STRING $access_token
+	 * @return NONE
+	 */
+	public function ets_learndash_discord_as_handle_add_member_to_guild( $_ets_learndash_discord_user_id, $user_id, $access_token ) {
+		// Since we using a queue to delay the API call, there may be a condition when a member is delete from DB. so put a check.
+		if ( get_userdata( $user_id ) === false ) {
+			return;
+		}
+		$guild_id                              = sanitize_text_field( trim( get_option( 'ets_learndash_discord_guild_id' ) ) );
+		$discord_bot_token                     = sanitize_text_field( trim( get_option( 'ets_learndash_discord_bot_token' ) ) );
+		$default_role                          = sanitize_text_field( trim( get_option( 'ets_learndash_discord_default_role_id' ) ) );
+		$ets_learndash_discord_role_mapping    = json_decode( get_option( 'ets_learndash_discord_role_mapping' ), true );
+		$discord_role                          = '';
+		$courses                               = sanitize_text_field( trim( ets_learndash_discord_get_student_courses_id( $user_id ) ) );                
+		
+		$ets_learndash_discord_send_welcome_dm = sanitize_text_field( trim( get_option( 'ets_learndash_discord_send_welcome_dm' ) ) );
+                
+                foreach ( $courses as $course_id ) {
+                    
+			if ( is_array( $ets_learndash_discord_role_mapping ) && array_key_exists( 'learndash_course_id_' . $course_id, $ets_learndash_discord_role_mapping ) ) {
+			$discord_role = sanitize_text_field( trim( $ets_learndash_discord_role_mapping[ 'learndash_course_id_' . $course_id ] ) );
+			} elseif ( $discord_role = '' && $default_role ) {
+			$discord_role = $default_role;
+			}                
+                }
 
+		$guilds_memeber_api_url = LEARNDASH_DISCORD_API_URL . 'guilds/' . $guild_id . '/members/' . $_ets_learndash_discord_user_id;
+		$guild_args             = array(
+			'method'  => 'PUT',
+			'headers' => array(
+				'Content-Type'  => 'application/json',
+				'Authorization' => 'Bot ' . $discord_bot_token,
+			),
+			'body'    => json_encode(
+				array(
+					'access_token' => $access_token,
+					'roles'        => array(
+						$discord_role,
+					),
+				)
+			),
+		);
+		$guild_response         = wp_remote_post( $guilds_memeber_api_url, $guild_args );
+
+		//ets_learndash_discord_log_api_response( $user_id, $guilds_memeber_api_url, $guild_args, $guild_response );
+		//if ( ets_learndash_discord_check_api_errors( $guild_response ) ) {
+
+			//$response_arr = json_decode( wp_remote_retrieve_body( $guild_response ), true );
+			//Learnddash_Discord_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
+			// this should be catch by Action schedule failed action.
+			//throw new Exception( 'Failed in function ets_learndash_discord_as_handle_add_member_to_guild' );
+		//}
+
+		update_user_meta( $user_id, '_ets_learndash_discord_role_id', $discord_role );
+		if ( $discord_role && $discord_role != 'none' && isset( $user_id ) ) {
+			$this->put_discord_role_api( $user_id, $discord_role );
+		}
+
+		if ( $default_role && $default_role != 'none' && isset( $user_id ) ) {
+			$this->put_discord_role_api( $user_id, $default_role );
+		}
+		if ( empty( get_user_meta( $user_id, '_ets_learndash_discord_join_date', true ) ) ) {
+			update_user_meta( $user_id, '_ets_learndash_discord_join_date', current_time( 'Y-m-d H:i:s' ) );
+		}
+
+		// Send welcome message.
+		if ( $ets_learndash_discord_send_welcome_dm == true ) {
+			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $courses, 'welcome' ), 'learndash-discord' );
+		}
+	}
+        
+	/**
+	 * API call to change discord user role
+	 *
+	 * @param INT  $user_id
+	 * @param INT  $role_id
+	 * @param BOOL $is_schedule
+	 * @return object API response
+	 */
+	public function put_discord_role_api( $user_id, $role_id, $is_schedule = true ) {
+		if ( $is_schedule ) {
+			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_schedule_member_put_role', array( $user_id, $role_id, $is_schedule ), LEARNDASH_DISCORD_AS_GROUP_NAME );
+		} else {
+			$this->ets_learndash_discord_as_handler_put_member_role( $user_id, $role_id, $is_schedule );
+		}
+	}
+        
+	/**
+	 * Action Schedule handler for mmeber change role discord.
+	 *
+	 * @param INT  $user_id
+	 * @param INT  $role_id
+	 * @param BOOL $is_schedule
+	 * @return object API response
+	 */
+	public function ets_learndash_discord_as_handler_put_member_role( $user_id, $role_id, $is_schedule ) {
+		$access_token                = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_access_token', true ) ) );
+		$guild_id                    = sanitize_text_field( trim( get_option( 'ets_learndash_discord_guild_id' ) ) );
+		$_ets_learndash_discord_user_id  = sanitize_text_field( trim( get_user_meta( $user_id, 'ets_learndash_discord_user_id', true ) ) );
+		$discord_bot_token           = sanitize_text_field( trim( get_option( 'ets_learndash_discord_bot_token' ) ) );
+		$discord_change_role_api_url = LEARNDASH_DISCORD_API_URL . 'guilds/' . $guild_id . '/members/' . $_ets_learndash_discord_user_id . '/roles/' . $role_id;
+
+		if ( $access_token && $_ets_learndash_discord_user_id ) {
+			$param = array(
+				'method'  => 'PUT',
+				'headers' => array(
+					'Content-Type'   => 'application/json',
+					'Authorization'  => 'Bot ' . $discord_bot_token,
+					'Content-Length' => 0,
+				),
+			);
+
+			$response = wp_remote_get( $discord_change_role_api_url, $param );
+
+//			ets_learndash_discord_log_api_response( $user_id, $discord_change_role_api_url, $param, $response );
+//			if ( ets_learndash_discord_check_api_errors( $response ) ) {
+//				$response_arr = json_decode( wp_remote_retrieve_body( $response ), true );
+//				Learndash_Discord_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
+//				if ( $is_schedule ) {
+//					// this exception should be catch by action scheduler.
+//					throw new Exception( 'Failed in function ets_learndash_discord_as_handler_put_member_role' );
+//				}
+//			}
+		}
+	}        
         
 
+	/**
+	 * Discord DM a member using bot.
+	 *
+	 * @param INT    $user_id
+	 * @param STRING $type (warning|expired)
+	 */
+	public function ets_learndash_discord_handler_send_dm( $user_id, $courses, $type = 'warning' ) {
+		$discord_user_id                              = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_user_id', true ) ) );
+		$discord_bot_token                            = sanitize_text_field( trim( get_option( 'ets_learndash_discord_bot_token' ) ) );
+		
+		
+		$ets_learndash_discord_welcome_message            = sanitize_text_field( trim( get_option( 'ets_learndash_discord_welcome_message' ) ) );
+		
+		// Check if DM channel is already created for the user.
+		$user_dm = get_user_meta( $user_id, '_ets_learndash_discord_dm_channel', true );
 
+		if ( ! isset( $user_dm['id'] ) || $user_dm === false || empty( $user_dm ) ) {
+			$this->ets_learndash_discord_create_member_dm_channel( $user_id );
+			$user_dm       = get_user_meta( $user_id, '_ets_learndash_discord_dm_channel', true );
+			$dm_channel_id = $user_dm['id'];
+		} else {
+			$dm_channel_id = $user_dm['id'];
+		}
+
+		if ( $type == 'welcome' ) {
+			update_user_meta( $user_id, '_ets_learndash_discord_welcome_dm_for_' . $courses, true );
+			$message = ets_learndash_discord_get_formatted_dm( $user_id, $courses, $ets_learndash_discord_welcome_message );
+		}
+
+
+		$creat_dm_url = LEARNDASH_DISCORD_API_URL . '/channels/' . $dm_channel_id . '/messages';
+		$dm_args      = array(
+			'method'  => 'POST',
+			'headers' => array(
+				'Content-Type'  => 'application/json',
+				'Authorization' => 'Bot ' . $discord_bot_token,
+			),
+			'body'    => json_encode(
+				array(
+					'content' => sanitize_text_field( trim( wp_unslash( $message ) ) ),
+				)
+			),
+		);
+		$dm_response  = wp_remote_post( $creat_dm_url, $dm_args );
+//		ets_learndash_discord_log_api_response( $user_id, $creat_dm_url, $dm_args, $dm_response );
+//		$dm_response_body = json_decode( wp_remote_retrieve_body( $dm_response ), true );
+//		if ( ets_learndash_discord_check_api_errors( $dm_response ) ) {
+//			Learnd_Discord_Logs::write_api_response_logs( $dm_response_body, $user_id, debug_backtrace()[0] );
+//			// this should be catch by Action schedule failed action.
+//			throw new Exception( 'Failed in function ets_learndash_discord_send_dm' );
+//		}
+	}
+        
+	/**
+	 * Create DM channel for a give user_id
+	 *
+	 * @param INT $user_id
+	 * @return MIXED
+	 */
+	public function ets_learndash_discord_create_member_dm_channel( $user_id ) {
+		$discord_user_id       = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_user_id', true ) ) );
+		$discord_bot_token     = sanitize_text_field( trim( get_option( 'ets_learndash_discord_bot_token' ) ) );
+		$create_channel_dm_url = LEARNDASH_DISCORD_API_URL . '/users/@me/channels';
+		$dm_channel_args       = array(
+			'method'  => 'POST',
+			'headers' => array(
+				'Content-Type'  => 'application/json',
+				'Authorization' => 'Bot ' . $discord_bot_token,
+			),
+			'body'    => json_encode(
+				array(
+					'recipient_id' => $discord_user_id,
+				)
+			),
+		);
+
+		$created_dm_response = wp_remote_post( $create_channel_dm_url, $dm_channel_args );
+		//ets_learndash_discord_log_api_response( $user_id, $create_channel_dm_url, $dm_channel_args, $created_dm_response );
+		//$response_arr = json_decode( wp_remote_retrieve_body( $created_dm_response ), true );
+
+		if ( is_array( $response_arr ) && ! empty( $response_arr ) ) {
+			// check if there is error in create dm response
+			if ( array_key_exists( 'code', $response_arr ) || array_key_exists( 'error', $response_arr ) ) {
+				//Learndash_Discord_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
+				//if ( ets_learndash_discord_check_api_errors( $created_dm_response ) ) {
+					// this should be catch by Action schedule failed action.
+				///	throw new Exception( 'Failed in function ets_learndash_discord_create_member_dm_channel' );
+				//}
+			} else {
+				update_user_meta( $user_id, '_ets_learndash_discord_dm_channel', $response_arr );
+			}
+		}
+		return $response_arr;
+	}
 }

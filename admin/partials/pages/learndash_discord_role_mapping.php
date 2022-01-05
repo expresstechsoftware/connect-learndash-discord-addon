@@ -10,6 +10,7 @@ $args_courses = array(
 $courses = get_posts( $args_courses );
 
 $default_role        = sanitize_text_field( trim( get_option( 'ets_learndash_discord_default_role_id' ) ) );
+$allow_none_student  = sanitize_text_field( trim( get_option( 'ets_learndash_discord_allow_none_student' ) ) );
 ?>
 <div class="notice notice-warning ets-notice">
   <p><i class='fas fa-info'></i> <?php echo __( 'Drag and Drop the Discord Roles over to the Learndash Courses', 'learndash-discord' ); ?></p>
@@ -54,6 +55,26 @@ $default_role        = sanitize_text_field( trim( get_option( 'ets_learndash_dis
 		  <p class="description"><?php echo __( 'This Role will be assigned to all', 'learndash-discord' ); ?></p>
 		</td>
 	  </tr>
+	  <tr>
+		<th scope="row"><label><?php echo __( 'Allow non-student', 'learndash-discord' ); ?></label></th>
+		<td>
+		  <fieldset>
+		  <label><input type="radio" name="allow_none_student" value="yes"  
+		  <?php
+			if ( $allow_none_student == 'yes' ) {
+				echo 'checked="checked"'; }
+			?>
+			 > <span><?php echo __( 'Yes', 'learndash-discord' ); ?></span></label><br>
+		  <label><input type="radio" name="allow_none_student" value="no" 
+		  <?php
+			if ( empty( $allow_none_student ) || $allow_none_student == 'no' ) {
+				echo 'checked="checked"'; }
+			?>
+			 > <span><?php echo __( 'No', 'learndash-discord' ); ?></span></label>
+		  <p class="description"><?php echo __( 'Display connect button to normal wordpress site users having learndash account', 'learndash-discord' ); ?></p>
+		  </fieldset>
+		</td>
+	  </tr>          
 
 	</tbody>
   </table>

@@ -295,7 +295,7 @@ class Learndash_Discord_Admin {
 		$ets_discord_roles = isset( $_POST['ets_learndash_discord_role_mapping'] ) ? sanitize_textarea_field( trim( $_POST['ets_learndash_discord_role_mapping'] ) ) : '';
 
 		$ets_learndash_discord_default_role_id = isset( $_POST['learndash_defaultRole'] ) ? sanitize_textarea_field( trim( $_POST['learndash_defaultRole'] ) ) : '';
-
+		$allow_none_student = isset( $_POST['allow_none_student'] ) ? sanitize_textarea_field( trim( $_POST['allow_none_student'] ) ) : '';
 		$ets_discord_roles   = stripslashes( $ets_discord_roles );
 		$save_mapping_status = update_option( 'ets_learndash_discord_role_mapping', $ets_discord_roles );
 		if ( isset( $_POST['ets_learndash_discord_role_mappings_nonce'] ) && wp_verify_nonce( $_POST['ets_learndash_discord_role_mappings_nonce'], 'learndash_discord_role_mappings_nonce' ) ) {
@@ -303,6 +303,9 @@ class Learndash_Discord_Admin {
 				if ( $ets_learndash_discord_default_role_id ) {
 					update_option( 'ets_learndash_discord_default_role_id', $ets_learndash_discord_default_role_id );
 				}
+				if ( $allow_none_student ) {
+					update_option( 'ets_learndash_discord_allow_none_student', $allow_none_student );
+				}                                
 
 				$message = 'Your mappings are saved successfully.';
 			}
