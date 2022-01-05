@@ -124,7 +124,7 @@ function ets_learndash_discord_get_random_timestamp( $add_upon = '' ) {
  * Merge fields: [LD_COURSES], [LD_STUDENT_NAME], [LD_STUDENT_EMAIL]
  */
 function ets_learndash_discord_get_formatted_dm( $user_id, $courses, $message ) {
-
+    
 	$user_obj    = get_user_by( 'id', $user_id );
 	$STUDENT_USERNAME = $user_obj->user_login;
 	$STUDENT_EMAIL    = $user_obj->user_email;
@@ -132,12 +132,14 @@ function ets_learndash_discord_get_formatted_dm( $user_id, $courses, $message ) 
         $args_courses = array(
         'orderby'          => 'title',
         'order'            => 'ASC',
-        'numberposts' => -1,
+        'numberposts' => count($courses),
+        'post_type'   => 'sfwd-courses',
         'post__in' => $courses
         );
-        $courses = get_posts( $args_courses );
-        foreach ($courses as $course) {
-            $COURSES .= $course->post_title . ', ';
+
+        $enrolled_courses = get_posts( $args_courses );
+        foreach ($enrolled_courses as $course) {
+            $COURSES .= esc_html( $course->post_title ). ',';
         }
 
 

@@ -272,7 +272,7 @@ class Learndash_Discord_Public {
 									}
 								}
 								update_user_meta( $user_id, '_ets_learndash_discord_user_id', $_ets_learndash_discord_user_id );
-								//$this->add_discord_member_in_guild( $_ets_learndash_discord_user_id, $user_id, $access_token );
+								$this->add_discord_member_in_guild( $_ets_learndash_discord_user_id, $user_id, $access_token );
 							}
 						} else {
 
@@ -401,7 +401,7 @@ class Learndash_Discord_Public {
 			wp_send_json_error( 'Unauthorized user', 401 );
 			exit();
 		}
-		$enrolled_courses = sanitize_text_field( trim( ets_learndash_discord_get_student_courses_id( $user_id ) ) );
+		$enrolled_courses = map_deep( ets_learndash_discord_get_student_courses_id( $user_id ) , 'sanitize_text_field' );
 		if ( $enrolled_courses !== null ) {
 			// It is possible that we may exhaust API rate limit while adding members to guild, so handling off the job to queue.
 			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_handle_add_member_to_guild', array( $_ets_learndash_discord_user_id, $user_id, $access_token ), LEARNDASH_DISCORD_AS_GROUP_NAME );
@@ -416,7 +416,7 @@ class Learndash_Discord_Public {
 	 * @param STRING $access_token
 	 * @return NONE
 	 */
-	public function ets_learndash_discord_as_handle_add_member_to_guild( $_ets_learndash_discord_user_id, $user_id, $access_token ) {
+	public function ets_learndash_discord_as_handler_add_member_to_guild( $_ets_learndash_discord_user_id, $user_id, $access_token ) {
 		// Since we using a queue to delay the API call, there may be a condition when a member is delete from DB. so put a check.
 		if ( get_userdata( $user_id ) === false ) {
 			return;
@@ -426,7 +426,7 @@ class Learndash_Discord_Public {
 		$default_role                          = sanitize_text_field( trim( get_option( 'ets_learndash_discord_default_role_id' ) ) );
 		$ets_learndash_discord_role_mapping    = json_decode( get_option( 'ets_learndash_discord_role_mapping' ), true );
 		$discord_role                          = '';
-		$courses                               = sanitize_text_field( trim( ets_learndash_discord_get_student_courses_id( $user_id ) ) );                
+		$courses                               = map_deep( ets_learndash_discord_get_student_courses_id( $user_id ) , 'sanitize_text_field' );
 		
 		$ets_learndash_discord_send_welcome_dm = sanitize_text_field( trim( get_option( 'ets_learndash_discord_send_welcome_dm' ) ) );
                 
@@ -463,7 +463,7 @@ class Learndash_Discord_Public {
 			//$response_arr = json_decode( wp_remote_retrieve_body( $guild_response ), true );
 			//Learnddash_Discord_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
 			// this should be catch by Action schedule failed action.
-			//throw new Exception( 'Failed in function ets_learndash_discord_as_handle_add_member_to_guild' );
+			//throw new Exception( 'Failed in function ets_learndash_discord_as_handler_add_member_to_guild' );
 		//}
 
 		update_user_meta( $user_id, '_ets_learndash_discord_role_id', $discord_role );
@@ -563,9 +563,9 @@ class Learndash_Discord_Public {
 		} else {
 			$dm_channel_id = $user_dm['id'];
 		}
-
+                
 		if ( $type == 'welcome' ) {
-			update_user_meta( $user_id, '_ets_learndash_discord_welcome_dm_for_' . $courses, true );
+			update_user_meta( $user_id, '_ets_learndash_discord_welcome_dm_for_' . implode ( '_' ,$courses ), true );
 			$message = ets_learndash_discord_get_formatted_dm( $user_id, $courses, $ets_learndash_discord_welcome_message );
 		}
 
@@ -618,7 +618,7 @@ class Learndash_Discord_Public {
 
 		$created_dm_response = wp_remote_post( $create_channel_dm_url, $dm_channel_args );
 		//ets_learndash_discord_log_api_response( $user_id, $create_channel_dm_url, $dm_channel_args, $created_dm_response );
-		//$response_arr = json_decode( wp_remote_retrieve_body( $created_dm_response ), true );
+		$response_arr = json_decode( wp_remote_retrieve_body( $created_dm_response ), true );
 
 		if ( is_array( $response_arr ) && ! empty( $response_arr ) ) {
 			// check if there is error in create dm response

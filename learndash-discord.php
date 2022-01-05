@@ -56,6 +56,7 @@ define( 'LEARNDASH_DISCORD_OAUTH_SCOPES', 'identify email connections guilds gui
  * Define group name for action scheduler actions
  */
 define( 'LEARNDASH_DISCORD_AS_GROUP_NAME', 'ets-learndash-discord' );
+
 /**
  * Discord API url. 
  */
