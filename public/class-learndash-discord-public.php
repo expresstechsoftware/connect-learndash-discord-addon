@@ -631,7 +631,7 @@ class Learndash_Discord_Public {
 			} else {
 				update_user_meta( $user_id, '_ets_learndash_discord_dm_channel', $response_arr );
 			}
-		}
+            }
 		return $response_arr;
 	}
 }

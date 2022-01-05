@@ -10,7 +10,6 @@ $ets_learndash_discord_topic_complete_message  = sanitize_text_field( trim( get_
 
 $retry_failed_api                              = sanitize_text_field( trim( get_option( 'ets_learndash_discord_retry_failed_api' ) ) );
 $kick_upon_disconnect                          = sanitize_text_field( trim( get_option( 'ets_learndash_discord_kick_upon_disconnect' ) ) );
-$log_messages                                  = sanitize_text_field( trim( get_option( 'ets_learndash_discord_log_messages' ) ) );
 $retry_api_count                               = sanitize_text_field( trim( get_option( 'ets_learndash_discord_retry_api_count' ) ) );
 $set_job_cnrc                                  = sanitize_text_field( trim( get_option( 'ets_learndash_discord_job_queue_concurrency' ) ) );
 $set_job_q_batch_size                          = sanitize_text_field( trim( get_option( 'ets_learndash_discord_job_queue_batch_size' ) ) );
@@ -116,17 +115,6 @@ $log_api_res                                   = sanitize_text_field( trim( get_
 		<input name="kick_upon_disconnect" type="checkbox" id="kick_upon_disconnect" 
 		<?php
 		if ( $kick_upon_disconnect == true ) {
-			echo 'checked="checked"'; }
-		?>
-		 value="1">
-		</fieldset></td>
-	  </tr>
-	  <tr>
-		<th scope="row"><?php echo __( 'Log messages', 'learndash-discord' ); ?></th>
-		<td> <fieldset>
-		<input name="log_messages" type="checkbox" id="log_messages" 
-		<?php
-		if ( $log_messages == true ) {
 			echo 'checked="checked"'; }
 		?>
 		 value="1">

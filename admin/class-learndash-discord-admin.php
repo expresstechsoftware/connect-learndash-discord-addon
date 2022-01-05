@@ -343,7 +343,6 @@ class Learndash_Discord_Admin {
 			$ets_learndash_discord_topic_complete_message = isset( $_POST['ets_learndash_discord_topic_complete_message'] ) ? sanitize_textarea_field( trim( $_POST['ets_learndash_discord_topic_complete_message'] ) ) : '';                                                                                                
 			$retry_failed_api                           = isset( $_POST['retry_failed_api'] ) ? sanitize_textarea_field( trim( $_POST['retry_failed_api'] ) ) : '';
 			$kick_upon_disconnect                       = isset( $_POST['kick_upon_disconnect'] ) ? sanitize_textarea_field( trim( $_POST['kick_upon_disconnect'] ) ) : '';                        
-			$log_messages                       = isset( $_POST['log_messages'] ) ? sanitize_textarea_field( trim( $_POST['log_messages'] ) ) : '';                                                
 			$retry_api_count                            = isset( $_POST['ets_learndash_retry_api_count'] ) ? sanitize_textarea_field( trim( $_POST['ets_learndash_retry_api_count'] ) ) : '';
 			$set_job_cnrc                               = isset( $_POST['set_job_cnrc'] ) ? sanitize_textarea_field( trim( $_POST['set_job_cnrc'] ) ) : '';
 			$set_job_q_batch_size                       = isset( $_POST['set_job_q_batch_size'] ) ? sanitize_textarea_field( trim( $_POST['set_job_q_batch_size'] ) ) : '';
@@ -401,11 +400,6 @@ class Learndash_Discord_Admin {
 					update_option( 'ets_learndash_discord_kick_upon_disconnect', true );
 				} else {
 					update_option( 'ets_learndash_discord_kick_upon_disconnect', false );
-				}
-				if ( isset( $_POST['log_messages'] ) ) {
-					update_option( 'ets_learndash_discord_log_messages', true );
-				} else {
-					update_option( 'ets_learndash_discord_log_messages', false );
 				}                                
 				if ( isset( $_POST['ets_learndash_retry_api_count'] ) ) {
 					if ( $retry_api_count < 1 ) {

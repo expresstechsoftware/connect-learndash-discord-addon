@@ -40,7 +40,6 @@ class Learndash_Discord_Activator {
 		update_option( 'ets_learndash_discord_topic_complete_message', 'Hi [LD_STUDENT_NAME] ([LD_STUDENT_EMAIL]), You have completed the topic  [LD_TOPIC_NAME] at [LD_COURSE_TOPIC_DATE]' );                 
 		update_option( 'ets_learndash_discord_retry_failed_api', true );
 		update_option( 'ets_learndash_discord_kick_upon_disconnect', false ); 
-		update_option( 'ets_learndash_discord_log_messages', false ); 
 		update_option( 'ets_learndash_discord_retry_api_count', 5 );
 		update_option( 'ets_learndash_discord_job_queue_concurrency', 1 );
 		update_option( 'ets_learndash_discord_job_queue_batch_size', 6 );
