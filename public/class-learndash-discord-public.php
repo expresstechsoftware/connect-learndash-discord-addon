@@ -206,7 +206,7 @@ class Learndash_Discord_Public {
         * Add button to make connection in between user and discord
         *
         * @param NONE
-        * @return NONE
+        * @return STRING 
         */
         public function ets_learndash_discord_add_connect_discord_button(){
 
@@ -646,6 +646,7 @@ class Learndash_Discord_Public {
 	 * Discord DM a member using bot.
 	 *
 	 * @param INT    $user_id
+         * @param 
 	 * @param STRING $type (warning|expired)
 	 */
 	public function ets_learndash_discord_handler_send_dm( $user_id, $courses, $type = 'warning' ) {
@@ -654,7 +655,7 @@ class Learndash_Discord_Public {
 		
 		
 		$ets_learndash_discord_welcome_message            = sanitize_text_field( trim( get_option( 'ets_learndash_discord_welcome_message' ) ) );
-		
+		$ets_learndash_discord_course_complete_message = sanitize_text_field( trim( get_option( 'ets_learndash_discord_course_complete_message' ) ) );		
 		// Check if DM channel is already created for the user.
 		$user_dm = get_user_meta( $user_id, '_ets_learndash_discord_dm_channel', true );
 
@@ -669,6 +670,10 @@ class Learndash_Discord_Public {
 		if ( $type == 'welcome' ) {
 			update_user_meta( $user_id, '_ets_learndash_discord_welcome_dm_for_' . implode ( '_' ,$courses ), true );
 			$message = ets_learndash_discord_get_formatted_dm( $user_id, $courses, $ets_learndash_discord_welcome_message );
+		}
+		if ( $type == 'course_complete' ) {
+			update_user_meta( $user_id, '_ets_learndash_discord_course_complete_dm_for' . $courses , true );
+			$message = ets_learndash_discord_get_formatted_course_complete_dm( $user_id, $courses, $ets_learndash_discord_course_complete_message );
 		}
 
 
@@ -736,4 +741,22 @@ class Learndash_Discord_Public {
             }
 		return $response_arr;
 	}
+        
+	/**
+	 * Check if the student has completed courses that he has registered.
+	 *
+         * @param ARRAY $args Course complete data.
+	 *
+	 */
+	public function ets_learndash_course_completed( $args = array() ) {
+		$user_id = $args['user']->ID;
+		$course_id = $args['course']->ID;
+		$ets_learndash_discord_send_course_complete_dm = sanitize_text_field( trim( get_option( 'ets_learndash_discord_send_course_complete_dm' ) ) );
+		
+		// Send Course Complete message.
+		if ( $ets_learndash_discord_send_course_complete_dm == true ) {
+			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $course_id, 'course_complete' ), 'learndash-discord' );
+		}
+            
+	}       
 }

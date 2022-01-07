@@ -157,3 +157,40 @@ function ets_learndash_discord_get_formatted_dm( $user_id, $courses, $message ) 
 		return str_replace( $find, $replace, $message );
 
 }
+
+/**
+ * Get formatted Course complete message to send in DM
+ *
+ * @param INT $user_id
+ * @param INT $course_id
+ * Merge fields: [LD_COURSE_NAME], [LD_COURSE_COMPLETE_DATE], [LD_STUDENT_NAME], [LD_STUDENT_EMAIL] 
+ */
+function ets_learndash_discord_get_formatted_course_complete_dm( $user_id, $course_id, $message ) {
+    
+	$user_obj    = get_user_by( 'id', $user_id );
+	$STUDENT_USERNAME = $user_obj->user_login;
+	$STUDENT_EMAIL    = $user_obj->user_email;
+        
+	$course = get_post($course_id);
+	$COURSES_NAME = $course->post_title;
+        
+	$COURSES_COMPLETE_DATE = date_i18n( get_option('date_format'), learndash_user_get_course_completed_date ( $user_id, $course_id ) );
+        
+
+
+		$find    = array(
+			'[LD_COURSE_NAME]',
+			'[LD_COURSE_COMPLETE_DATE]',                    
+			'[LD_STUDENT_NAME]',
+			'[LD_STUDENT_EMAIL]',
+		);
+		$replace = array(
+			$COURSES_NAME,
+			$COURSES_COMPLETE_DATE,
+			$STUDENT_USERNAME,
+			$STUDENT_EMAIL,
+		);
+
+		return str_replace( $find, $replace, $message );
+
+}
