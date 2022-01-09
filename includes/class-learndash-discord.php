@@ -205,6 +205,8 @@ class Learndash_Discord {
 		$this->loader->add_action( 'ets_learndash_discord_as_schedule_member_put_role', $plugin_public, 'ets_learndash_discord_as_handler_put_member_role', 10, 3 );                
 		$this->loader->add_action( 'ets_learndash_discord_as_send_dm', $plugin_public, 'ets_learndash_discord_handler_send_dm', 10, 3 );                
 		$this->loader->add_action( 'learndash_course_completed', $plugin_public, 'ets_learndash_course_completed', 10, 1 );                                
+		$this->loader->add_action( 'learndash_lesson_completed', $plugin_public, 'ets_learndash_lesson_completed', 10, 1 );                                                
+		$this->loader->add_action( 'learndash_topic_completed', $plugin_public, 'ets_learndash_topic_completed', 10, 1 );                                                                
 		$this->loader->add_action( 'wp_ajax_learndash_disconnect_from_discord', $plugin_public, 'ets_learndash_discord_disconnect_from_discord' );
 		$this->loader->add_action( 'ets_learndash_discord_as_schedule_delete_member', $plugin_public, 'ets_learndash_discord_as_handler_delete_member_from_guild', 10, 3 );
 

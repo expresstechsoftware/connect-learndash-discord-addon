@@ -194,3 +194,77 @@ function ets_learndash_discord_get_formatted_course_complete_dm( $user_id, $cour
 		return str_replace( $find, $replace, $message );
 
 }
+
+/**
+ * Get formatted Lesson complete message to send in DM
+ *
+ * @param INT $user_id
+ * @param INT $lesson_id
+ * Merge fields: [LD_STUDENT_NAME], [LD_STUDENT_EMAIL], [LD_LESSON_NAME], [LD_COURSE_LESSON_DATE]
+ */
+function ets_learndash_discord_get_formatted_lesson_complete_dm( $user_id, $lesson_id , $message) {
+        
+	$user_obj    = get_user_by( 'id', $user_id );
+	$STUDENT_USERNAME = $user_obj->user_login;
+	$STUDENT_EMAIL    = $user_obj->user_email;
+        
+	$lesson = get_post($lesson_id);
+	$LESSON_NAME = $lesson->post_title;
+        
+	$LESSON_COMPLETE_DATE = '';
+        
+       
+
+		$find    = array(
+			'[LD_LESSON_NAME]',
+			'[LD_COURSE_LESSON_DATE]',                    
+			'[LD_STUDENT_NAME]',
+			'[LD_STUDENT_EMAIL]',
+		);
+		$replace = array(
+			$LESSON_NAME,
+			$LESSON_COMPLETE_DATE,
+			$STUDENT_USERNAME,
+			$STUDENT_EMAIL,
+		);
+
+		return str_replace( $find, $replace, $message );
+
+}
+
+/**
+ * Get formatted Topic complete message to send in DM
+ *
+ * @param INT $user_id
+ * @param INT $topic_id
+ * Merge fields: [LD_STUDENT_NAME], [LD_STUDENT_EMAIL], [LD_TOPIC_NAME], [LD_COURSE_TOPIC_DATE]
+ */
+function ets_learndash_discord_get_formatted_topic_complete_dm( $user_id, $topic_id , $message) {
+        
+	$user_obj    = get_user_by( 'id', $user_id );
+	$STUDENT_USERNAME = $user_obj->user_login;
+	$STUDENT_EMAIL    = $user_obj->user_email;
+        
+	$topic = get_post($topic_id);
+	$TOPIC_NAME = $topic->post_title;
+        
+	$TOPIC_COMPLETE_DATE = '';
+        
+       
+
+		$find    = array(
+			'[LD_TOPIC_NAME]',
+			'[LD_COURSE_TOPIC_DATE]',                    
+			'[LD_STUDENT_NAME]',
+			'[LD_STUDENT_EMAIL]',
+		);
+		$replace = array(
+			$TOPIC_NAME,
+			$TOPIC_COMPLETE_DATE,
+			$STUDENT_USERNAME,
+			$STUDENT_EMAIL,
+		);
+
+		return str_replace( $find, $replace, $message );
+
+}
