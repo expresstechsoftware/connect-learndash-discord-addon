@@ -44,6 +44,7 @@ class Learndash_Discord_Activator {
 		update_option( 'ets_learndash_discord_job_queue_concurrency', 1 );
 		update_option( 'ets_learndash_discord_job_queue_batch_size', 6 );
 		update_option( 'ets_learndash_discord_log_api_response', false );
+		update_option( 'ets_learndash_discord_uuid_file_name', wp_generate_uuid4() );
 	}
 
 }

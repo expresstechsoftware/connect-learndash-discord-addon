@@ -1,5 +1,5 @@
 jQuery(function($){
-	//'use strict';
+//	'use strict';
 
 	/**
 	 * All of the code for your admin-facing JavaScript source
@@ -112,6 +112,35 @@ jQuery(function($){
 				$("#skeletabsTab1 .spinner").removeClass("is-active").css({ "float": "right", "display": "none" });
 			}
 		});
+                
+		/*Clear log log call-back*/
+		$('#ets-learndash-clrbtn').click(function (e) {
+			e.preventDefault();
+			$.ajax({
+				url: etsLearnDashParams.admin_ajax,
+				type: "POST",
+				data: { 'action': 'ets_learndash_discord_clear_logs', 'ets_learndash_discord_nonce': etsLearnDashParams.ets_learndash_discord_nonce },
+				beforeSend: function () {
+					$(".clr-log.spinner").addClass("is-active").show();
+				},
+				success: function (data) {
+         
+					if (data.error) {
+						// handle the error
+						alert(data.error.msg);
+					} else {
+                                            
+						$('.error-log').html("Clear logs Sucesssfully !");
+					}
+				},
+				error: function (response, textStatus, errorThrown ) {
+					console.log( textStatus + " :  " + response.status + " : " + errorThrown );
+				},
+				complete: function () {
+					$(".clr-log.spinner").removeClass("is-active").hide();
+				}
+			});
+		});                
                
 		/*Flush settings from local storage*/
 		$("#revertMapping").on('click', function () {

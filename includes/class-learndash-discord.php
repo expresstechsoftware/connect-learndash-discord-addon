@@ -78,6 +78,7 @@ class Learndash_Discord {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
+		$this->define_common_hooks();                
 
 	}
 
@@ -102,7 +103,13 @@ class Learndash_Discord {
 		/**
 		 * The class responsible for defining all methods that help to schedule actions.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/libraries/action-scheduler/action-scheduler.php';            
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/libraries/action-scheduler/action-scheduler.php';
+                
+		/**
+		 * The class responsible for Logs
+		 * core plugin.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-learndash-discord-add-on-logs.php';                
             
 		/**
 		 * Common functions file.
@@ -211,6 +218,18 @@ class Learndash_Discord {
 		$this->loader->add_action( 'ets_learndash_discord_as_schedule_delete_member', $plugin_public, 'ets_learndash_discord_as_handler_delete_member_from_guild', 10, 3 );
 
 	}
+        
+	/**
+	 * Define actions which are not in admin or not public
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 */
+	private function define_common_hooks() {
+		//job queue batch size /  failed API call should get re-try  /  job queue concurrency
+		
+		
+	}        
 
 	/**
 	 * Run the loader to execute all of the hooks with WordPress.

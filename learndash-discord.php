@@ -63,6 +63,16 @@ define( 'LEARNDASH_DISCORD_AS_GROUP_NAME', 'ets-learndash-discord' );
 define( 'LEARNDASH_DISCORD_API_URL', 'https://discord.com/api/v6/' );
 
 /**
+ * Follwing response codes not cosider for re-try API calls.
+ */
+define( 'LEARNDASH_DISCORD_DONOT_RETRY_THESE_API_CODES', array( 0, 10003, 50033, 10004, 50025, 10013, 10011 ) );
+
+/**
+ * Define plugin directory url
+ */
+define( 'LEARNDASH_DISCORD_DONOT_RETRY_HTTP_CODES', array( 400, 401, 403, 404, 405, 502 ) );
+
+/**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-learndash-discord-activator.php
  */

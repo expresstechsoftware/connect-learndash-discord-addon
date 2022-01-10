@@ -268,3 +268,53 @@ function ets_learndash_discord_get_formatted_topic_complete_dm( $user_id, $topic
 		return str_replace( $find, $replace, $message );
 
 }
+
+  /**
+   * Log API call response
+   *
+   * @param INT          $user_id
+   * @param STRING       $api_url
+   * @param ARRAY        $api_args
+   * @param ARRAY|OBJECT $api_response
+   */
+function ets_learndash_discord_log_api_response( $user_id, $api_url = '', $api_args = array(), $api_response = '' ) {
+	$log_api_response = get_option( 'ets_learndash_discord_log_api_response' );
+	if ( $log_api_response == true ) {
+		$log_string  = '==>' . $api_url;
+		$log_string .= '-::-' . serialize( $api_args );
+		$log_string .= '-::-' . serialize( $api_response );
+
+		$logs = new LearnDash_Discord_Add_On_Logs();
+		$logs->write_api_response_logs( $log_string, $user_id );
+	}
+}
+
+/**
+ * Check API call response and detect conditions which can cause of action failure and retry should be attemped.
+ *
+ * @param ARRAY|OBJECT $api_response
+ * @param BOOLEAN
+ */
+function ets_learndash_discord_check_api_errors( $api_response ) {
+	// check if response code is a WordPress error.
+	if ( is_wp_error( $api_response ) ) {
+		return true;
+	}
+
+	// First Check if response contain codes which should not get re-try.
+	$body = json_decode( wp_remote_retrieve_body( $api_response ), true );
+	if ( isset( $body['code'] ) && in_array( $body['code'], LEARNDASH_DISCORD_DONOT_RETRY_THESE_API_CODES ) ) {
+		return false;
+	}
+
+	$response_code = strval( $api_response['response']['code'] );
+	if ( isset( $api_response['response']['code'] ) && in_array( $response_code, LEARNDASH_DISCORD_DONOT_RETRY_HTTP_CODES ) ) {
+		return false;
+	}
+
+	// check if response code is in the range of HTTP error.
+	if ( ( 400 <= absint( $response_code ) ) && ( absint( $response_code ) <= 599 ) ) {
+		return true;
+	}
+}
+

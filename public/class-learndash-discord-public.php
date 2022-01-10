@@ -179,15 +179,15 @@ class Learndash_Discord_Public {
 		);
 		$guild_response                      = wp_remote_post( $guilds_delete_memeber_api_url, $guild_args );
 
-		//ets_learndash_discord_log_api_response( $user_id, $guilds_delete_memeber_api_url, $guild_args, $guild_response );
-		//if ( ets_learndash_discord_check_api_errors( $guild_response ) ) {
-			//$response_arr = json_decode( wp_remote_retrieve_body( $guild_response ), true );
-			//LearnDash_Discord_Add_On_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
-			//if ( $is_schedule ) {
-				// this exception should be catch by action scheduler.
-				//throw new Exception( 'Failed in function ets_learndash_discord_as_handler_delete_member_from_guild' );
-			//}
-		//}
+		ets_learndash_discord_log_api_response( $user_id, $guilds_delete_memeber_api_url, $guild_args, $guild_response );
+		if ( ets_learndash_discord_check_api_errors( $guild_response ) ) {
+			$response_arr = json_decode( wp_remote_retrieve_body( $guild_response ), true );
+			LearnDash_Discord_Add_On_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
+			if ( $is_schedule ) {
+				//this exception should be catch by action scheduler.
+				throw new Exception( 'Failed in function ets_learndash_discord_as_handler_delete_member_from_guild' );
+			}
+		}
 
 		/*Delete all usermeta related to discord connection*/
 		delete_user_meta( $user_id, '_ets_learndash_discord_user_id' );
@@ -429,11 +429,11 @@ class Learndash_Discord_Public {
 					),
 				);
 				$response = wp_remote_post( $discord_token_api_url, $args );
-				//ets_learndash_discord_log_api_response( $user_id, $discord_token_api_url, $args, $response );
-				//if ( ets_learndash_discord_check_api_errors( $response ) ) {
-					//$response_arr = json_decode( wp_remote_retrieve_body( $response ), true );
-					//LearnDash_Discord_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
-				//}
+				ets_learndash_discord_log_api_response( $user_id, $discord_token_api_url, $args, $response );
+				if ( ets_learndash_discord_check_api_errors( $response ) ) {
+					$response_arr = json_decode( wp_remote_retrieve_body( $response ), true );
+					LearnDash_Discord_Add_On_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
+				}
 			}
 		} else {
 			$args     = array(
@@ -451,11 +451,11 @@ class Learndash_Discord_Public {
 				),
 			);
 			$response = wp_remote_post( $discord_token_api_url, $args );
-			//ets_learndash_discord_log_api_response( $user_id, $discord_token_api_url, $args, $response );
-			//if ( ets_learndash_discord_check_api_errors( $response ) ) {
-				//$response_arr = json_decode( wp_remote_retrieve_body( $response ), true );
-				//LearnDash_Discord_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
-			//}
+			ets_learndash_discord_log_api_response( $user_id, $discord_token_api_url, $args, $response );
+			if ( ets_learndash_discord_check_api_errors( $response ) ) {
+				$response_arr = json_decode( wp_remote_retrieve_body( $response ), true );
+				LearnDash_Discord_Add_On_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
+			}
 		}
 		return $response;
 	}
@@ -481,10 +481,10 @@ class Learndash_Discord_Public {
 			),
 		);
 		$user_response         = wp_remote_get( $discord_cuser_api_url, $param );
-		//ets_learndash_discord_log_api_response( $user_id, $discord_cuser_api_url, $param, $user_response );
+		ets_learndash_discord_log_api_response( $user_id, $discord_cuser_api_url, $param, $user_response );
 
 		$response_arr = json_decode( wp_remote_retrieve_body( $user_response ), true );
-		//write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
+		LearnDash_Discord_Add_On_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
 		$user_body = json_decode( wp_remote_retrieve_body( $user_response ), true );
 		return $user_body;
 
@@ -559,14 +559,14 @@ class Learndash_Discord_Public {
 		);
 		$guild_response         = wp_remote_post( $guilds_memeber_api_url, $guild_args );
 
-		//ets_learndash_discord_log_api_response( $user_id, $guilds_memeber_api_url, $guild_args, $guild_response );
-		//if ( ets_learndash_discord_check_api_errors( $guild_response ) ) {
+		ets_learndash_discord_log_api_response( $user_id, $guilds_memeber_api_url, $guild_args, $guild_response );
+		if ( ets_learndash_discord_check_api_errors( $guild_response ) ) {
 
-			//$response_arr = json_decode( wp_remote_retrieve_body( $guild_response ), true );
-			//Learnddash_Discord_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
+			$response_arr = json_decode( wp_remote_retrieve_body( $guild_response ), true );
+			Learndash_Discord_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
 			// this should be catch by Action schedule failed action.
-			//throw new Exception( 'Failed in function ets_learndash_discord_as_handler_add_member_to_guild' );
-		//}
+			throw new Exception( 'Failed in function ets_learndash_discord_as_handler_add_member_to_guild' );
+		}
 
 		update_user_meta( $user_id, '_ets_learndash_discord_role_id', $discord_role );
 		if ( $discord_role && $discord_role != 'none' && isset( $user_id ) ) {
@@ -629,15 +629,15 @@ class Learndash_Discord_Public {
 
 			$response = wp_remote_get( $discord_change_role_api_url, $param );
 
-//			ets_learndash_discord_log_api_response( $user_id, $discord_change_role_api_url, $param, $response );
-//			if ( ets_learndash_discord_check_api_errors( $response ) ) {
-//				$response_arr = json_decode( wp_remote_retrieve_body( $response ), true );
-//				Learndash_Discord_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
-//				if ( $is_schedule ) {
-//					// this exception should be catch by action scheduler.
-//					throw new Exception( 'Failed in function ets_learndash_discord_as_handler_put_member_role' );
-//				}
-//			}
+			ets_learndash_discord_log_api_response( $user_id, $discord_change_role_api_url, $param, $response );
+			if ( ets_learndash_discord_check_api_errors( $response ) ) {
+				$response_arr = json_decode( wp_remote_retrieve_body( $response ), true );
+				Learndash_Discord_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
+				if ( $is_schedule ) {
+					// this exception should be catch by action scheduler.
+					throw new Exception( 'Failed in function ets_learndash_discord_as_handler_put_member_role' );
+				}
+			}
 		}
 	}        
         
@@ -701,13 +701,13 @@ class Learndash_Discord_Public {
 			),
 		);
 		$dm_response  = wp_remote_post( $creat_dm_url, $dm_args );
-//		ets_learndash_discord_log_api_response( $user_id, $creat_dm_url, $dm_args, $dm_response );
-//		$dm_response_body = json_decode( wp_remote_retrieve_body( $dm_response ), true );
-//		if ( ets_learndash_discord_check_api_errors( $dm_response ) ) {
-//			Learnd_Discord_Logs::write_api_response_logs( $dm_response_body, $user_id, debug_backtrace()[0] );
-//			// this should be catch by Action schedule failed action.
-//			throw new Exception( 'Failed in function ets_learndash_discord_send_dm' );
-//		}
+		ets_learndash_discord_log_api_response( $user_id, $creat_dm_url, $dm_args, $dm_response );
+		$dm_response_body = json_decode( wp_remote_retrieve_body( $dm_response ), true );
+		if ( ets_learndash_discord_check_api_errors( $dm_response ) ) {
+			Learnd_Discord_Logs::write_api_response_logs( $dm_response_body, $user_id, debug_backtrace()[0] );
+			// this should be catch by Action schedule failed action.
+			throw new Exception( 'Failed in function ets_learndash_discord_send_dm' );
+		}
 	}
         
 	/**
@@ -740,11 +740,11 @@ class Learndash_Discord_Public {
 		if ( is_array( $response_arr ) && ! empty( $response_arr ) ) {
 			// check if there is error in create dm response
 			if ( array_key_exists( 'code', $response_arr ) || array_key_exists( 'error', $response_arr ) ) {
-				//Learndash_Discord_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
-				//if ( ets_learndash_discord_check_api_errors( $created_dm_response ) ) {
-					// this should be catch by Action schedule failed action.
-				///	throw new Exception( 'Failed in function ets_learndash_discord_create_member_dm_channel' );
-				//}
+				Learndash_Discord_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
+				if ( ets_learndash_discord_check_api_errors( $created_dm_response ) ) {
+					//this should be catch by Action schedule failed action.
+					throw new Exception( 'Failed in function ets_learndash_discord_create_member_dm_channel' );
+				}
 			} else {
 				update_user_meta( $user_id, '_ets_learndash_discord_dm_channel', $response_arr );
 			}
