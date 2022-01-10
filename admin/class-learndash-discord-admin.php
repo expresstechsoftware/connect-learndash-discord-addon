@@ -72,9 +72,10 @@ class Learndash_Discord_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-		wp_enqueue_style( $this->plugin_name .'-select2', plugin_dir_url( __FILE__ ) . 'css/select2.css', array(), $this->version, 'all' );
-		wp_enqueue_style( $this->plugin_name . 'discord_tabs_css', plugin_dir_url( __FILE__ ) . 'css/skeletabs.css', array(), $this->version, 'all' );
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/learndash-discord-admin.css', array(), $this->version, 'all' );
+		wp_register_style( $this->plugin_name .'-select2', plugin_dir_url( __FILE__ ) . 'css/select2.css', array(), $this->version, 'all' );
+		wp_register_style( $this->plugin_name . 'discord_tabs_css', plugin_dir_url( __FILE__ ) . 'css/skeletabs.css', array(), $this->version, 'all' );
+		wp_register_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/learndash-discord-admin.css', array(), $this->version, 'all' );
+		wp_register_style( $this->plugin_name . 'font_awesome_css', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css', array(), $this->version, 'all' );                
 
 	}
 
@@ -97,20 +98,17 @@ class Learndash_Discord_Admin {
 		 * class.
 		 */
             
-		wp_enqueue_script( $this->plugin_name . '-select2',  plugin_dir_url( __FILE__ ) . 'js/select2.js', array( 'jquery' ), $this->version, false );
+		wp_register_script( $this->plugin_name . '-select2',  plugin_dir_url( __FILE__ ) . 'js/select2.js', array( 'jquery' ), $this->version, false );
             
-		wp_enqueue_script( $this->plugin_name . '-tabs-js', plugin_dir_url( __FILE__ ) . 'js/skeletabs.js', array( 'jquery' ), $this->version, false );
-		wp_register_script( 'learndash-discord-add-on-admin', plugin_dir_url( __FILE__ ) . 'js/learndash-discord-admin.js', array( 'jquery' ), $this->version, false );
-                wp_enqueue_script( 'learndash-discord-add-on-admin' );                
-                wp_enqueue_script( 'jquery-ui-draggable' );
-                wp_enqueue_script( 'jquery-ui-droppable' );
+		wp_register_script( $this->plugin_name . '-tabs-js', plugin_dir_url( __FILE__ ) . 'js/skeletabs.js', array( 'jquery' ), $this->version, false );
+		wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/learndash-discord-admin.js', array( 'jquery' ), $this->version, false );                
 		$script_params = array(
 			'admin_ajax'                       => admin_url( 'admin-ajax.php' ),
 			'permissions_const'                => LEARNDASH_DISCORD_BOT_PERMISSIONS,
 			'is_admin'                         => is_admin(),
 			'ets_learndash_discord_nonce' => wp_create_nonce( 'ets-learndash-discord-ajax-nonce' ),
 		);
-		wp_localize_script( 'learndash-discord-add-on-admin', 'etsLearnDashParams', $script_params );                                
+		wp_localize_script( $this->plugin_name, 'etsLearnDashParams', $script_params );                                
 
 	}
         
@@ -133,6 +131,15 @@ class Learndash_Discord_Admin {
 			wp_send_json_error( 'You do not have sufficient rights', 403 );
 			exit();
 		}
+		wp_enqueue_style( $this->plugin_name .'-select2' );                
+		wp_enqueue_style( $this->plugin_name . 'discord_tabs_css' );
+		wp_enqueue_style( $this->plugin_name );                
+		wp_enqueue_style( $this->plugin_name . 'font_awesome_css' );
+		wp_enqueue_script( $this->plugin_name . '-select2' );
+		wp_enqueue_script( $this->plugin_name . '-tabs-js' );                
+		wp_enqueue_script($this->plugin_name);
+		wp_enqueue_script( 'jquery-ui-draggable' );
+		wp_enqueue_script( 'jquery-ui-droppable' );                
                 require_once LEARNDASH_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/learndash-discord-admin-display.php';
 	}
         
