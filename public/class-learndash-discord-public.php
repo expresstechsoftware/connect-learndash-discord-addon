@@ -130,9 +130,9 @@ class Learndash_Discord_Public {
 		$kick_upon_disconnect = sanitize_text_field( trim( get_option( 'ets_learndash_discord_kick_upon_disconnect' ) ) );
 		if ( $user_id ) {
 			delete_user_meta( $user_id, '_ets_learndash_discord_access_token' );
-			if( $kick_upon_disconnect != true ){
+			//if( $kick_upon_disconnect != true ){
 				$this->delete_member_from_guild( $user_id, false );                            
-                        }
+                        //}
 		}
 		$event_res = array(
 			'status'  => 1,
@@ -436,7 +436,7 @@ class Learndash_Discord_Public {
 					$response_arr = json_decode( wp_remote_retrieve_body( $response ), true );
 					LearnDash_Discord_Add_On_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
 				}
-			}
+                        }
 		} else {
 			$args     = array(
 				'method'  => 'POST',
