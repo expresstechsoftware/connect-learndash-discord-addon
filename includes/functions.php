@@ -24,7 +24,7 @@ function ets_learndash_discord_pages_list( $ets_learndash_discord_redirect_page_
     $pages = get_pages($args);
        
    
-    
+    $options = '<option value="" disabled>-</option>';
     foreach($pages as $page){ 
         $selected = ( esc_attr( $page->ID ) === $ets_learndash_discord_redirect_page_id  ) ? ' selected="selected"' : '';
         $options .= '<option value="' . esc_attr( $page->ID ) . '" '. $selected .'> ' . $page->post_title . ' </option>';
@@ -138,6 +138,7 @@ function ets_learndash_discord_get_formatted_dm( $user_id, $courses, $message ) 
         );
 
         $enrolled_courses = get_posts( $args_courses );
+        $COURSES = '';
         foreach ($enrolled_courses as $course) {
             $COURSES .= esc_html( $course->post_title ). ',';
         }
