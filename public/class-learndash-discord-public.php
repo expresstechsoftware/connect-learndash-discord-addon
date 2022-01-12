@@ -257,7 +257,7 @@ class Learndash_Discord_Public {
                                 $restrictcontent_discord .= '</div>';
 				
 		
-                        } elseif( ( ets_learndash_discord_get_student_courses_id( $user_id ) ) || (ets_learndash_discord_get_student_courses_id( $user_id ) && $allow_none_student == 'yes' )  ) {
+                        } elseif( ( ets_learndash_discord_get_student_courses_id( $user_id ) ) || ( ets_learndash_discord_get_student_courses_id( $user_id ) && $allow_none_student == 'yes' )  ) {
                             
                             
 				
@@ -405,7 +405,7 @@ class Learndash_Discord_Public {
 		// We must check IF NONE Student is set to NO and user having no learndash account.
 		$allow_none_student = sanitize_text_field( trim( get_option( 'ets_learndash_discord_allow_none_student' ) ) );
 		$enrolled_courses     = sanitize_text_field( ets_learndash_discord_get_student_courses_id( $user_id ) );
-		if ( $enrolled_courses == null && $allow_none_student == 'no' ) {
+		if ( $enrolled_courses === null && $allow_none_student == 'no' ) {
 			return;
 		}
 		$response              = '';
