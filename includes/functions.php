@@ -129,7 +129,7 @@ function ets_learndash_discord_get_formatted_dm( $user_id, $courses, $message ) 
 	$STUDENT_USERNAME = $user_obj->user_login;
 	$STUDENT_EMAIL    = $user_obj->user_email;
         
-        $args_courses = array(
+	$args_courses = array(
         'orderby'          => 'title',
         'order'            => 'ASC',
         'numberposts' => count($courses),
@@ -137,11 +137,15 @@ function ets_learndash_discord_get_formatted_dm( $user_id, $courses, $message ) 
         'post__in' => $courses
         );
 
-        $enrolled_courses = get_posts( $args_courses );
-        $COURSES = '';
-        foreach ($enrolled_courses as $course) {
-            $COURSES .= esc_html( $course->post_title ). ',';
-        }
+	$enrolled_courses = get_posts( $args_courses );
+	$COURSES = '';
+	$lastKeyCourse = array_key_last($enrolled_courses);
+	$commas = ', ';
+	foreach ($enrolled_courses as $key => $course) {
+            if ( $lastKeyCourse === $key )  
+                $commas = ' ' ;
+            $COURSES .= esc_html( $course->post_title ). $commas;
+	}
 
 
 		$find    = array(
@@ -212,7 +216,7 @@ function ets_learndash_discord_get_formatted_lesson_complete_dm( $user_id, $less
 	$lesson = get_post($lesson_id);
 	$LESSON_NAME = $lesson->post_title;
         
-	$LESSON_COMPLETE_DATE = '';
+	$LESSON_COMPLETE_DATE = date_i18n( get_option('date_format'), time() ) ;
         
        
 
@@ -249,7 +253,7 @@ function ets_learndash_discord_get_formatted_topic_complete_dm( $user_id, $topic
 	$topic = get_post($topic_id);
 	$TOPIC_NAME = $topic->post_title;
         
-	$TOPIC_COMPLETE_DATE = '';
+	$TOPIC_COMPLETE_DATE = date_i18n( get_option('date_format'), time() ) ;
         
        
 
