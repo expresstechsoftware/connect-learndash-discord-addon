@@ -74,7 +74,6 @@ class Learndash_Discord_Public {
 		 */
 
 		wp_register_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/learndash-discord-public.css', array(), $this->version, 'all' );
-		wp_register_style( $this->plugin_name . 'font_awesome_css', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css', array(), $this->version, 'all' );                
 
 	}
 
@@ -167,7 +166,7 @@ class Learndash_Discord_Public {
 	 * @return OBJECT API response
 	 */
 	public function ets_learndash_discord_as_handler_delete_member_from_guild( $user_id, $is_schedule ) {
-		$guild_id                            = sanitize_text_field( trim( get_option( 'ets_learndash_discord_guild_id' ) ) );
+		$guild_id                            = sanitize_text_field( trim( get_option( 'ets_learndash_discord_server_id' ) ) );
 		$discord_bot_token                   = sanitize_text_field( trim( get_option( 'ets_learndash_discord_bot_token' ) ) );
 		$_ets_learndash_discord_user_id = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_user_id', true ) ) );
 		$guilds_delete_memeber_api_url       = LEARNDASH_DISCORD_API_URL . 'guilds/' . $guild_id . '/members/' . $_ets_learndash_discord_user_id;
@@ -189,12 +188,20 @@ class Learndash_Discord_Public {
 				throw new Exception( 'Failed in function ets_learndash_discord_as_handler_delete_member_from_guild' );
 			}
 		}
+                
+                
+		$enrolled_courses = map_deep( ets_learndash_discord_get_student_courses_id( $user_id ) , 'sanitize_text_field' );
 
 		/*Delete all usermeta related to discord connection*/
 		delete_user_meta( $user_id, '_ets_learndash_discord_user_id' );
 		delete_user_meta( $user_id, '_ets_learndash_discord_access_token' );
 		delete_user_meta( $user_id, '_ets_learndash_discord_refresh_token' );
 		delete_user_meta( $user_id, '_ets_learndash_discord_role_id' );
+                
+		foreach( $enrolled_courses as $course_id ){
+                    delete_user_meta( $user_id, '_ets_learndash_discord_role_id_for_' . $course_id );
+		}
+                
 		//delete_user_meta( $user_id, '_ets_learndash_discord_default_role_id' );
 		delete_user_meta( $user_id, '_ets_learndash_discord_username' );
 		delete_user_meta( $user_id, '_ets_learndash_discord_expires_in' );
@@ -222,15 +229,16 @@ class Learndash_Discord_Public {
 		$enrolled_courses                  = ets_learndash_discord_get_student_courses_id( $user_id );
 		$mapped_role_name               = '';
 		if ( is_array ( $enrolled_courses ) && is_array( $all_roles ) ) {
-                   // $lastKey = array_key_last( $enrolled_courses );
-                    $spacer = count( $enrolled_courses ) > 1 ? ', ' : '';
-                    foreach ( $enrolled_courses as $enrolled_course_id ){
+                    $lastKey = array_key_last( $enrolled_courses );
+                    $spacer =  ', ';
+                    foreach ( $enrolled_courses as $key => $enrolled_course_id ){
 			if ( is_array( $ets_learndash_discord_role_mapping ) && array_key_exists( 'learndash_course_id_' . $enrolled_course_id, $ets_learndash_discord_role_mapping ) ) {
 				
                             $mapped_role_id = $ets_learndash_discord_role_mapping[ 'learndash_course_id_' . $enrolled_course_id ];
 				
                                 if ( array_key_exists( $mapped_role_id, $all_roles ) ) {
-                                    // if $lastKey
+                                    if  ( $lastKey === $key )
+                                        $spacer = '.';
 					$mapped_role_name .= $all_roles[ $mapped_role_id ] . $spacer;
 				}
 			}
@@ -272,7 +280,7 @@ class Learndash_Discord_Public {
 					$restrictcontent_discord .= __( 'Following Roles will be assigned to you in Discord: ', 'learndash-discord' );
 					$restrictcontent_discord .= esc_html( $mapped_role_name  );
 					if ( $default_role_name ) {
-						$restrictcontent_discord .= ', ' . esc_html( $default_role_name ); 
+						$restrictcontent_discord .= ' ' . esc_html( $default_role_name ); 
                                                 
                                         }
 					
@@ -292,7 +300,6 @@ class Learndash_Discord_Public {
 			}
 		}
 		wp_enqueue_style( $this->plugin_name );
-		wp_enqueue_style( $this->plugin_name . 'font_awesome_css' );
 		wp_enqueue_script( $this->plugin_name );
                 
                 return $restrictcontent_discord ;
@@ -369,11 +376,14 @@ class Learndash_Discord_Public {
 							}
 							if ( is_array( $user_body ) && array_key_exists( 'id', $user_body ) ) {
 								$_ets_learndash_discord_user_id = sanitize_text_field( trim( $user_body['id'] ) );
-								if ( $discord_exist_user_id == $_ets_learndash_discord_user_id ) {
-									$_ets_learndash_discord_role_id = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_role_id', true ) ) );
-									if ( ! empty( $_ets_learndash_discord_role_id ) && $_ets_learndash_discord_role_id != 'none' ) {
-										//$this->delete_discord_role( $user_id, $_ets_learndash_discord_role_id );
-									}
+								if ( $discord_exist_user_id === $_ets_learndash_discord_user_id ) {
+                                                                    $courses = map_deep( ets_learndash_discord_get_student_courses_id( $user_id ) , 'sanitize_text_field' );
+                                                                    foreach( $courses as $course_id ){
+                                                                      $_ets_learndash_discord_role_id = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_role_id_for_' . $course_id, true ) ) ); 
+                                                                        if ( ! empty( $_ets_learndash_discord_role_id ) && $_ets_learndash_discord_role_id != 'none' ) {
+										$this->delete_discord_role( $user_id, $_ets_learndash_discord_role_id );
+									}                                                                      
+                                                                    }
 								}
 								update_user_meta( $user_id, '_ets_learndash_discord_user_id', $_ets_learndash_discord_user_id );
 								$this->add_discord_member_in_guild( $_ets_learndash_discord_user_id, $user_id, $access_token );
@@ -525,22 +535,23 @@ class Learndash_Discord_Public {
 		if ( get_userdata( $user_id ) === false ) {
 			return;
 		}
-		$guild_id                              = sanitize_text_field( trim( get_option( 'ets_learndash_discord_guild_id' ) ) );
+		$guild_id                              = sanitize_text_field( trim( get_option( 'ets_learndash_discord_server_id' ) ) );
 		$discord_bot_token                     = sanitize_text_field( trim( get_option( 'ets_learndash_discord_bot_token' ) ) );
 		$default_role                          = sanitize_text_field( trim( get_option( 'ets_learndash_discord_default_role_id' ) ) );
 		$ets_learndash_discord_role_mapping    = json_decode( get_option( 'ets_learndash_discord_role_mapping' ), true );
 		$discord_role                          = '';
+		$discord_roles                         = array();                
 		$courses                               = map_deep( ets_learndash_discord_get_student_courses_id( $user_id ) , 'sanitize_text_field' );
 		
 		$ets_learndash_discord_send_welcome_dm = sanitize_text_field( trim( get_option( 'ets_learndash_discord_send_welcome_dm' ) ) );
                 
                 foreach ( $courses as $course_id ) {
                     
-			if ( is_array( $ets_learndash_discord_role_mapping ) && array_key_exists( 'learndash_course_id_' . $course_id, $ets_learndash_discord_role_mapping ) ) {
+                    if ( is_array( $ets_learndash_discord_role_mapping ) && array_key_exists( 'learndash_course_id_' . $course_id, $ets_learndash_discord_role_mapping ) ) {
 			$discord_role = sanitize_text_field( trim( $ets_learndash_discord_role_mapping[ 'learndash_course_id_' . $course_id ] ) );
-			} elseif ( $discord_role = '' && $default_role ) {
-			$discord_role = $default_role;
-			}                
+			array_push($discord_roles, $discord_role);
+			update_user_meta( $user_id, '_ets_learndash_discord_role_id_for_' . $course_id , $discord_role );
+                    }
                 }
 
 		$guilds_memeber_api_url = LEARNDASH_DISCORD_API_URL . 'guilds/' . $guild_id . '/members/' . $_ets_learndash_discord_user_id;
@@ -553,9 +564,6 @@ class Learndash_Discord_Public {
 			'body'    => json_encode(
 				array(
 					'access_token' => $access_token,
-					'roles'        => array(
-						$discord_role,
-					),
 				)
 			),
 		);
@@ -570,9 +578,13 @@ class Learndash_Discord_Public {
 			throw new Exception( 'Failed in function ets_learndash_discord_as_handler_add_member_to_guild' );
 		}
 
-		update_user_meta( $user_id, '_ets_learndash_discord_role_id', $discord_role );
-		if ( $discord_role && $discord_role != 'none' && isset( $user_id ) ) {
+		foreach ( $discord_roles as $discord_role ){
+		
+                    if ( $discord_role && $discord_role != 'none' && isset( $user_id ) ) {
 			$this->put_discord_role_api( $user_id, $discord_role );
+                        
+                    }
+                
 		}
 
 		if ( $default_role && $default_role != 'none' && isset( $user_id ) ) {
@@ -614,7 +626,7 @@ class Learndash_Discord_Public {
 	 */
 	public function ets_learndash_discord_as_handler_put_member_role( $user_id, $role_id, $is_schedule ) {
 		$access_token                = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_access_token', true ) ) );
-		$guild_id                    = sanitize_text_field( trim( get_option( 'ets_learndash_discord_guild_id' ) ) );
+		$guild_id                    = sanitize_text_field( trim( get_option( 'ets_learndash_discord_server_id' ) ) );
 		$_ets_learndash_discord_user_id  = sanitize_text_field( trim( get_user_meta( $user_id, 'ets_learndash_discord_user_id', true ) ) );
 		$discord_bot_token           = sanitize_text_field( trim( get_option( 'ets_learndash_discord_bot_token' ) ) );
 		$discord_change_role_api_url = LEARNDASH_DISCORD_API_URL . 'guilds/' . $guild_id . '/members/' . $_ets_learndash_discord_user_id . '/roles/' . $role_id;
@@ -754,6 +766,59 @@ class Learndash_Discord_Public {
 		return $response_arr;
 	}
         
+	/**
+	 * Schedule delete discord role for a student
+	 *
+	 * @param INT  $user_id
+	 * @param INT  $ets_learndash_discord_role_id
+	 * @param BOOL $is_schedule
+	 * @return OBJECT API response
+	 */
+	public function delete_discord_role( $user_id, $ets_learndash_discord_role_id, $is_schedule = true ) {
+		if ( $is_schedule ) {
+			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_schedule_delete_role', array( $user_id, $ets_learndash_discord_role_id, $is_schedule ), LEARNDASH_DISCORD_AS_GROUP_NAME );
+		} else {
+			$this->ets_learndash_discord_as_handler_delete_memberrole( $user_id, $ets_learndash_discord_role_id, $is_schedule );
+		}
+	}        
+      
+	/**
+	 * Action Schedule handler to process delete role of a student.
+	 *
+	 * @param INT  $user_id
+	 * @param INT  $ets_learndash_discord_role_id
+	 * @param BOOL $is_schedule
+	 * @return OBJECT API response
+	 */
+	public function ets_learndash_discord_as_handler_delete_memberrole( $user_id, $ets_learndash_discord_role_id, $is_schedule = true ) {
+
+		$guild_id                    = sanitize_text_field( trim( get_option( 'ets_learndash_discord_server_id' ) ) );
+		$_ets_learndash_discord_user_id  = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_user_id', true ) ) );
+		$discord_bot_token           = sanitize_text_field( trim( get_option( 'ets_learndash_discord_bot_token' ) ) );
+		$discord_delete_role_api_url = LEARNDASH_DISCORD_API_URL . 'guilds/' . $guild_id . '/members/' . $_ets_learndash_discord_user_id . '/roles/' . $ets_learndash_discord_role_id;
+		if ( $_ets_learndash_discord_user_id ) {
+			$param = array(
+				'method'  => 'DELETE',
+				'headers' => array(
+					'Content-Type'   => 'application/json',
+					'Authorization'  => 'Bot ' . $discord_bot_token,
+					'Content-Length' => 0,
+				),
+			);
+
+			$response = wp_remote_request( $discord_delete_role_api_url, $param );
+			ets_learndash_discord_log_api_response( $user_id, $discord_delete_role_api_url, $param, $response );
+			if ( ets_learndash_discord_check_api_errors( $response ) ) {
+				$response_arr = json_decode( wp_remote_retrieve_body( $response ), true );
+				Learndash_Discord_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
+				if ( $is_schedule ) {
+					// this exception should be catch by action scheduler.
+					throw new Exception( 'Failed in function ets_learndash_discord_as_handler_delete_memberrole' );
+				}
+			}
+			return $response;
+		}
+	}        
 	/**
 	 * Check if the student has completed courses that he has registered.
 	 *
