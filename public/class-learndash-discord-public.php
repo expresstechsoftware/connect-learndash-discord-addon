@@ -596,7 +596,7 @@ class Learndash_Discord_Public {
 
 		// Send welcome message.
 		if ( $ets_learndash_discord_send_welcome_dm == true ) {
-			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $courses, 'welcome' ), 'learndash-discord' );
+			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $courses, 'welcome' ), LEARNDASH_DISCORD_AS_GROUP_NAME );
 		}
 	}
         
@@ -627,7 +627,7 @@ class Learndash_Discord_Public {
 	public function ets_learndash_discord_as_handler_put_member_role( $user_id, $role_id, $is_schedule ) {
 		$access_token                = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_access_token', true ) ) );
 		$guild_id                    = sanitize_text_field( trim( get_option( 'ets_learndash_discord_server_id' ) ) );
-		$_ets_learndash_discord_user_id  = sanitize_text_field( trim( get_user_meta( $user_id, 'ets_learndash_discord_user_id', true ) ) );
+		$_ets_learndash_discord_user_id  = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_user_id', true ) ) );
 		$discord_bot_token           = sanitize_text_field( trim( get_option( 'ets_learndash_discord_bot_token' ) ) );
 		$discord_change_role_api_url = LEARNDASH_DISCORD_API_URL . 'guilds/' . $guild_id . '/members/' . $_ets_learndash_discord_user_id . '/roles/' . $role_id;
 
@@ -748,7 +748,7 @@ class Learndash_Discord_Public {
 		);
 
 		$created_dm_response = wp_remote_post( $create_channel_dm_url, $dm_channel_args );
-		//ets_learndash_discord_log_api_response( $user_id, $create_channel_dm_url, $dm_channel_args, $created_dm_response );
+		ets_learndash_discord_log_api_response( $user_id, $create_channel_dm_url, $dm_channel_args, $created_dm_response );
 		$response_arr = json_decode( wp_remote_retrieve_body( $created_dm_response ), true );
 
 		if ( is_array( $response_arr ) && ! empty( $response_arr ) ) {
@@ -832,7 +832,7 @@ class Learndash_Discord_Public {
 		
 		// Send Course Complete message.
 		if ( $ets_learndash_discord_send_course_complete_dm == true ) {
-			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $course_id, 'course_complete' ), 'learndash-discord' );
+			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $course_id, 'course_complete' ), LEARNDASH_DISCORD_AS_GROUP_NAME );
 		}
             
 	}
@@ -850,7 +850,7 @@ class Learndash_Discord_Public {
 		
 		// Send Lesson Complete message.
 		if ( $ets_learndash_discord_send_lesson_complete_dm == true ) {
-			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $lesson_id, 'lesson_complete' ), 'learndash-discord' );
+			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $lesson_id, 'lesson_complete' ), LEARNDASH_DISCORD_AS_GROUP_NAME );
 		}
             
 	}
@@ -869,7 +869,7 @@ class Learndash_Discord_Public {
 		
 		// Send Topic Complete message.
 		if ( $ets_learndash_discord_send_topic_complete_dm == true ) {
-			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $topic_id, 'topic_complete' ), 'learndash-discord' );
+			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $topic_id, 'topic_complete' ), LEARNDASH_DISCORD_AS_GROUP_NAME );
 		}
             
 	}        
