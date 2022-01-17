@@ -718,7 +718,7 @@ class Learndash_Discord_Public {
 		ets_learndash_discord_log_api_response( $user_id, $creat_dm_url, $dm_args, $dm_response );
 		$dm_response_body = json_decode( wp_remote_retrieve_body( $dm_response ), true );
 		if ( ets_learndash_discord_check_api_errors( $dm_response ) ) {
-			Learnd_Discord_Logs::write_api_response_logs( $dm_response_body, $user_id, debug_backtrace()[0] );
+			LearnDash_Discord_Add_On_Logs::write_api_response_logs( $dm_response_body, $user_id, debug_backtrace()[0] );
 			// this should be catch by Action schedule failed action.
 			throw new Exception( 'Failed in function ets_learndash_discord_send_dm' );
 		}
