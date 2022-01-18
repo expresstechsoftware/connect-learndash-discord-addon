@@ -369,3 +369,14 @@ function ets_learndash_discord_get_all_pending_actions() {
 	}
 }
 
+function ets_learndash_discord_get_all_failed_actions(){
+	global $wpdb;
+	$result = $wpdb->get_results( $wpdb->prepare( 'SELECT aa.action_id, aa.hook, ag.slug AS as_group FROM ' . $wpdb->prefix . 'actionscheduler_actions as aa INNER JOIN ' . $wpdb->prefix . 'actionscheduler_groups as ag ON aa.group_id=ag.group_id WHERE  ag.slug=%s AND aa.status = "failed" ' , LEARNDASH_DISCORD_AS_GROUP_NAME ), ARRAY_A );
+
+	if ( ! empty( $result ) ) {
+		return $result ;
+	} else {
+		return false;
+	}        
+}
+
