@@ -573,7 +573,7 @@ class Learndash_Discord_Public {
 		if ( ets_learndash_discord_check_api_errors( $guild_response ) ) {
 
 			$response_arr = json_decode( wp_remote_retrieve_body( $guild_response ), true );
-			Learndash_Discord_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
+			LearnDash_Discord_Add_On_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
 			// this should be catch by Action schedule failed action.
 			throw new Exception( 'Failed in function ets_learndash_discord_as_handler_add_member_to_guild' );
 		}
@@ -646,7 +646,7 @@ class Learndash_Discord_Public {
 			ets_learndash_discord_log_api_response( $user_id, $discord_change_role_api_url, $param, $response );
 			if ( ets_learndash_discord_check_api_errors( $response ) ) {
 				$response_arr = json_decode( wp_remote_retrieve_body( $response ), true );
-				Learndash_Discord_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
+				LearnDash_Discord_Add_On_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
 				if ( $is_schedule ) {
 					// this exception should be catch by action scheduler.
 					throw new Exception( 'Failed in function ets_learndash_discord_as_handler_put_member_role' );
@@ -754,7 +754,7 @@ class Learndash_Discord_Public {
 		if ( is_array( $response_arr ) && ! empty( $response_arr ) ) {
 			// check if there is error in create dm response
 			if ( array_key_exists( 'code', $response_arr ) || array_key_exists( 'error', $response_arr ) ) {
-				Learndash_Discord_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
+				LearnDash_Discord_Add_On_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
 				if ( ets_learndash_discord_check_api_errors( $created_dm_response ) ) {
 					//this should be catch by Action schedule failed action.
 					throw new Exception( 'Failed in function ets_learndash_discord_create_member_dm_channel' );
@@ -810,7 +810,7 @@ class Learndash_Discord_Public {
 			ets_learndash_discord_log_api_response( $user_id, $discord_delete_role_api_url, $param, $response );
 			if ( ets_learndash_discord_check_api_errors( $response ) ) {
 				$response_arr = json_decode( wp_remote_retrieve_body( $response ), true );
-				Learndash_Discord_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
+				LearnDash_Discord_Add_On_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
 				if ( $is_schedule ) {
 					// this exception should be catch by action scheduler.
 					throw new Exception( 'Failed in function ets_learndash_discord_as_handler_delete_memberrole' );
