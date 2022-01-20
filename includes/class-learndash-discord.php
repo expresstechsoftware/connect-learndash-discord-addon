@@ -227,24 +227,16 @@ class Learndash_Discord {
 	 * @access   private
 	 */
 	private function define_common_hooks() {
-
-		$this->loader->add_action( 'init',  $this, 'ets_learndash_discord_handle_failed_action'  , 10 );		
             
-	}
+		$this->loader->add_action( 'init',  $this, 'ets_learndash_discord_handle_failed_action'  , 10, 3 );		
+ 
+                }
         public function ets_learndash_discord_handle_failed_action( ){
 
-		$failed_actions = ets_learndash_discord_get_all_failed_actions();
-            
-		if ( is_array( $failed_actions ) ){
-			foreach ( $failed_actions as $action ){
-				$this->ets_learndash_discord_reschedule_failed_action( $action['action_id'] );
-			}
-		}
-            
 		if ( has_action( 'action_scheduler_failed_execution' ) ){
-                
-			//$this->loader->add_action( 'action_scheduler_failed_execution',  $this, 'ets_learndash_discord_reschedule_failed_action' );		
- 
+                    
+			$this->loader->add_action( 'action_scheduler_failed_execution',  $this, 'ets_learndash_discord_reschedule_failed_action', 10, 3 );		
+            
 		}
             		
 		$this->loader->add_filter( 'action_scheduler_queue_runner_batch_size', $this, 'ets_learndash_discord_queue_batch_size' );                
@@ -257,10 +249,10 @@ class Learndash_Discord {
 	 *
 	 * @param INT            $action_id
 	 * @param OBJECT         $e
-	 * @param OBJECT context
+	 * @param OBJECT $context
 	 * @return NONE
 	 */
-	public function ets_learndash_discord_reschedule_failed_action( $action_id  ) {
+	public function ets_learndash_discord_reschedule_failed_action( $action_id, $e, $context ) {
 		// First check if the action is for LearnDash discord.
 		$action_data = ets_learndash_discord_as_get_action_data( $action_id );
 		if ( $action_data !== false ) {

@@ -624,7 +624,7 @@ class Learndash_Discord_Public {
 	 * @param BOOL $is_schedule
 	 * @return object API response
 	 */
-	public function ets_learndash_discord_as_handler_put_member_role( $user_id, $role_id, $is_schedule ) {
+	public function ets_learndash_discord_as_handler_put_member_role( $user_id, $role_id, $is_schedule = true ) {
 		$access_token                = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_access_token', true ) ) );
 		$guild_id                    = sanitize_text_field( trim( get_option( 'ets_learndash_discord_server_id' ) ) );
 		$_ets_learndash_discord_user_id  = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_user_id', true ) ) );
@@ -720,7 +720,7 @@ class Learndash_Discord_Public {
 		if ( ets_learndash_discord_check_api_errors( $dm_response ) ) {
 			LearnDash_Discord_Add_On_Logs::write_api_response_logs( $dm_response_body, $user_id, debug_backtrace()[0] );
 			// this should be catch by Action schedule failed action.
-			throw new Exception( 'Failed in function ets_learndash_discord_send_dm' );
+			throw new Exception( 'Failed in function ets_learndash_discord_handler_send_dm' );
 		}
 	}
         
