@@ -3,10 +3,12 @@
 	$uuid     = get_option( 'ets_learndash_discord_uuid_file_name' );
 	$filename = $uuid . LearnDash_Discord_Add_On_Logs::$log_file_name;
 	$handle   = fopen( WP_CONTENT_DIR . '/' . $filename, 'a+' );
-while ( ! feof( $handle ) ) {
-	echo fgets( $handle ) . '<br />';
+  if ( $handle ) {
+    while ( ! feof( $handle ) ) {
+        echo fgets( $handle ) . '<br />';
+    }
+    fclose( $handle );            
 }
-	fclose( $handle );
 ?>
 </div>
 <div class="learndash-clrbtndiv">
