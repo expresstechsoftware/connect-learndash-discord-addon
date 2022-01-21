@@ -93,6 +93,11 @@ function deactivate_learndash_discord() {
 register_activation_hook( __FILE__, 'activate_learndash_discord' );
 register_deactivation_hook( __FILE__, 'deactivate_learndash_discord' );
 
+// /**
+//    * The class responsible for defining all methods that help to schedule actions.
+// */
+// require_once 'includes/libraries/action-scheduler/action-scheduler.php';
+
 /**
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.

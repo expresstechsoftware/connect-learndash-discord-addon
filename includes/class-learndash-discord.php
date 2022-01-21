@@ -99,12 +99,12 @@ class Learndash_Discord {
 	 * @access   private
 	 */
 	private function load_dependencies() {
-            
-		/**
-		 * The class responsible for defining all methods that help to schedule actions.
-		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/libraries/action-scheduler/action-scheduler.php';
-                
+
+    /**
+       * The class responsible for defining all methods that help to schedule actions.
+    */
+    require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/libraries/action-scheduler/action-scheduler.php';
+
 		/**
 		 * The class responsible for Logs
 		 * core plugin.
@@ -227,26 +227,7 @@ class Learndash_Discord {
 	 * @access   private
 	 */
 	private function define_common_hooks() {
-
-		$this->loader->add_action( 'init',  $this, 'ets_learndash_discord_handle_failed_action'  , 10 );		
-            
-	}
-        public function ets_learndash_discord_handle_failed_action( ){
-
-		$failed_actions = ets_learndash_discord_get_all_failed_actions();
-            
-		if ( is_array( $failed_actions ) ){
-			foreach ( $failed_actions as $action ){
-				$this->ets_learndash_discord_reschedule_failed_action( $action['action_id'] );
-			}
-		}
-            
-		if ( has_action( 'action_scheduler_failed_execution' ) ){
-                
-			//$this->loader->add_action( 'action_scheduler_failed_execution',  $this, 'ets_learndash_discord_reschedule_failed_action' );		
- 
-		}
-            		
+		$this->loader->add_action( 'action_scheduler_failed_execution',  $this, 'ets_learndash_discord_reschedule_failed_action' );		     		
 		$this->loader->add_filter( 'action_scheduler_queue_runner_batch_size', $this, 'ets_learndash_discord_queue_batch_size' );                
 		$this->loader->add_filter( 'action_scheduler_queue_runner_concurrent_batches', $this, 'ets_learndash_discord_concurrent_batches' );            
 		
