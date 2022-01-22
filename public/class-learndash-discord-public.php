@@ -872,5 +872,23 @@ class Learndash_Discord_Public {
 			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $topic_id, 'topic_complete' ), LEARNDASH_DISCORD_AS_GROUP_NAME );
 		}
             
+	}
+        
+	/**
+	 * Assign the role associated with the course to the student when they enroll in this course.
+	 *
+	 */
+	public function ets_learndash_discord_update_course_access( $user_id, $course_id, $course_access_list, $remove  ) {
+            
+		if ( ! $remove && isset( $user_id ) ){
+			$ets_learndash_discord_role_mapping = json_decode( get_option( 'ets_learndash_discord_role_mapping' ), true );
+			if ( is_array( $ets_learndash_discord_role_mapping ) && array_key_exists( 'learndash_course_id_' . $course_id, $ets_learndash_discord_role_mapping ) ) {
+				$discord_role = sanitize_text_field( trim( $ets_learndash_discord_role_mapping[ 'learndash_course_id_' . $course_id ] ) );                            
+				if ( $discord_role && $discord_role != 'none' ) {
+					update_user_meta( $user_id, '_ets_learndash_discord_role_id_for_' . $course_id , $discord_role );
+					$this->put_discord_role_api( $user_id, $discord_role );
+				}
+			}
+		}
 	}        
 }
