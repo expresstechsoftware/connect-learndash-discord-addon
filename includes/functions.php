@@ -128,6 +128,8 @@ function ets_learndash_discord_get_formatted_dm( $user_id, $courses, $message ) 
 	$user_obj    = get_user_by( 'id', $user_id );
 	$STUDENT_USERNAME = $user_obj->user_login;
 	$STUDENT_EMAIL    = $user_obj->user_email;
+	$SITE_URL  = get_bloginfo( 'url' );
+	$BLOG_NAME = get_bloginfo( 'name' );
         
 	$args_courses = array(
         'orderby'          => 'title',
@@ -152,11 +154,15 @@ function ets_learndash_discord_get_formatted_dm( $user_id, $courses, $message ) 
 			'[LD_COURSES]',
 			'[LD_STUDENT_NAME]',
 			'[LD_STUDENT_EMAIL]',
+			'[SITE_URL]',
+			'[BLOG_NAME]'
 		);
 		$replace = array(
 			$COURSES,                    
 			$STUDENT_USERNAME,
 			$STUDENT_EMAIL,
+			$SITE_URL,
+			$BLOG_NAME
 		);
 
 		return str_replace( $find, $replace, $message );
@@ -175,6 +181,8 @@ function ets_learndash_discord_get_formatted_course_complete_dm( $user_id, $cour
 	$user_obj    = get_user_by( 'id', $user_id );
 	$STUDENT_USERNAME = $user_obj->user_login;
 	$STUDENT_EMAIL    = $user_obj->user_email;
+	$SITE_URL  = get_bloginfo( 'url' );
+	$BLOG_NAME = get_bloginfo( 'name' );        
         
 	$course = get_post($course_id);
 	$COURSES_NAME = $course->post_title;
@@ -188,12 +196,16 @@ function ets_learndash_discord_get_formatted_course_complete_dm( $user_id, $cour
 			'[LD_COURSE_COMPLETE_DATE]',                    
 			'[LD_STUDENT_NAME]',
 			'[LD_STUDENT_EMAIL]',
+			'[SITE_URL]',
+			'[BLOG_NAME]'                    
 		);
 		$replace = array(
 			$COURSES_NAME,
 			$COURSES_COMPLETE_DATE,
 			$STUDENT_USERNAME,
 			$STUDENT_EMAIL,
+			$SITE_URL,
+			$BLOG_NAME                    
 		);
 
 		return str_replace( $find, $replace, $message );
@@ -212,6 +224,8 @@ function ets_learndash_discord_get_formatted_lesson_complete_dm( $user_id, $less
 	$user_obj    = get_user_by( 'id', $user_id );
 	$STUDENT_USERNAME = $user_obj->user_login;
 	$STUDENT_EMAIL    = $user_obj->user_email;
+	$SITE_URL  = get_bloginfo( 'url' );
+	$BLOG_NAME = get_bloginfo( 'name' );        
         
 	$lesson = get_post($lesson_id);
 	$LESSON_NAME = $lesson->post_title;
@@ -225,12 +239,16 @@ function ets_learndash_discord_get_formatted_lesson_complete_dm( $user_id, $less
 			'[LD_COURSE_LESSON_DATE]',                    
 			'[LD_STUDENT_NAME]',
 			'[LD_STUDENT_EMAIL]',
+			'[SITE_URL]',
+			'[BLOG_NAME]'                     
 		);
 		$replace = array(
 			$LESSON_NAME,
 			$LESSON_COMPLETE_DATE,
 			$STUDENT_USERNAME,
 			$STUDENT_EMAIL,
+			$SITE_URL,
+			$BLOG_NAME                     
 		);
 
 		return str_replace( $find, $replace, $message );
@@ -249,6 +267,8 @@ function ets_learndash_discord_get_formatted_topic_complete_dm( $user_id, $topic
 	$user_obj    = get_user_by( 'id', $user_id );
 	$STUDENT_USERNAME = $user_obj->user_login;
 	$STUDENT_EMAIL    = $user_obj->user_email;
+	$SITE_URL  = get_bloginfo( 'url' );
+	$BLOG_NAME = get_bloginfo( 'name' );        
         
 	$topic = get_post($topic_id);
 	$TOPIC_NAME = $topic->post_title;
@@ -262,12 +282,59 @@ function ets_learndash_discord_get_formatted_topic_complete_dm( $user_id, $topic
 			'[LD_COURSE_TOPIC_DATE]',                    
 			'[LD_STUDENT_NAME]',
 			'[LD_STUDENT_EMAIL]',
+			'[SITE_URL]',
+			'[BLOG_NAME]'                    
 		);
 		$replace = array(
 			$TOPIC_NAME,
 			$TOPIC_COMPLETE_DATE,
 			$STUDENT_USERNAME,
 			$STUDENT_EMAIL,
+			$SITE_URL,
+			$BLOG_NAME                     
+		);
+
+		return str_replace( $find, $replace, $message );
+
+}
+
+/**
+ * Get formatted QUIZ complete message to send in DM
+ *
+ * @param INT $user_id
+ * @param INT $quiz_id
+ * Merge fields: [LD_STUDENT_NAME], [LD_STUDENT_EMAIL], [LD_QUIZ_NAME], [LD_QUIZ_DATE]
+ */
+function ets_learndash_discord_get_formatted_quiz_complete_dm( $user_id, $quiz_id , $message) {
+        
+	$user_obj    = get_user_by( 'id', $user_id );
+	$STUDENT_USERNAME = $user_obj->user_login;
+	$STUDENT_EMAIL    = $user_obj->user_email;
+	$SITE_URL  = get_bloginfo( 'url' );
+	$BLOG_NAME = get_bloginfo( 'name' );        
+        
+	$quiz = get_post($quiz_id);
+	$QUIZ_NAME = $quiz->post_title;
+        
+	$QUIZ_COMPLETE_DATE = date_i18n( get_option('date_format'), time() ) ;
+        
+       
+
+		$find    = array(
+			'[LD_QUIZ_NAME]',
+			'[LD_QUIZ_DATE]',                    
+			'[LD_STUDENT_NAME]',
+			'[LD_STUDENT_EMAIL]',
+			'[SITE_URL]',
+			'[BLOG_NAME]'                    
+		);
+		$replace = array(
+			$QUIZ_NAME,
+			$QUIZ_COMPLETE_DATE,
+			$STUDENT_USERNAME,
+			$STUDENT_EMAIL,
+			$SITE_URL,
+			$BLOG_NAME                     
 		);
 
 		return str_replace( $find, $replace, $message );

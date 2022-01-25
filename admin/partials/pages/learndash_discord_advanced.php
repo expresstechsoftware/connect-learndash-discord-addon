@@ -7,6 +7,8 @@ $ets_learndash_discord_send_lesson_complete_dm = sanitize_text_field( trim( get_
 $ets_learndash_discord_lesson_complete_message = sanitize_text_field( trim( get_option( 'ets_learndash_discord_lesson_complete_message' ) ) );
 $ets_learndash_discord_send_topic_complete_dm  = sanitize_text_field( trim( get_option( 'ets_learndash_discord_send_topic_complete_dm' ) ) );
 $ets_learndash_discord_topic_complete_message  = sanitize_text_field( trim( get_option( 'ets_learndash_discord_topic_complete_message' ) ) );
+$ets_learndash_discord_send_quiz_complete_dm   = sanitize_text_field( trim( get_option( 'ets_learndash_discord_send_quiz_complete_dm' ) ) );
+$ets_learndash_discord_quiz_complete_message   = sanitize_text_field( trim( get_option( 'ets_learndash_discord_quiz_complete_message' ) ) );
 
 $retry_failed_api                              = sanitize_text_field( trim( get_option( 'ets_learndash_discord_retry_failed_api' ) ) );
 $kick_upon_disconnect                          = sanitize_text_field( trim( get_option( 'ets_learndash_discord_kick_upon_disconnect' ) ) );
@@ -37,7 +39,7 @@ $log_api_res                                   = sanitize_text_field( trim( get_
 		<td> <fieldset>
 		<textarea class="ets_learndash_discord_dm_textarea" name="ets_learndash_discord_welcome_message" id="ets_learndash_discord_welcome_message" row="25" cols="50"><?php if ( $ets_learndash_discord_welcome_message ) { echo wp_unslash( $ets_learndash_discord_welcome_message ); } ?></textarea> 
 	<br/>
-	<small>Merge fields: [LD_COURSES], [LD_STUDENT_NAME], [LD_STUDENT_EMAIL]</small>
+	<small>Merge fields: [LD_STUDENT_NAME], [LD_STUDENT_EMAIL], [LD_COURSES], [SITE_URL], [BLOG_NAME]</small>
 		</fieldset></td>
 	  </tr>
   <tr>
@@ -56,7 +58,7 @@ $log_api_res                                   = sanitize_text_field( trim( get_
 		<td> <fieldset>
 		<textarea class="ets_learndash_discord_course_complete_message" name="ets_learndash_discord_course_complete_message" id="ets_learndash_discord_course_complete_message" row="25" cols="50"><?php if ( $ets_learndash_discord_course_complete_message ) { echo wp_unslash( $ets_learndash_discord_course_complete_message ); } ?></textarea> 
 	<br/>
-	<small>Merge fields: [LD_STUDENT_NAME], [LD_STUDENT_EMAIL], [LD_COURSE_NAME], [LD_COURSE_COMPLETE_DATE]</small>
+	<small>Merge fields: [LD_STUDENT_NAME], [LD_STUDENT_EMAIL], [LD_COURSE_NAME], [LD_COURSE_COMPLETE_DATE], [SITE_URL], [BLOG_NAME]</small>
 		</fieldset></td>
 	  </tr>
   <tr>
@@ -75,7 +77,7 @@ $log_api_res                                   = sanitize_text_field( trim( get_
 		<td> <fieldset>
 		<textarea class="ets_learndash_discord_lesson_complete_message" name="ets_learndash_discord_lesson_complete_message" id="ets_learndash_discord_lesson_complete_message" row="25" cols="50"><?php if ( $ets_learndash_discord_lesson_complete_message ) { echo wp_unslash( $ets_learndash_discord_lesson_complete_message ); } ?></textarea> 
 	<br/>
-	<small>Merge fields:  [LD_STUDENT_NAME], [LD_STUDENT_EMAIL], [LD_LESSON_NAME], [LD_COURSE_LESSON_DATE]</small>
+	<small>Merge fields:  [LD_STUDENT_NAME], [LD_STUDENT_EMAIL], [LD_LESSON_NAME], [LD_COURSE_LESSON_DATE], [SITE_URL], [BLOG_NAME]</small>
 		</fieldset></td>
 	  </tr>
   <tr>
@@ -94,9 +96,29 @@ $log_api_res                                   = sanitize_text_field( trim( get_
 		<td> <fieldset>
 		<textarea class="ets_learndash_discord_topic_complete_message" name="ets_learndash_discord_topic_complete_message" id="ets_learndash_discord_topic_complete_message" row="25" cols="50"><?php if ( $ets_learndash_discord_topic_complete_message ) { echo wp_unslash( $ets_learndash_discord_topic_complete_message ); } ?></textarea> 
 	<br/>
-	<small>Merge fields: [LD_STUDENT_NAME], [LD_STUDENT_EMAIL], [LD_TOPIC_NAME], [LD_COURSE_TOPIC_DATE]</small>
+	<small>Merge fields: [LD_STUDENT_NAME], [LD_STUDENT_EMAIL], [LD_TOPIC_NAME], [LD_COURSE_TOPIC_DATE], [SITE_URL], [BLOG_NAME]</small>
 		</fieldset></td>
 	  </tr>
+          
+  <tr>
+		<th scope="row"><?php echo __( 'Send Quiz Complete message', 'learndash-discord' ); ?></th>
+		<td> <fieldset>
+		<input name="ets_learndash_discord_send_quiz_complete_dm" type="checkbox" id="ets_learndash_discord_send_quiz_complete_dm" 
+		<?php
+		if ( $ets_learndash_discord_send_quiz_complete_dm == true ) {
+			echo 'checked="checked"'; }
+		?>
+		 value="1">
+		</fieldset></td>
+	  </tr>
+	<tr>
+		<th scope="row"><?php echo __( 'Topic Quiz message', 'learndash-discord' ); ?></th>
+		<td> <fieldset>
+		<textarea class="ets_learndash_discord_quiz_complete_message" name="ets_learndash_discord_quiz_complete_message" id="ets_learndash_discord_quiz_complete_message" row="25" cols="50"><?php if ( $ets_learndash_discord_quiz_complete_message ) { echo wp_unslash( $ets_learndash_discord_quiz_complete_message ); } ?></textarea> 
+	<br/>
+	<small>Merge fields: [LD_STUDENT_NAME], [LD_STUDENT_EMAIL], [LD_QUIZ_NAME], [LD_QUIZ_DATE], [SITE_URL], [BLOG_NAME]</small>
+		</fieldset></td>
+	  </tr>          
 
 	  <tr>
 		<th scope="row"><?php echo __( 'Retry Failed API calls', 'learndash-discord' ); ?></th>

@@ -129,9 +129,11 @@ class Learndash_Discord_Public {
 		$kick_upon_disconnect = sanitize_text_field( trim( get_option( 'ets_learndash_discord_kick_upon_disconnect' ) ) );
 		if ( $user_id ) {
 			delete_user_meta( $user_id, '_ets_learndash_discord_access_token' );
-			//if( $kick_upon_disconnect != true ){
+			delete_user_meta( $user_id, '_ets_learndash_discord_refresh_token' );                        			
+                        
+			if( $kick_upon_disconnect != true ){
 				$this->delete_member_from_guild( $user_id, false );                            
-                        //}
+                        }
 		}
 		$event_res = array(
 			'status'  => 1,
@@ -672,6 +674,7 @@ class Learndash_Discord_Public {
 		$ets_learndash_discord_course_complete_message = sanitize_text_field( trim( get_option( 'ets_learndash_discord_course_complete_message' ) ) );		
 		$ets_learndash_discord_lesson_complete_message = sanitize_text_field( trim( get_option( 'ets_learndash_discord_lesson_complete_message' ) ) );		                
 		$ets_learndash_discord_topic_complete_message = sanitize_text_field( trim( get_option( 'ets_learndash_discord_topic_complete_message' ) ) );		                                
+		$ets_learndash_discord_quiz_complete_message = sanitize_text_field( trim( get_option( 'ets_learndash_discord_quiz_complete_message' ) ) );		                                                
 		// Check if DM channel is already created for the user.
 		$user_dm = get_user_meta( $user_id, '_ets_learndash_discord_dm_channel', true );
 
@@ -698,8 +701,15 @@ class Learndash_Discord_Public {
 		if ( $type == 'topic_complete' ) {
 			update_user_meta( $user_id, '_ets_learndash_discord_topic_complete_dm_for_' . $courses , true );
 			$message = ets_learndash_discord_get_formatted_topic_complete_dm( $user_id,  $courses, $ets_learndash_discord_topic_complete_message );
+		}
+		if ( $type == 'quiz_complete' ) {
+			update_user_meta( $user_id, '_ets_learndash_discord_quiz_complete_dm_for_' . $courses , true );
+			$message = ets_learndash_discord_get_formatted_quiz_complete_dm( $user_id,  $courses, $ets_learndash_discord_quiz_complete_message );
 		}                
-
+		if ( $type == 'course_certificate_link' ) {
+			$certificate_link =  learndash_get_course_certificate_link( $courses, $user_id ) ;
+			$message = $certificate_link;
+		}
 
 		$creat_dm_url = LEARNDASH_DISCORD_API_URL . '/channels/' . $dm_channel_id . '/messages';
 		$dm_args      = array(
@@ -834,7 +844,12 @@ class Learndash_Discord_Public {
 		if ( $ets_learndash_discord_send_course_complete_dm == true ) {
 			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $course_id, 'course_complete' ), LEARNDASH_DISCORD_AS_GROUP_NAME );
 		}
-            
+                
+		if ( learndash_get_course_certificate_link( $course_id, $user_id )  ) {
+                    
+			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $course_id, 'course_certificate_link' ), LEARNDASH_DISCORD_AS_GROUP_NAME );                        
+                    
+		}    
 	}
         
 	/**
@@ -852,7 +867,7 @@ class Learndash_Discord_Public {
 		if ( $ets_learndash_discord_send_lesson_complete_dm == true ) {
 			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $lesson_id, 'lesson_complete' ), LEARNDASH_DISCORD_AS_GROUP_NAME );
 		}
-            
+               
 	}
         
 	/**
@@ -874,6 +889,26 @@ class Learndash_Discord_Public {
             
 	}
         
+	/**
+	 * Check if the student has completed a quiz.
+	 *
+         * @param ARRAY $quiz_data Topic complete data.
+         * @param OBJECT $user WP_User object
+	 *
+	 */
+	public function ets_learndash_quiz_completed( $quiz_data, $user ) {
+            
+		$user_id = $user->ID;
+		$quiz_id = $quiz_data['quiz']; 
+                
+		$ets_learndash_discord_send_quiz_complete_dm = sanitize_text_field( trim( get_option( 'ets_learndash_discord_send_quiz_complete_dm' ) ) );
+		
+		// Send Quiz Complete message.
+		if ( $ets_learndash_discord_send_quiz_complete_dm == true ) {
+			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $quiz_id, 'quiz_complete' ), LEARNDASH_DISCORD_AS_GROUP_NAME );
+		}
+            
+	}        
 	/**
 	 * Assign the role associated with the course to the student when they enroll in this course.
 	 *
