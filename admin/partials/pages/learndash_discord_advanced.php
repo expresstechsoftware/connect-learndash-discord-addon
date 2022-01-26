@@ -23,7 +23,15 @@ $log_api_res                                   = sanitize_text_field( trim( get_
 <?php wp_nonce_field( 'learndash_discord_advance_settings_nonce', 'ets_learndash_discord_advance_settings_nonce' ); ?>
   <table class="form-table" role="presentation">
 	<tbody>
-  <tr>
+	<tr>
+		<th scope="row"><?php echo __( 'Shortcode:', 'learndash-discord' ); ?></th>
+		<td> <fieldset>
+		[learndash_discord]
+		<br/>
+		<small><?php echo __( 'Use this shortcode [learndash_discord] to display connect to discord button on any page.', 'learndash-discord' ); ?></small>
+		</fieldset></td>
+	</tr>            
+	<tr>
 		<th scope="row"><?php echo __( 'Send welcome message', 'learndash-discord' ); ?></th>
 		<td> <fieldset>
 		<input name="ets_learndash_discord_send_welcome_dm" type="checkbox" id="ets_learndash_discord_send_welcome_dm" 
@@ -33,7 +41,7 @@ $log_api_res                                   = sanitize_text_field( trim( get_
 		?>
 		 value="1">
 		</fieldset></td>
-	  </tr>
+	</tr>
 	<tr>
 		<th scope="row"><?php echo __( 'Welcome message', 'learndash-discord' ); ?></th>
 		<td> <fieldset>
@@ -41,8 +49,8 @@ $log_api_res                                   = sanitize_text_field( trim( get_
 	<br/>
 	<small>Merge fields: [LD_STUDENT_NAME], [LD_STUDENT_EMAIL], [LD_COURSES], [SITE_URL], [BLOG_NAME]</small>
 		</fieldset></td>
-	  </tr>
-  <tr>
+	</tr>
+	<tr>
 		<th scope="row"><?php echo __( 'Send Course Complete message', 'learndash-discord' ); ?></th>
 		<td> <fieldset>
 		<input name="ets_learndash_discord_send_course_complete_dm" type="checkbox" id="ets_learndash_discord_send_course_complete_dm" 
@@ -52,7 +60,7 @@ $log_api_res                                   = sanitize_text_field( trim( get_
 		?>
 		 value="1">
 		</fieldset></td>
-	  </tr>
+	</tr>
 	<tr>
 		<th scope="row"><?php echo __( 'Course Complete message', 'learndash-discord' ); ?></th>
 		<td> <fieldset>
@@ -60,8 +68,8 @@ $log_api_res                                   = sanitize_text_field( trim( get_
 	<br/>
 	<small>Merge fields: [LD_STUDENT_NAME], [LD_STUDENT_EMAIL], [LD_COURSE_NAME], [LD_COURSE_COMPLETE_DATE], [SITE_URL], [BLOG_NAME]</small>
 		</fieldset></td>
-	  </tr>
-  <tr>
+	</tr>
+	<tr>
 		<th scope="row"><?php echo __( 'Send Lesson Complete message', 'learndash-discord' ); ?></th>
 		<td> <fieldset>
 		<input name="ets_learndash_discord_send_lesson_complete_dm" type="checkbox" id="ets_learndash_discord_send_lesson_complete_dm" 
@@ -80,7 +88,7 @@ $log_api_res                                   = sanitize_text_field( trim( get_
 	<small>Merge fields:  [LD_STUDENT_NAME], [LD_STUDENT_EMAIL], [LD_LESSON_NAME], [LD_COURSE_LESSON_DATE], [SITE_URL], [BLOG_NAME]</small>
 		</fieldset></td>
 	  </tr>
-  <tr>
+ 	<tr>
 		<th scope="row"><?php echo __( 'Send Topic Complete message', 'learndash-discord' ); ?></th>
 		<td> <fieldset>
 		<input name="ets_learndash_discord_send_topic_complete_dm" type="checkbox" id="ets_learndash_discord_send_topic_complete_dm" 
