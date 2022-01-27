@@ -267,7 +267,10 @@ class Learndash_Discord_Public {
                                 $restrictcontent_discord .= '</div>';
 				
 		
-                        } elseif( ( ets_learndash_discord_get_student_courses_id( $user_id ) ) || ( ets_learndash_discord_get_student_courses_id( $user_id ) && $allow_none_student == 'yes' )  ) {
+                        } elseif(  
+                                ( ets_learndash_discord_get_student_courses_id( $user_id ) && $mapped_role_name )
+                                || ( ets_learndash_discord_get_student_courses_id( $user_id ) && !$mapped_role_name && $default_role_name )
+                                ||  ( $allow_none_student == 'yes' && $default_role_name )  ) {
                             
                             
 				
