@@ -923,8 +923,12 @@ class Learndash_Discord_Public {
 			if ( is_array( $ets_learndash_discord_role_mapping ) && array_key_exists( 'learndash_course_id_' . $course_id, $ets_learndash_discord_role_mapping ) ) {
 				$discord_role = sanitize_text_field( trim( $ets_learndash_discord_role_mapping[ 'learndash_course_id_' . $course_id ] ) );                            
 				if ( $discord_role && $discord_role != 'none' ) {
-					update_user_meta( $user_id, '_ets_learndash_discord_role_id_for_' . $course_id , $discord_role );
-					$this->put_discord_role_api( $user_id, $discord_role );
+					update_user_meta( $user_id, '_ets_learndash_discord_role_id_for_' . $course_id , $discord_role );                                    
+					$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_access_token', true ) ) );
+					$refresh_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_refresh_token', true ) ) );
+					if ( $access_token && $refresh_token ){
+						$this->put_discord_role_api( $user_id, $discord_role );
+					}                                       
 				}
 			}
 		}
