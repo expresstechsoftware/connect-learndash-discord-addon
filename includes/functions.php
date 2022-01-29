@@ -361,7 +361,15 @@ function ets_learndash_discord_get_formatted_assignment_approved_dm( $user_id, $
         
 	$ASSIGNMENT_APPROVED_DATE = date_i18n( get_option('date_format'), time() ) ;
         
-	return sprintf( __( 'Hi %1$s (%2$s), your assignments %3$s has been approved on %4$s on website %5$s, %6$s ', 'learndash-discord' ) , $STUDENT_USERNAME, $STUDENT_EMAIL, $ASSIGNMENT_TITLE, $ASSIGNMENT_APPROVED_DATE, $SITE_URL, $BLOG_NAME  );        
+	if ( learndash_assignment_is_points_enabled( $assignment_id ) ){
+		$points = learndash_get_points_awarded_array( $assignment_id );
+		$current = $points['current'];
+		$max = $points['max'];
+                
+		return sprintf( __( 'Hi %1$s (%2$s), your assignments %3$s has been approved on %4$s , points awarded: %7$s/%8$s , website %5$s, %6$s ', 'learndash-discord' ) , $STUDENT_USERNAME, $STUDENT_EMAIL, $ASSIGNMENT_TITLE, $ASSIGNMENT_APPROVED_DATE, $SITE_URL, $BLOG_NAME, $current, $max );                                
+	}else{
+		return sprintf( __( 'Hi %1$s (%2$s), your assignments %3$s has been approved on %4$s on website %5$s, %6$s ', 'learndash-discord' ) , $STUDENT_USERNAME, $STUDENT_EMAIL, $ASSIGNMENT_TITLE, $ASSIGNMENT_APPROVED_DATE, $SITE_URL, $BLOG_NAME  );                    
+	}
 
 }
 
