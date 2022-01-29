@@ -450,6 +450,6 @@ class Learndash_Discord_Admin {
 			}
 		}
 
-	}        
-
+	}
+        
 }

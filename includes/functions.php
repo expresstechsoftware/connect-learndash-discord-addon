@@ -341,6 +341,30 @@ function ets_learndash_discord_get_formatted_quiz_complete_dm( $user_id, $quiz_i
 
 }
 
+/**
+ * Get assignment approved message to send in DM
+ *
+ * @param INT $user_id
+ * @param INT $assignment_id
+ * 
+ */
+function ets_learndash_discord_get_formatted_assignment_approved_dm( $user_id, $assignment_id ) {
+        
+	$user_obj    = get_user_by( 'id', $user_id );
+	$STUDENT_USERNAME = $user_obj->user_login;
+	$STUDENT_EMAIL    = $user_obj->user_email;
+	$SITE_URL  = get_bloginfo( 'url' );
+	$BLOG_NAME = get_bloginfo( 'name' );        
+        
+	$assignment = get_post( $assignment_id );
+	$ASSIGNMENT_TITLE = $assignment->post_title;
+        
+	$ASSIGNMENT_APPROVED_DATE = date_i18n( get_option('date_format'), time() ) ;
+        
+	return sprintf( __( 'Hi %1$s (%2$s), your assignments %3$s has been approved on %4$s on website %5$s, %6$s ', 'learndash-discord' ) , $STUDENT_USERNAME, $STUDENT_EMAIL, $ASSIGNMENT_TITLE, $ASSIGNMENT_APPROVED_DATE, $SITE_URL, $BLOG_NAME  );        
+
+}
+
   /**
    * Log API call response
    *

@@ -728,8 +728,12 @@ class Learndash_Discord_Public {
                        
 			$certificate_details = learndash_certificate_details( $courses, $user_id );
 			$message = $certificate_details['certificateLink'] ;
+		}
+		if ( $type == 'assignment_approved' ) {
+ 
+			$message = ets_learndash_discord_get_formatted_assignment_approved_dm( $user_id, $courses );
 		}                
-
+                    
 		$creat_dm_url = LEARNDASH_DISCORD_API_URL . '/channels/' . $dm_channel_id . '/messages';
 		$dm_args      = array(
 			'method'  => 'POST',
@@ -953,4 +957,20 @@ class Learndash_Discord_Public {
 			}
 		}
 	}
-}
+        
+	/**
+	 * Send DM about assignment approval
+	 *
+	 * @param int $assignment_id Assignment ID. 
+	 * @return NONE
+	 */        
+	public function ets_learndash_discord_assignment_approved( $assignment_id ) {
+            
+		$assignment = get_post( $assignment_id );
+		$user_id = $assignment->post_author;
+                
+		// Send DM about assignment approval.
+		as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $assignment_id, 'assignment_approved' ), LEARNDASH_DISCORD_AS_GROUP_NAME );
+
+	}        
+}        
