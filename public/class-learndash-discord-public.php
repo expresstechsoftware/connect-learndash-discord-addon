@@ -714,22 +714,7 @@ class Learndash_Discord_Public {
 			$certificate_link =  learndash_get_course_certificate_link( $courses, $user_id ) ;
 			$message = $certificate_link;
 		}
-		if ( $type == 'quiz_certificate_link' ) {
-			//$certificate_link = learndash_get_certificate_link( $courses, $user_id ) ;
-			//$certificate_details = learndash_certificate_details($courses, $user_id);
-			//$linkce = do_shortcode ( '[ld_certificate label=" See " quiz_id="'.$courses.'" user_id="'.$user_id.'"]' );
-                        //
-			//$post             = get_post( $courses);
-			//$meta = get_post_meta( $courses, '_sfwd-quiz', true );
-			//$certificate_post = intval( $meta['sfwd-quiz_certificate'] );
-			//$certificate_permalink = get_permalink( $certificate_post );
-			//$cert_query_args['user'] = $user_id;
-			//$cert_query_args['cert-nonce'] = wp_create_nonce( $courses . $user_id . $user_id );
-			//$certificate_link = add_query_arg( $cert_query_args, $certificate_permalink );
-                       
-			$certificate_details = learndash_certificate_details( $courses, $user_id );
-			$message = $certificate_details['certificateLink'] ;
-		}
+
 		if ( $type == 'assignment_approved' ) {
  
 			$message = ets_learndash_discord_get_formatted_assignment_approved_dm( $user_id, $courses );
@@ -932,9 +917,6 @@ class Learndash_Discord_Public {
 			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $quiz_id, 'quiz_complete' ), LEARNDASH_DISCORD_AS_GROUP_NAME );
 		}
                 
-		if ( learndash_get_certificate_link( $quiz_id, $user_id ) ){
-			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $quiz_id, 'quiz_certificate_link' ), LEARNDASH_DISCORD_AS_GROUP_NAME );                    
-		}
             
 	}        
 	/**
