@@ -679,6 +679,7 @@ class Learndash_Discord_Public {
 		$ets_learndash_discord_lesson_complete_message = sanitize_text_field( trim( get_option( 'ets_learndash_discord_lesson_complete_message' ) ) );		                
 		$ets_learndash_discord_topic_complete_message = sanitize_text_field( trim( get_option( 'ets_learndash_discord_topic_complete_message' ) ) );		                                
 		$ets_learndash_discord_quiz_complete_message = sanitize_text_field( trim( get_option( 'ets_learndash_discord_quiz_complete_message' ) ) );		                                                
+		$ets_learndash_discord_assignment_approved_message   = sanitize_text_field( trim( get_option( 'ets_learndash_discord_assignment_approved_message' ) ) );
 		// Check if DM channel is already created for the user.
 		$user_dm = get_user_meta( $user_id, '_ets_learndash_discord_dm_channel', true );
 
@@ -710,14 +711,14 @@ class Learndash_Discord_Public {
 			update_user_meta( $user_id, '_ets_learndash_discord_quiz_complete_dm_for_' . $courses , true );
 			$message = ets_learndash_discord_get_formatted_quiz_complete_dm( $user_id,  $courses, $ets_learndash_discord_quiz_complete_message );
 		}                
-		if ( $type == 'course_certificate_link' ) {
-			$certificate_link =  learndash_get_course_certificate_link( $courses, $user_id ) ;
-			$message = $certificate_link;
-		}
+//		if ( $type == 'course_certificate_link' ) {
+//			$certificate_link =  learndash_get_course_certificate_link( $courses, $user_id ) ;
+//			$message = $certificate_link;
+//		}
 
 		if ( $type == 'assignment_approved' ) {
  
-			$message = ets_learndash_discord_get_formatted_assignment_approved_dm( $user_id, $courses );
+			$message = ets_learndash_discord_get_formatted_assignment_approved_dm( $user_id, $courses, $ets_learndash_discord_assignment_approved_message );
 		}                
                     
 		$creat_dm_url = LEARNDASH_DISCORD_API_URL . '/channels/' . $dm_channel_id . '/messages';
@@ -854,11 +855,11 @@ class Learndash_Discord_Public {
 			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $course_id, 'course_complete' ), LEARNDASH_DISCORD_AS_GROUP_NAME );
 		}
                 
-		if ( learndash_get_course_certificate_link( $course_id, $user_id )  ) {
-                    
-			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $course_id, 'course_certificate_link' ), LEARNDASH_DISCORD_AS_GROUP_NAME );                        
-                    
-		}    
+//		if ( learndash_get_course_certificate_link( $course_id, $user_id )  ) {
+//                    
+//			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $course_id, 'course_certificate_link' ), LEARNDASH_DISCORD_AS_GROUP_NAME );                        
+//                    
+//		}    
 	}
         
 	/**
@@ -965,9 +966,14 @@ class Learndash_Discord_Public {
             
 		$assignment = get_post( $assignment_id );
 		$user_id = $assignment->post_author;
+		$ets_learndash_discord_send_assignment_approved_dm   = sanitize_text_field( trim( get_option( 'ets_learndash_discord_send_assignment_approved_dm' ) ) );
+                
                 
 		// Send DM about assignment approval.
-		as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $assignment_id, 'assignment_approved' ), LEARNDASH_DISCORD_AS_GROUP_NAME );
+		if ( $ets_learndash_discord_send_assignment_approved_dm == true ) {
+                    
+			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $assignment_id, 'assignment_approved' ), LEARNDASH_DISCORD_AS_GROUP_NAME );
+		}
 
 	}        
 }        

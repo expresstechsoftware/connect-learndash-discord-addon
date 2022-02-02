@@ -39,6 +39,7 @@ class Learndash_Discord_Activator {
 		update_option( 'ets_learndash_discord_send_topic_complete_dm', true );
 		update_option( 'ets_learndash_discord_topic_complete_message', 'Hi [LD_STUDENT_NAME] ([LD_STUDENT_EMAIL]), You have completed the topic  [LD_TOPIC_NAME] at [LD_COURSE_TOPIC_DATE] on website [SITE_URL], [BLOG_NAME]' );                 
 		update_option( 'ets_learndash_discord_quiz_complete_message', 'Hi [LD_STUDENT_NAME] ([LD_STUDENT_EMAIL]), You have completed the quiz  [LD_QUIZ_NAME] at [LD_QUIZ_DATE] on website [SITE_URL], [BLOG_NAME]' );                                 
+		update_option( 'ets_learndash_discord_assignment_approved_message', 'Hi [LD_STUDENT_NAME] ([LD_STUDENT_EMAIL]), your assignments [LD_LINK_OF_ASSIGNMENT] ( [LD_ASSIGNMENT_COURSE], [LD_ASSIGNMENT_LESSON] )  has been approved on [LD_ASSIGNMENT_APPROVED_DATE] , points awarded: [LD_ASSIGNMENT_POINTS_AWARDED] , website [SITE_URL], [BLOG_NAME]' );                                                 
 		update_option( 'ets_learndash_discord_retry_failed_api', true );
 		update_option( 'ets_learndash_discord_kick_upon_disconnect', false ); 
 		update_option( 'ets_learndash_discord_retry_api_count', 5 );

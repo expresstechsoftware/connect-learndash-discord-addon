@@ -346,9 +346,9 @@ function ets_learndash_discord_get_formatted_quiz_complete_dm( $user_id, $quiz_i
  *
  * @param INT $user_id
  * @param INT $assignment_id
- * 
+ * Merge fields: [LD_STUDENT_NAME], [LD_STUDENT_EMAIL], [LD_ASSIGNMENT_COURSE], [LD_ASSIGNMENT_LESSON], [SITE_URL], [BLOG_NAME], [LD_ASSIGNMENT_APPROVED_DATE], [LD_LINK_OF_ASSIGNMENT], [LD_ASSIGNMENT_POINTS_AWARDED]
  */
-function ets_learndash_discord_get_formatted_assignment_approved_dm( $user_id, $assignment_id ) {
+function ets_learndash_discord_get_formatted_assignment_approved_dm( $user_id, $assignment_id, $message ) {
         
 	$user_obj    = get_user_by( 'id', $user_id );
 	$STUDENT_USERNAME = $user_obj->user_login;
@@ -356,20 +356,48 @@ function ets_learndash_discord_get_formatted_assignment_approved_dm( $user_id, $
 	$SITE_URL  = get_bloginfo( 'url' );
 	$BLOG_NAME = get_bloginfo( 'name' );        
         
-	$assignment = get_post( $assignment_id );
-	$ASSIGNMENT_TITLE = $assignment->post_title;
+//	$assignment = get_post( $assignment_id );
+	$ASSIGNMENT_LINK = get_post_meta( $assignment_id, 'file_link', true ) ;
+        
+	$assignment_course_id = intval( get_post_meta( $assignment_id, 'course_id', true ) );
+	$assignment_lesson_id = intval( get_post_meta( $assignment_id, 'lesson_id', true ) );
+        
+	$assignment_course = get_post( $assignment_course_id );
+	$assignment_lesson = get_post( $assignment_lesson_id );
+        
+	$ASSIGNMENT_COURSE = $assignment_course->post_title;
+	$ASSIGNMENT_LESSON = $assignment_lesson->post_title;        
         
 	$ASSIGNMENT_APPROVED_DATE = date_i18n( get_option('date_format'), time() ) ;
-        
+	$ASSIGNMENT_POINTS_AWARDED= '';
 	if ( learndash_assignment_is_points_enabled( $assignment_id ) ){
-		$points = learndash_get_points_awarded_array( $assignment_id );
-		$current = $points['current'];
-		$max = $points['max'];
-                
-		return sprintf( __( 'Hi %1$s (%2$s), your assignments %3$s has been approved on %4$s , points awarded: %7$s/%8$s , website %5$s, %6$s ', 'learndash-discord' ) , $STUDENT_USERNAME, $STUDENT_EMAIL, $ASSIGNMENT_TITLE, $ASSIGNMENT_APPROVED_DATE, $SITE_URL, $BLOG_NAME, $current, $max );                                
-	}else{
-		return sprintf( __( 'Hi %1$s (%2$s), your assignments %3$s has been approved on %4$s on website %5$s, %6$s ', 'learndash-discord' ) , $STUDENT_USERNAME, $STUDENT_EMAIL, $ASSIGNMENT_TITLE, $ASSIGNMENT_APPROVED_DATE, $SITE_URL, $BLOG_NAME  );                    
+		$ASSIGNMENT_POINTS = learndash_get_points_awarded_array( $assignment_id );
+		$ASSIGNMENT_POINTS_AWARDED = $ASSIGNMENT_POINTS['current'] . '/' . $ASSIGNMENT_POINTS['max'];
 	}
+		$find    = array(
+			'[LD_STUDENT_NAME]',
+			'[LD_STUDENT_EMAIL]',                    
+			'[LD_ASSIGNMENT_COURSE]',
+			'[LD_ASSIGNMENT_LESSON]',
+			'[LD_ASSIGNMENT_APPROVED_DATE]',
+			'[LD_LINK_OF_ASSIGNMENT]',
+			'[LD_ASSIGNMENT_POINTS_AWARDED]',
+			'[SITE_URL]',
+			'[BLOG_NAME]'                    
+		);
+		$replace = array(
+			$STUDENT_USERNAME,
+			$STUDENT_EMAIL,
+			$ASSIGNMENT_COURSE,                    
+			$ASSIGNMENT_LESSON,
+			$ASSIGNMENT_APPROVED_DATE,
+			$ASSIGNMENT_LINK,                    
+			$ASSIGNMENT_POINTS_AWARDED,
+			$SITE_URL,
+			$BLOG_NAME                     
+		);
+
+		return str_replace( $find, $replace, $message );        
 
 }
 
