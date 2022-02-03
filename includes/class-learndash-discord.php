@@ -175,7 +175,7 @@ class Learndash_Discord {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new Learndash_Discord_Admin( $this->get_plugin_name(), $this->get_version() );
+		$plugin_admin = new Learndash_Discord_Admin( $this->get_plugin_name(), $this->get_version(), Learndash_Discord_Public::get_learndash_discord_public_instance( $this->get_plugin_name(), $this->get_version() ) );
 		$plugin_dependencies = new Learndash_Discord_Dependencies( $this->get_plugin_name(), $this->get_version() );
                 
 		$this->loader->add_action( 'admin_init', $plugin_dependencies, 'check_environment' );
@@ -190,6 +190,8 @@ class Learndash_Discord {
 		$this->loader->add_action( 'admin_post_learndash_discord_save_advance_settings', $plugin_admin, 'ets_learndash_discord_save_advance_settings' );
 		$this->loader->add_action( 'wp_ajax_ets_learndash_discord_load_discord_roles', $plugin_admin, 'ets_learndash_discord_load_discord_roles' );
 
+		$this->loader->add_action( 'learndash_update_course_access', $plugin_admin, 'ets_learndash_discord_admin_update_course_access' , 99 , 4 );                                
+		$this->loader->add_action( 'learndash_assignment_approved', $plugin_admin, 'ets_learndash_discord_admin_assignment_approved', 10, 1 );                                                                
 	}
 
 	/**
@@ -201,7 +203,7 @@ class Learndash_Discord {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new Learndash_Discord_Public( $this->get_plugin_name(), $this->get_version() );
+		$plugin_public = Learndash_Discord_Public::get_learndash_discord_public_instance( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
@@ -219,11 +221,8 @@ class Learndash_Discord {
 		$this->loader->add_action( 'ets_learndash_discord_as_schedule_delete_member', $plugin_public, 'ets_learndash_discord_as_handler_delete_member_from_guild', 10, 3 );
 		$this->loader->add_action( 'ets_learndash_discord_as_schedule_delete_role',  $plugin_public, 'ets_learndash_discord_as_handler_delete_memberrole' , 10, 3 );
 //		$this->loader->add_filter( 'learndash_get_user_activity', $plugin_public, 'ets_learndash_discord_get_user_activity' , 10, 2 );                
-		$this->loader->add_action( 'learndash_update_course_access', $plugin_public, 'ets_learndash_discord_update_course_access' , 99 , 4 );                
 //		$this->loader->add_action( 'learndash_certification_content_write_cell_after', $plugin_public, 'ets_learndash_discord_certification_created' , 10 , 3 );  
-		$this->loader->add_action( 'learndash_assignment_approved', $plugin_public, 'ets_learndash_discord_assignment_approved', 10, 1 );                                                                
 
-                
         }
         
 	/**

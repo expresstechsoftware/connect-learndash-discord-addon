@@ -41,6 +41,15 @@ class Learndash_Discord_Public {
 	private $version;
 
 	/**
+	 * The single object Learndash_Discord_Public
+	 * 
+	 * @since    1.0.0 
+	 * @access   private 
+	 * @var Learndash_Discord_Public 
+	 */
+	private static $instance;
+
+        /**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
@@ -53,6 +62,15 @@ class Learndash_Discord_Public {
 		$this->version = $version;
 
 	}
+
+	public static function get_learndash_discord_public_instance( $plugin_name, $version ) {
+
+		if ( ! self::$instance ) {
+			self::$instance = new Learndash_Discord_Public( $plugin_name, $version );
+
+		}
+		return self::$instance;
+	}        
 
 	/**
 	 * Register the stylesheets for the public-facing side of the site.

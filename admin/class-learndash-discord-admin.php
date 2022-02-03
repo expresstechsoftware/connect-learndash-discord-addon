@@ -41,16 +41,26 @@ class Learndash_Discord_Admin {
 	private $version;
 
 	/**
+	 * Instance of Learndash_Discord_Public class
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      Learndash_Discord_Public
+	 */
+	private $learndash_discord_public_instance;        
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
 	 * @param      string    $plugin_name       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct( $plugin_name, $version, $learndash_discord_public_instance ) {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
+		$this->learndash_discord_public_instance = $learndash_discord_public_instance;                
 
 	}
 
@@ -463,5 +473,27 @@ class Learndash_Discord_Admin {
 		}
 
 	}
-        
+
+	/**
+	 * 
+	 * @param type $user_id
+	 * @param type $course_id
+	 * @param type $course_access_list
+	 * @param type $remove
+	 */
+	public function ets_learndash_discord_admin_update_course_access( $user_id, $course_id, $course_access_list, $remove ) {
+            
+		$this->learndash_discord_public_instance->ets_learndash_discord_update_course_access( $user_id, $course_id, $course_access_list, $remove );
+        }
+
+	/**
+	 * Send DM about assignment approval
+	 *
+	 * @param int $assignment_id Assignment ID. 
+	 * @return NONE
+	 */        
+	public function ets_learndash_discord_admin_assignment_approved( $assignment_id ) {
+            
+		$this->learndash_discord_public_instance->ets_learndash_discord_assignment_approved( $assignment_id );            
+        }        
 }
