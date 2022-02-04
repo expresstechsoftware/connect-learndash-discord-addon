@@ -287,7 +287,14 @@ class Learndash_Discord {
 		} else {
 			return $concurrent_batches;
 		}
-	}        
+	}
+     
+	public static function get_discord_logo_white(){
+		$img = file_get_contents( plugin_dir_path( dirname( __FILE__ ) ) . 'public/images/discord-logo-white.svg' );
+		$data = base64_encode( $img );
+                
+		return '<img src="data:image/svg+xml;base64,' . $data . '" />';
+        }
 
 	/**
 	 * Run the loader to execute all of the hooks with WordPress.

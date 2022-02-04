@@ -43,3 +43,10 @@
  .ets_assigned_role{
   font-size: 12px;
  }
+a.learndash-discord-btn-disconnect img ,
+a.learndash-discord-btn-connect img{
+    width: 20px;
+    display: inline-block;
+    margin-left: 5px;
+    
+}

@@ -279,7 +279,7 @@ class Learndash_Discord_Public {
 				$restrictcontent_discord .= '<label class="ets-connection-lbl">' . esc_html__( 'Discord connection', 'learndash-discord' ) . '</label>';
                                 $restrictcontent_discord .= '</div>';
                                 $restrictcontent_discord .= '<div class="">';
-				$restrictcontent_discord .= '<a href="#" class="ets-btn learndash-discord-btn-disconnect" id="learndash-discord-disconnect-discord" data-user-id="'. esc_attr( $user_id ) .'">'. esc_html__( 'Disconnect From Discord ', 'learndash-discord' ) . '<i class="fab fa-discord"></i></a>';
+				$restrictcontent_discord .= '<a href="#" class="ets-btn learndash-discord-btn-disconnect" id="learndash-discord-disconnect-discord" data-user-id="'. esc_attr( $user_id ) .'">'. esc_html__( 'Disconnect From Discord ', 'learndash-discord' ) . Learndash_Discord::get_discord_logo_white() . '</a>';
 				$restrictcontent_discord .= '<span class="ets-spinner"></span>';
                                 $restrictcontent_discord .= '</div>';
                                 $restrictcontent_discord .= '</div>';
@@ -295,7 +295,7 @@ class Learndash_Discord_Public {
                                 $restrictcontent_discord .= '<div class="">';
 				$restrictcontent_discord .= '<h3>' . esc_html__( 'Discord connection', 'learndash-discord' ) .'</h3>';
                                 $restrictcontent_discord .= '<div class="">';
-				$restrictcontent_discord .= '<a href="?action=learndash-discord-login" class="learndash-discord-btn-connect ets-btn" >' . esc_html__( 'Connect To Discord', 'learndash-discord' ) . '<i class="fab fa-discord"></i></a>';
+				$restrictcontent_discord .= '<a href="?action=learndash-discord-login" class="learndash-discord-btn-connect ets-btn" >' . esc_html__( 'Connect To Discord', 'learndash-discord' ) . Learndash_Discord::get_discord_logo_white() . '</a>';
                                 $restrictcontent_discord .= '</div>';
 				if ( $mapped_role_name ) {
 					$restrictcontent_discord .= '<p class="ets_assigned_role">';
