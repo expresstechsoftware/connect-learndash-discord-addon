@@ -185,11 +185,14 @@ class Learndash_Discord {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'ets_learndash_discord_connect_to_bot' );
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'ets_learndash_Discord_add_settings_menu' );
+		$this->loader->add_filter( 'manage_users_columns', $plugin_admin, 'ets_learndash_discord_add_learndash_discord_column' );                                                                                
+		$this->loader->add_filter( 'manage_users_custom_column', $plugin_admin, 'ets_learndash_discord_run_learndash_discord_api', 10, 3 );                
 		$this->loader->add_action( 'admin_post_learndash_discord_application_settings', $plugin_admin, 'ets_learndash_discord_application_settings' );
 		$this->loader->add_action( 'admin_post_learndash_discord_save_role_mapping', $plugin_admin, 'ets_learndash_discord_save_role_mapping' );
 		$this->loader->add_action( 'admin_post_learndash_discord_save_advance_settings', $plugin_admin, 'ets_learndash_discord_save_advance_settings' );
 		$this->loader->add_action( 'wp_ajax_ets_learndash_discord_load_discord_roles', $plugin_admin, 'ets_learndash_discord_load_discord_roles' );
-
+		$this->loader->add_action( 'wp_ajax_ets_learndash_discord_run_api', $plugin_admin, 'ets_learndash_discord_run_api' );                
+                
 		$this->loader->add_action( 'learndash_update_course_access', $plugin_admin, 'ets_learndash_discord_admin_update_course_access' , 99 , 4 );                                
 		$this->loader->add_action( 'learndash_assignment_approved', $plugin_admin, 'ets_learndash_discord_admin_assignment_approved', 10, 1 );                                                                
 	}

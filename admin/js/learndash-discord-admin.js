@@ -141,6 +141,35 @@ jQuery(function($){
 				}
 			});
 		});                
+		/*RUN API */
+		$('.ets-learndash-discord-run-api').click(function (e) {
+			e.preventDefault();
+                        console.log($(this).data('user-id'));
+			$.ajax({
+				url: etsLearnDashParams.admin_ajax,
+				type: "POST",
+				data: { 'action': 'ets_learndash_discord_run_api', 'ets_learndash_discord_user_id': $(this).data('user-id') , 'ets_learndash_discord_nonce': etsLearnDashParams.ets_learndash_discord_nonce },
+				beforeSend: function () {
+					$(".run-api.spinner").addClass("is-active").show();
+				},
+				success: function (data) {
+					console.log(data);         
+					if (data.error) {
+						// handle the error
+						alert(data.error.msg);
+					} else {
+                                            
+						$('.run-api-success').html("Update Discord Roles Sucesssfully !");
+					}
+				},
+				error: function (response, textStatus, errorThrown ) {
+					console.log( textStatus + " :  " + response.status + " : " + errorThrown );
+				},
+				complete: function () {
+					$(".run-api.spinner").removeClass("is-active").hide();
+				}
+			});
+		});                
                
 		/*Flush settings from local storage*/
 		$("#revertMapping").on('click', function () {
@@ -151,14 +180,18 @@ jQuery(function($){
    
 		/*Create droppable element*/
 		function init() {
+                    //if($('.makeMeDroppable').data('droppable')){
 			$('.makeMeDroppable').droppable({
 				drop: handleDropEvent,
 				hoverClass: 'hoverActive',
 			});
+                    //}
+                    //if($('.learndash-discord-roles-col').data('droppable')){
 			$('.learndash-discord-roles-col').droppable({
 				drop: handlePreviousDropEvent,
 				hoverClass: 'hoverActive',
 			});
+                    //}
 		}
 
 		$(init);
@@ -282,7 +315,9 @@ jQuery(function($){
 });
 if ( etsLearnDashParams.is_admin ) {
 	/*Tab options*/
+	if( typeof(skeletabs) !=='undefined' ){
 	jQuery.skeletabs.setDefaults({
 		keyboard: false
 	});
+    }
 }

@@ -495,5 +495,57 @@ class Learndash_Discord_Admin {
 	public function ets_learndash_discord_admin_assignment_approved( $assignment_id ) {
             
 		$this->learndash_discord_public_instance->ets_learndash_discord_assignment_approved( $assignment_id );            
+        }
+
+	/**
+	 * Add LearnDash Discord column to WP Users listing 
+	 *
+	 * @param array $columns 
+	 * @return NONE
+	 */        
+	public function ets_learndash_discord_add_learndash_discord_column( $columns ) {
+            
+		$columns['ets_learndash_discord_api'] = esc_html__( 'LearnDash Discord', 'learndash-discord' );
+		return $columns;            
+        }
+
+	/**
+	 * Display Run API button
+	 *
+	 * @param array $columns 
+	 * @return NONE
+	 */        
+	public function ets_learndash_discord_run_learndash_discord_api( $value, $column_name, $user_id ) {
+           
+		if ( $column_name === 'ets_learndash_discord_api' ){
+			wp_enqueue_script($this->plugin_name);
+			wp_enqueue_script( 'jquery-ui-droppable' );                
+			return '<a href="#" data-user-id="' . $user_id  . '" class="ets-learndash-discord-run-api" >' . esc_html__( 'RUN API', 'learndash-discord' ) . '</a><span class=" run-api spinner" ></span><div class="run-api-success"></div>';
+		}
+		return $value;            
+        }
+	/**
+	 * Run API 
+	 *
+	 * 
+	 * @return NONE
+	 */        
+	public function ets_learndash_discord_run_api(  ) {
+
+
+		if ( ! current_user_can( 'administrator' ) ) {
+			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			exit();
+		}
+		// Check for nonce security
+		if ( ! wp_verify_nonce( $_POST['ets_learndash_discord_nonce'], 'ets-learndash-discord-ajax-nonce' ) ) {
+			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			exit();
+		}
+                
+                return wp_send_json('ok');
+                
+                exit();
+           
         }        
 }
