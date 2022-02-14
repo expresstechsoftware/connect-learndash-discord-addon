@@ -144,29 +144,29 @@ jQuery(function($){
 		/*RUN API */
 		$('.ets-learndash-discord-run-api').click(function (e) {
 			e.preventDefault();
-                        console.log($(this).data('user-id'));
 			$.ajax({
 				url: etsLearnDashParams.admin_ajax,
 				type: "POST",
+				context: this,
 				data: { 'action': 'ets_learndash_discord_run_api', 'ets_learndash_discord_user_id': $(this).data('user-id') , 'ets_learndash_discord_nonce': etsLearnDashParams.ets_learndash_discord_nonce },
 				beforeSend: function () {
-					$(".run-api.spinner").addClass("is-active").show();
+					$(this).siblings("div.run-api-success").html("");
+					$(this).siblings('span.spinner').addClass("is-active").show();
 				},
-				success: function (data) {
-					console.log(data);         
+				success: function (data) {         
 					if (data.error) {
 						// handle the error
 						alert(data.error.msg);
 					} else {
                                             
-						$('.run-api-success').html("Update Discord Roles Sucesssfully !");
+						$(this).siblings("div.run-api-success").html("Update Discord Roles Sucesssfully !");
 					}
 				},
 				error: function (response, textStatus, errorThrown ) {
 					console.log( textStatus + " :  " + response.status + " : " + errorThrown );
 				},
 				complete: function () {
-					$(".run-api.spinner").removeClass("is-active").hide();
+					$(this).siblings('span.spinner').removeClass("is-active").hide();
 				}
 			});
 		});                

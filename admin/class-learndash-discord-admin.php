@@ -543,9 +543,79 @@ class Learndash_Discord_Admin {
 			exit();
 		}
                 
-                return wp_send_json('ok');
+		$user_id = $_POST['ets_learndash_discord_user_id'];
+		$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_access_token', true ) ) );
+		$refresh_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_refresh_token', true ) ) );                
+		$ets_learndash_discord_role_mapping = json_decode( get_option( 'ets_learndash_discord_role_mapping' ), true );
+		$default_role                       = sanitize_text_field( trim( get_option( 'ets_learndash_discord_default_role_id' ) ) );
+		$last_default_role = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_last_default_role', true ) ) );                
+		$student_courses = ets_learndash_discord_get_student_courses_id( $user_id );
                 
-                exit();
+		if ( $access_token && $refresh_token ){
+			foreach ( $student_courses as $course_id ) {                    
+			/*
+			* 1 - The course has a role and the student already has this role: Nothing to do.
+			* 2 - The role of the course is changed: Delete the old and assign the new.
+			* 3 - The course has a role and the student does not have this role: Assign this role.
+			* 4 - The student has this role, but the role is removed from the map: Remove the role. 
+			*/		
+			$student_role_for_course  = get_user_meta( $user_id,'_ets_learndash_discord_role_id_for_' . $course_id , true);
+                        
+			if( $student_role_for_course && array_key_exists( 'learndash_course_id_' . $course_id, $ets_learndash_discord_role_mapping ) ){
+                            
+				// Nothing to do;
+                    
+			}
+			if( $student_role_for_course && array_key_exists( 'learndash_course_id_' . $course_id, $ets_learndash_discord_role_mapping ) && $ets_learndash_discord_role_mapping['learndash_course_id_' . $course_id] != $student_role_for_course ){
+
+				// Remove $student_role_for_course
+				$old_role = $student_role_for_course;
+				delete_user_meta( $user_id, '_ets_learndash_discord_role_id_for_' . $course_id , $old_role ); 
+				$this->learndash_discord_public_instance->delete_discord_role( $user_id, $old_role );
+                            
+				// Assign $ets_learndash_discord_role_mapping['learndash_course_id_' . $course_id]
+				$new_role = $ets_learndash_discord_role_mapping['learndash_course_id_' . $course_id];
+				update_user_meta( $user_id, '_ets_learndash_discord_role_id_for_' . $course_id , $new_role );
+				$this->learndash_discord_public_instance->put_discord_role_api( $user_id, $new_role ); 
+                    
+                        }                        
+
+			if( ! $student_role_for_course && array_key_exists( 'learndash_course_id_' . $course_id, $ets_learndash_discord_role_mapping ) ){
+			
+				$new_role = $ets_learndash_discord_role_mapping['learndash_course_id_' . $course_id];
+				update_user_meta( $user_id, '_ets_learndash_discord_role_id_for_' . $course_id , $new_role );
+				$this->learndash_discord_public_instance->put_discord_role_api( $user_id, $new_role );                             
+			}
+
+			if ( $student_role_for_course && ! array_key_exists( 'learndash_course_id_' . $course_id, $ets_learndash_discord_role_mapping ) ){
+                            
+				$old_role = $student_role_for_course;
+				delete_user_meta( $user_id, '_ets_learndash_discord_role_id_for_' . $course_id , $old_role ); 
+				$this->learndash_discord_public_instance->delete_discord_role( $user_id, $old_role );                            
+			}
+                }
+			// Default role
+			/*
+			* 1 - The default role is defined and it's the same as the student has: Nothing to do.
+			* 2 - The default role is changed: Delete the old and assign the new.
+			* 3 - The default role is not defined: Delete the default role.
+			*/
+
+		if ( $default_role && $default_role != 'none' && $default_role === $last_default_role ){
+                    //
+                    
+		}elseif ( $default_role && $default_role != 'none' && $default_role != $last_default_role  ) {
+                    
+			update_user_meta( $user_id, '_ets_learndash_discord_last_default_role', $default_role );
+			$this->learndash_discord_public_instance->delete_discord_role( $user_id, $last_default_role );
+			$this->learndash_discord_public_instance->put_discord_role_api( $user_id, $default_role );
+		}else{
+			update_option('continue_remove_'.$default_role, $default_role);
+			delete_user_meta( $user_id, '_ets_learndash_discord_last_default_role' );
+			$this->learndash_discord_public_instance->delete_discord_role( $user_id, $last_default_role );   
+		}                
+	}        
+	exit();
            
         }        
 }
