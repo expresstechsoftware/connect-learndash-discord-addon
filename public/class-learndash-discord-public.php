@@ -611,7 +611,7 @@ class Learndash_Discord_Public {
 		}
 
 		if ( $default_role && $default_role != 'none' && isset( $user_id ) ) {
-			update_user_meta( $user_id, '_ets_learndash_last_default_role', $default_role );
+			update_user_meta( $user_id, '_ets_learndash_discord_last_default_role', $default_role );
 			$this->put_discord_role_api( $user_id, $default_role );
 		}
 		if ( empty( get_user_meta( $user_id, '_ets_learndash_discord_join_date', true ) ) ) {
@@ -967,12 +967,12 @@ class Learndash_Discord_Public {
 			}                    
 		}
 		if ( $default_role && $default_role != 'none' && isset( $user_id ) ) {
-			update_user_meta( $user_id, '_ets_learndash_last_default_role', $default_role );
+			update_user_meta( $user_id, '_ets_learndash_discord_last_default_role', $default_role );
 			$this->put_discord_role_api( $user_id, $default_role );
 		}else{
-			$default_role = sanitize_text_field( trim( get_user_meta(  $user_id, '_ets_learndash_last_default_role', true ) ) );
+			$default_role = sanitize_text_field( trim( get_user_meta(  $user_id, '_ets_learndash_discord_last_default_role', true ) ) );
 			$this->delete_discord_role( $user_id, $default_role );   
-                }                
+		}                
 	}
         
 	/**
