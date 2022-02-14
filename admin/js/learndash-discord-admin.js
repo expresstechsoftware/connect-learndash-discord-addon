@@ -112,7 +112,11 @@ jQuery(function($){
 				$("#skeletabsTab1 .spinner").removeClass("is-active").css({ "float": "right", "display": "none" });
 			}
 		});
-                
+		$('#learndash-connect-discord-bot').click(function (e) {
+			e.preventDefault();
+			discordWindow = window.open($(this).attr('href'), "", "height=650,width=500");
+ 
+		});                
 		/*Clear log log call-back*/
 		$('#ets-learndash-clrbtn').click(function (e) {
 			e.preventDefault();
