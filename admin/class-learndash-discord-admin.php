@@ -191,7 +191,9 @@ class Learndash_Discord_Admin {
                 $ets_learndash_discord_redirect_page_id  = isset( $_POST['ets_learndash_discord_redirect_page_id'] ) ? sanitize_text_field( trim( $_POST['ets_learndash_discord_redirect_page_id'] ) ) : '';
 
 		$ets_learndash_discord_server_id = isset( $_POST['ets_learndash_discord_server_id'] ) ? sanitize_text_field( trim( $_POST['ets_learndash_discord_server_id'] ) ) : '';
-
+                
+		$ets_current_url = sanitize_text_field( trim( $_POST['current_url'] ) ) ;
+                                        
 		if ( isset( $_POST['submit'] ) ) {
 			if ( isset( $_POST['ets_learndash_discord_save_settings'] ) && wp_verify_nonce( $_POST['ets_learndash_discord_save_settings'], 'save_learndash_discord_general_settings' ) ) {
 				if ( $ets_learndash_discord_client_id ) {
@@ -218,12 +220,10 @@ class Learndash_Discord_Admin {
 				}
 
 				$message = 'Your settings are saved successfully.';
-				if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
 					
 					
-					$pre_location = $_SERVER['HTTP_REFERER'] . '&save_settings_msg=' . $message . '#ets_learndash_application_details';
-					wp_safe_redirect( $pre_location );
-				}
+				$pre_location = $ets_current_url . '&save_settings_msg=' . $message . '#ets_learndash_application_details';
+				wp_safe_redirect( $pre_location );
 			}
 		}
 	}
@@ -310,6 +310,7 @@ class Learndash_Discord_Admin {
 		$allow_none_student = isset( $_POST['allow_none_student'] ) ? sanitize_textarea_field( trim( $_POST['allow_none_student'] ) ) : '';
 		$ets_discord_roles   = stripslashes( $ets_discord_roles );
 		$save_mapping_status = update_option( 'ets_learndash_discord_role_mapping', $ets_discord_roles );
+		$ets_current_url = sanitize_text_field( trim( $_POST['current_url'] ) ) ;                                                
 		if ( isset( $_POST['ets_learndash_discord_role_mappings_nonce'] ) && wp_verify_nonce( $_POST['ets_learndash_discord_role_mappings_nonce'], 'learndash_discord_role_mappings_nonce' ) ) {
 			if ( ( $save_mapping_status || isset( $_POST['ets_learndash_discord_role_mapping'] ) ) && ! isset( $_POST['flush'] ) ) {
 				if ( $ets_learndash_discord_default_role_id ) {
@@ -327,7 +328,7 @@ class Learndash_Discord_Admin {
 
 				$message = 'Your settings flushed successfully.';
 			}
-			$pre_location = $_SERVER['HTTP_REFERER'] . '&save_settings_msg=' . $message . '#ets_learndash_discord_role_mapping';
+			$pre_location = $ets_current_url . '&save_settings_msg=' . $message . '#ets_learndash_discord_role_mapping';
 			wp_safe_redirect( $pre_location );
 		}
 	}
@@ -363,6 +364,7 @@ class Learndash_Discord_Admin {
 			$set_job_cnrc                               = isset( $_POST['set_job_cnrc'] ) ? sanitize_textarea_field( trim( $_POST['set_job_cnrc'] ) ) : '';
 			$set_job_q_batch_size                       = isset( $_POST['set_job_q_batch_size'] ) ? sanitize_textarea_field( trim( $_POST['set_job_q_batch_size'] ) ) : '';
 			$log_api_res                                = isset( $_POST['log_api_res'] ) ? sanitize_textarea_field( trim( $_POST['log_api_res'] ) ) : '';
+			$ets_current_url = sanitize_text_field( trim( $_POST['current_url'] ) ) ;                                                                
 
 		if ( isset( $_POST['ets_learndash_discord_advance_settings_nonce'] ) && wp_verify_nonce( $_POST['ets_learndash_discord_advance_settings_nonce'], 'learndash_discord_advance_settings_nonce' ) ) {
 			if ( isset( $_POST['adv_submit'] ) ) {
@@ -465,10 +467,9 @@ class Learndash_Discord_Admin {
 				}
 
 				$message = 'Your settings are saved successfully.';
-				if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
-						$pre_location = $_SERVER['HTTP_REFERER'] . '&save_settings_msg=' . $message . '#ets_learndash_discord_advanced';
-						wp_safe_redirect( $pre_location );
-				}
+				$pre_location = $ets_current_url . '&save_settings_msg=' . $message . '#ets_learndash_discord_advanced';
+				wp_safe_redirect( $pre_location );
+				
 			}
 		}
 

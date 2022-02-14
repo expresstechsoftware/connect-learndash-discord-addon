@@ -42,6 +42,7 @@ $allow_none_student  = sanitize_text_field( trim( get_option( 'ets_learndash_dis
 </div>
 <form method="post" action="<?php echo get_site_url().'/wp-admin/admin-post.php' ?>">
  <input type="hidden" name="action" value="learndash_discord_save_role_mapping">
+ <input type="hidden" name="current_url" value="<?php echo ets_learndash_discord_get_current_screen_url();?>">   
   <table class="form-table" role="presentation">
 	<tbody>
 	  <tr>
