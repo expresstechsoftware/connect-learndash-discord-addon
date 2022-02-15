@@ -557,7 +557,7 @@ class Learndash_Discord_Admin {
 		$last_default_role = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_last_default_role', true ) ) );                
 		$student_courses = ets_learndash_discord_get_student_courses_id( $user_id );
                 
-		if ( $access_token && $refresh_token ){
+		if ( $access_token && $refresh_token && is_array( $ets_learndash_discord_role_mapping ) ){
 			foreach ( $student_courses as $course_id ) {                    
 			/*
 			* 1 - The course has a role and the student already has this role: Nothing to do.
@@ -572,7 +572,7 @@ class Learndash_Discord_Admin {
 				// Nothing to do;
                     
 			}
-			if( $student_role_for_course && array_key_exists( 'learndash_course_id_' . $course_id, $ets_learndash_discord_role_mapping ) && $ets_learndash_discord_role_mapping['learndash_course_id_' . $course_id] != $student_role_for_course && is_array( $ets_learndash_discord_role_mapping ) ){
+			if( $student_role_for_course && array_key_exists( 'learndash_course_id_' . $course_id, $ets_learndash_discord_role_mapping ) && $ets_learndash_discord_role_mapping['learndash_course_id_' . $course_id] != $student_role_for_course ){
 
 				// Remove $student_role_for_course
 				$old_role = $student_role_for_course;
@@ -586,14 +586,14 @@ class Learndash_Discord_Admin {
                     
                         }                        
 
-			if( ! $student_role_for_course && array_key_exists( 'learndash_course_id_' . $course_id, $ets_learndash_discord_role_mapping ) && is_array( $ets_learndash_discord_role_mapping ) ){
+			if( ! $student_role_for_course && array_key_exists( 'learndash_course_id_' . $course_id, $ets_learndash_discord_role_mapping ) ){
 			
 				$new_role = $ets_learndash_discord_role_mapping['learndash_course_id_' . $course_id];
 				update_user_meta( $user_id, '_ets_learndash_discord_role_id_for_' . $course_id , $new_role );
 				$this->learndash_discord_public_instance->put_discord_role_api( $user_id, $new_role );                             
 			}
 
-			if ( $student_role_for_course && ! array_key_exists( 'learndash_course_id_' . $course_id, $ets_learndash_discord_role_mapping ) && is_array( $ets_learndash_discord_role_mapping ) ){
+			if ( $student_role_for_course && ! array_key_exists( 'learndash_course_id_' . $course_id, $ets_learndash_discord_role_mapping ) ){
                             
 				$old_role = $student_role_for_course;
 				delete_user_meta( $user_id, '_ets_learndash_discord_role_id_for_' . $course_id , $old_role ); 

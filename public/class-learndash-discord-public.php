@@ -248,27 +248,30 @@ class Learndash_Discord_Public {
 		$all_roles                      = unserialize( get_option( 'ets_learndash_discord_all_roles' ) );
 		$enrolled_courses                  = ets_learndash_discord_get_student_courses_id( $user_id );
 		$mapped_role_name               = '';
-		if ( is_array ( $enrolled_courses ) && is_array( $all_roles ) ) {
-                    $lastKey = array_key_last( $enrolled_courses );
-                    $spacer =  ', ';
-                    foreach ( $enrolled_courses as $key => $enrolled_course_id ){
-			if ( is_array( $ets_learndash_discord_role_mapping ) && array_key_exists( 'learndash_course_id_' . $enrolled_course_id, $ets_learndash_discord_role_mapping ) ) {
-				
-                            $mapped_role_id = $ets_learndash_discord_role_mapping[ 'learndash_course_id_' . $enrolled_course_id ];
-				
-                                if ( array_key_exists( $mapped_role_id, $all_roles ) ) {
-                                    if  ( $lastKey === $key )
-                                        $spacer = '.';
-					$mapped_role_name .= $all_roles[ $mapped_role_id ] . $spacer;
-				}
+		if ( is_array ( $enrolled_courses ) && is_array( $all_roles ) && is_array( $ets_learndash_discord_role_mapping ) ) {
+			$lastKey = array_key_last( $enrolled_courses );
+			$spacer =  ', ';
+			foreach ( $enrolled_courses as $key => $enrolled_course_id ){
+				if ( array_key_exists( 'learndash_course_id_' . $enrolled_course_id, $ets_learndash_discord_role_mapping ) ) {
+
+                                    $mapped_role_id = $ets_learndash_discord_role_mapping[ 'learndash_course_id_' . $enrolled_course_id ];
+                                        
+                                        if ( array_key_exists( $mapped_role_id, $all_roles ) ) {
+                                            if  ( $lastKey === $key )
+                                                $spacer = '.';
+                                                $mapped_role_name .= $all_roles[ $mapped_role_id ] . $spacer;
+                                        }
+                                }                            
 			}
-                    }
 		}
                 
 		$default_role_name = '';
-		if ( $default_role != 'none' && is_array( $all_roles ) && array_key_exists( $default_role, $all_roles ) ) {
+		if( is_array( $all_roles ) ){
+			if ( $default_role != 'none' && array_key_exists( $default_role, $all_roles ) ) {
 			$default_role_name = $all_roles[ $default_role ];
+			}                    
 		}
+
                 $restrictcontent_discord = '';
 		if ( learndash_discord_check_saved_settings_status() ) {
 
