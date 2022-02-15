@@ -259,13 +259,13 @@ class Learndash_Discord_Admin {
 			);
 			$guild_response          = wp_remote_post( $discod_server_roles_api, $guild_args );
 
-			//ets_learndash_discord_log_api_response( $user_id, $discod_server_roles_api, $guild_args, $guild_response );
+			ets_learndash_discord_log_api_response( $user_id, $discod_server_roles_api, $guild_args, $guild_response );
 
 			$response_arr = json_decode( wp_remote_retrieve_body( $guild_response ), true );
 
 			if ( is_array( $response_arr ) && ! empty( $response_arr ) ) {
 				if ( array_key_exists( 'code', $response_arr ) || array_key_exists( 'error', $response_arr ) ) {
-									//Learndash_Discord_Add_On_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
+					Learndash_Discord_Add_On_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
 				} else {
 					$response_arr['previous_mapping'] = get_option( 'ets_learndash_discord_role_mapping' );
 
@@ -520,8 +520,13 @@ class Learndash_Discord_Admin {
            
 		if ( $column_name === 'ets_learndash_discord_api' ){
 			wp_enqueue_script($this->plugin_name);
-			wp_enqueue_script( 'jquery-ui-droppable' );                
-			return '<a href="#" data-user-id="' . $user_id  . '" class="ets-learndash-discord-run-api" >' . esc_html__( 'RUN API', 'learndash-discord' ) . '</a><span class=" run-api spinner" ></span><div class="run-api-success"></div>';
+			wp_enqueue_script( 'jquery-ui-droppable' );
+			$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_access_token', true ) ) );
+			$refresh_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_refresh_token', true ) ) );                                        
+			if ( $access_token && $refresh_token ){
+				return '<a href="#" data-user-id="' . $user_id  . '" class="ets-learndash-discord-run-api" >' . esc_html__( 'RUN API', 'learndash-discord' ) . '</a><span class=" run-api spinner" ></span><div class="run-api-success"></div>';                            
+			}
+			return esc_html__( 'Not Connected', 'learndash-discord' );			
 		}
 		return $value;            
         }
