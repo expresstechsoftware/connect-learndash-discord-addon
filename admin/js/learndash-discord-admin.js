@@ -184,18 +184,18 @@ jQuery(function($){
    
 		/*Create droppable element*/
 		function init() {
-                    //if($('.makeMeDroppable').data('droppable')){
+                    if($('.makeMeDroppable').length){
 			$('.makeMeDroppable').droppable({
 				drop: handleDropEvent,
 				hoverClass: 'hoverActive',
 			});
-                    //}
-                    //if($('.learndash-discord-roles-col').data('droppable')){
+                    }
+                    if($('.learndash-discord-roles-col').length){
 			$('.learndash-discord-roles-col').droppable({
 				drop: handlePreviousDropEvent,
 				hoverClass: 'hoverActive',
 			});
-                    //}
+                    }
 		}
 
 		$(init);

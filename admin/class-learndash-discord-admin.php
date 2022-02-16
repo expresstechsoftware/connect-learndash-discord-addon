@@ -519,17 +519,15 @@ class Learndash_Discord_Admin {
 	public function ets_learndash_discord_run_learndash_discord_api( $value, $column_name, $user_id ) {
            
 		if ( $column_name === 'ets_learndash_discord_api' ){
-			wp_enqueue_script($this->plugin_name);
-			wp_enqueue_script( 'jquery-ui-droppable' );
+			wp_enqueue_script( $this->plugin_name );
 			$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_access_token', true ) ) );
-			$refresh_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_refresh_token', true ) ) );                                        
-			if ( $access_token && $refresh_token ){
+			if ( $access_token  ){
 				return '<a href="#" data-user-id="' . $user_id  . '" class="ets-learndash-discord-run-api" >' . esc_html__( 'RUN API', 'learndash-discord' ) . '</a><span class=" run-api spinner" ></span><div class="run-api-success"></div>';                            
 			}
 			return esc_html__( 'Not Connected', 'learndash-discord' );			
 		}
 		return $value;            
-        }
+	}
 	/**
 	 * Run API 
 	 *
