@@ -112,11 +112,19 @@ jQuery(function($){
 				$("#skeletabsTab1 .spinner").removeClass("is-active").css({ "float": "right", "display": "none" });
 			}
 		});
+                var discordWindow;
 		$('#learndash-connect-discord-bot').click(function (e) {
 			e.preventDefault();
 			discordWindow = window.open($(this).attr('href'), "", "height=650,width=500");
  
-		});                
+		});    
+                 var queryString = window.location.search;
+                 var urlParams = new URLSearchParams(queryString);
+                 var via = urlParams.get('via');
+                 if( via == 'learndash-discord-bot'){
+                     window.opener.location.reload();
+                     window.close();
+                 }
 		/*Clear log log call-back*/
 		$('#ets-learndash-clrbtn').click(function (e) {
 			e.preventDefault();

@@ -57,7 +57,19 @@ $ets_learndash_discord_server_id     = sanitize_text_field( trim( get_option( 'e
 		<?php echo __( 'Save Settings', 'learndash-discord' ); ?>
 	  </button>
 	  <?php if ( get_option( 'ets_learndash_discord_client_id' ) ) : ?>
-		<a href="?action=learndash-discord-connect-to-bot" class="ets-btn learndash-btn-connect-to-bot" id="learndash-connect-discord-bot"><?php echo __( 'Connect your Bot', 'learndash-discord' ); ?> <i class='fab fa-discord'></i></a>
+	  <?php
+			$params                    = array(
+				'client_id'     => sanitize_text_field( trim( get_option( 'ets_learndash_discord_client_id' ) ) ),
+				'redirect_uri'  => 'http://127.0.0.2:8000/wp-admin/admin.php?page=learndash-discord&via=learndash-discord-bot',
+				'response_type' => 'code',
+				'scope'         => 'bot',
+                               	'permissions' => LEARNDASH_DISCORD_BOT_PERMISSIONS,
+                             	'guild_id'    => sanitize_text_field( trim( get_option( 'ets_learndash_discord_server_id' ) ) ),
+				);
+			$discord_authorise_api_url = LEARNDASH_DISCORD_API_URL . 'oauth2/authorize?' . http_build_query( $params );            
+            
+            ?>
+		<a href="<?php echo $discord_authorise_api_url?>" class="ets-btn learndash-btn-connect-to-bot" id="learndash-connect-discord-bot"><?php echo __( 'Connect your Bot', 'learndash-discord' ); ?> <i class='fab fa-discord'></i></a>
 	  <?php endif; ?>
 	</p>
 </form>
