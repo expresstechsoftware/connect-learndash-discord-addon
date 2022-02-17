@@ -33,6 +33,10 @@ $ets_learndash_discord_server_id     = sanitize_text_field( trim( get_option( 'e
 		<p class="description"><?php echo __( 'Registered discord app redirect url', 'learndash-discord' ); ?></p>
 	</div>
 	<div class="ets-input-group">
+            <label><?php echo __( 'Admin Redirect URL Connect to bot', 'learndash-discord' ); ?> :</label>
+            <input type="text" class="ets-input" value="<?php echo get_admin_url('', 'admin.php').'?page=learndash-discord&via=learndash-discord-bot'; ?>" disabled="" />
+        </div>
+	<div class="ets-input-group">
 	  <label><?php echo __( 'Bot Token', 'learndash-discord' ); ?> :</label>
 		<input type="text" class="ets-input" name="ets_learndash_discord_bot_token" value="<?php
 		if ( isset( $ets_learndash_discord_bot_token ) ) {
@@ -60,7 +64,7 @@ $ets_learndash_discord_server_id     = sanitize_text_field( trim( get_option( 'e
 	  <?php
 			$params                    = array(
 				'client_id'     => sanitize_text_field( trim( get_option( 'ets_learndash_discord_client_id' ) ) ),
-				'redirect_uri'  => 'http://127.0.0.2:8000/wp-admin/admin.php?page=learndash-discord&via=learndash-discord-bot',
+				'redirect_uri'  => get_admin_url('', 'admin.php').'?page=learndash-discord&via=learndash-discord-bot',
 				'response_type' => 'code',
 				'scope'         => 'bot',
                                	'permissions' => LEARNDASH_DISCORD_BOT_PERMISSIONS,

@@ -115,7 +115,7 @@ jQuery(function($){
                 var discordWindow;
 		$('#learndash-connect-discord-bot').click(function (e) {
 			e.preventDefault();
-			discordWindow = window.open($(this).attr('href'), "", "height=650,width=500");
+			discordWindow = window.open($(this).attr('href'), "", "height=650,width=500,directories=no,titlebar=no,toolbar=no,location=no,resizable=yes");
  
 		});    
                  var queryString = window.location.search;
