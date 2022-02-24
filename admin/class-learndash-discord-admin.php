@@ -262,7 +262,7 @@ class Learndash_Discord_Admin {
 			ets_learndash_discord_log_api_response( $user_id, $discod_server_roles_api, $guild_args, $guild_response );
 
 			$response_arr = json_decode( wp_remote_retrieve_body( $guild_response ), true );
-
+                        
 			if ( is_array( $response_arr ) && ! empty( $response_arr ) ) {
 				if ( array_key_exists( 'code', $response_arr ) || array_key_exists( 'error', $response_arr ) ) {
 					Learndash_Discord_Add_On_Logs::write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
@@ -276,6 +276,7 @@ class Learndash_Discord_Admin {
 							if ( array_key_exists( 'tags', $value ) ) {
 								if ( array_key_exists( 'bot_id', $value['tags'] ) ) {
 									$isbot = true;
+                                                                        update_option( 'ets_learndash_discord_connected_bot_name', $value['name'] );
 								}
 							}
 						}
