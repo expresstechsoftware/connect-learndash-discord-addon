@@ -623,5 +623,91 @@ class Learndash_Discord_Admin {
 		}
 	exit();
            
-        }        
+        }
+	/**
+	 * Add LearnDash Discord Connection column to WP Users listing 
+	 *
+	 * @param array $columns 
+	 * 
+	 */        
+	public function ets_learndash_discord_add_learndash_disconnect_discord_column( $columns ) {
+            
+		$columns['ets_learndash_disconnect_discord_connection'] = esc_html__( 'Discord Connection', 'learndash-discord-addon' );
+		return $columns;            
+        }
+
+	/**
+	 * Display Discord Disconnect button
+	 *
+	 * @param array $columns 
+	 * 
+	 */        
+	public function ets_learndash_discord_disconnect_discord_button( $value, $column_name, $user_id ) {
+           
+		if ( $column_name === 'ets_learndash_disconnect_discord_connection' ){
+		
+			$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_access_token', true ) ) );
+			if ( $access_token  ){
+				return '<button  data-user-id="' . $user_id  . '" class="learndash-disconnect-discord-user" >' . esc_html__( 'Disconnect', 'learndash-discord' ) . ' <i class="fab fa-discord"></i> <span class="spinner"></span> </button>';                    
+			}
+			return esc_html__( 'Not Connected', 'learndash-discord' );			
+		}
+		return $value;            
+	}
+	/**
+	 * Display Disconnect Discord button Profile User Page
+	 *
+	 */        
+	public function ets_learndash_discord_disconnect_user_button(  ) {
+           
+		if (  current_user_can( 'administrator' ) ) {
+			wp_enqueue_script( $this->plugin_name );
+			$user_id =  ( isset( $_GET['user_id'] ) ) ? $_GET['user_id'] : get_current_user_id() ;
+			$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_access_token', true ) ) );
+			$refresh_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_refresh_token', true ) ) );                    
+			if( $access_token && $refresh_token ){
+				$DisConnect = '<h3>'.  esc_html__( 'LearnDash Discrod Add-On', 'learndash-discord' ).'</h3>';
+				$DisConnect .= '<button data-user-id='. $user_id .' type="button" class="button learndash-disconnect-discord-user" id="disconnect-discord-user">'. esc_html__( 'Disconnect from discord', 'learndash-discord' ) .' <i class="fab fa-discord"></i> <span class="spinner"></span> </button>';                    
+				echo $DisConnect;
+                        }   
+		}          
+	}
+	/**
+	 * Run disconnect discord
+	 * 
+	 * 
+	 */        
+	public function ets_learndash_disconnect_user(  ) {
+           
+		if ( ! current_user_can( 'administrator' ) ) {
+			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			exit();
+		}
+		// Check for nonce security
+		if ( ! wp_verify_nonce( $_POST['ets_learndash_discord_nonce'], 'ets-learndash-discord-ajax-nonce' ) ) {
+			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			exit();
+		}                
+		$user_id              = sanitize_text_field( trim( $_POST['ets_learndash_discord_user_id'] ) );
+		$kick_upon_disconnect = sanitize_text_field( trim( get_option( 'ets_learndash_discord_kick_upon_disconnect' ) ) );
+		$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_access_token', true ) ) );
+		$refresh_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_refresh_token', true ) ) );                
+		if ( $user_id && $access_token && $refresh_token ) {
+			delete_user_meta( $user_id, '_ets_learndash_discord_access_token' );
+			delete_user_meta( $user_id, '_ets_learndash_discord_refresh_token' );
+
+			if ( $kick_upon_disconnect != true ) {
+				$this->learndash_discord_public_instance->delete_member_from_guild( $user_id, false );
+			}
+			$event_res = array(
+				'status'  => 1,
+				'message' => 'Successfully disconnected',
+			);
+			wp_send_json( $event_res );
+                	exit();                        
+		}
+		
+                exit();                                        
+                
+	}        
 }

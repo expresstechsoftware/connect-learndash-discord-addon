@@ -187,12 +187,16 @@ class Learndash_Discord {
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'ets_learndash_Discord_add_settings_menu' );
 		$this->loader->add_filter( 'manage_users_columns', $plugin_admin, 'ets_learndash_discord_add_learndash_discord_column' );                                                                                
 		$this->loader->add_filter( 'manage_users_custom_column', $plugin_admin, 'ets_learndash_discord_run_learndash_discord_api', 99, 3 );                
+		$this->loader->add_filter( 'manage_users_columns', $plugin_admin, 'ets_learndash_discord_add_learndash_disconnect_discord_column' );                                                                                
+		$this->loader->add_filter( 'manage_users_custom_column', $plugin_admin, 'ets_learndash_discord_disconnect_discord_button', 99, 3 );                
+		$this->loader->add_action( 'show_user_profile', $plugin_admin, 'ets_learndash_discord_disconnect_user_button' , 99 );                                                
+		$this->loader->add_action( 'edit_user_profile', $plugin_admin, 'ets_learndash_discord_disconnect_user_button' , 99 );                
 		$this->loader->add_action( 'admin_post_learndash_discord_application_settings', $plugin_admin, 'ets_learndash_discord_application_settings' );
 		$this->loader->add_action( 'admin_post_learndash_discord_save_role_mapping', $plugin_admin, 'ets_learndash_discord_save_role_mapping' );
 		$this->loader->add_action( 'admin_post_learndash_discord_save_advance_settings', $plugin_admin, 'ets_learndash_discord_save_advance_settings' );
 		$this->loader->add_action( 'wp_ajax_ets_learndash_discord_load_discord_roles', $plugin_admin, 'ets_learndash_discord_load_discord_roles' );
 		$this->loader->add_action( 'wp_ajax_ets_learndash_discord_run_api', $plugin_admin, 'ets_learndash_discord_run_api' );                
-                
+		$this->loader->add_action( 'wp_ajax_ets_learndash_discord_disconnect_user', $plugin_admin, 'ets_learndash_disconnect_user' );                                                                
 		$this->loader->add_action( 'learndash_update_course_access', $plugin_admin, 'ets_learndash_discord_admin_update_course_access' , 99 , 4 );                                
 		$this->loader->add_action( 'learndash_assignment_approved', $plugin_admin, 'ets_learndash_discord_admin_assignment_approved', 10, 1 );                                                                
 	}
