@@ -26,7 +26,7 @@ $ets_learndash_discord_server_id     = sanitize_text_field( trim( get_option( 'e
 	</div>
 	<div class="ets-input-group">
             <label><?php echo __( 'Redirect URL', 'learndash-discord' ); ?> :</label>
-            <p><b><?php echo $ets_learndash_discord_redirect_url ?></b></p>
+            <p class="redirect-url"><b><?php echo $ets_learndash_discord_redirect_url ?></b></p>
 		<select class= "ets-input" id="ets_learndash_discord_redirect_url" name="ets_learndash_discord_redirect_url" style="max-width: 100%" required>
 		<?php echo ets_learndash_discord_pages_list( $ets_learndash_discord_redirect_page_id ) ; ?>
 		</select>
