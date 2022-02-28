@@ -218,6 +218,10 @@ class Learndash_Discord_Admin {
 				if ( $ets_learndash_discord_server_id ) {
 					update_option( 'ets_learndash_discord_server_id', $ets_learndash_discord_server_id );
 				}
+				/**
+                                 * Call function to save bot name option 
+				 */
+				ets_learndash_discord_update_bot_name_option();
 
 				$message = 'Your settings are saved successfully.';
 					
@@ -248,7 +252,6 @@ class Learndash_Discord_Admin {
 
 		$guild_id          = sanitize_text_field( trim( get_option( 'ets_learndash_discord_server_id' ) ) );
 		$discord_bot_token = sanitize_text_field( trim( get_option( 'ets_learndash_discord_bot_token' ) ) );
-                $ets_learndash_discord_client_id     = sanitize_text_field( trim( get_option( 'ets_learndash_discord_client_id' ) ) );
 		if ( $guild_id && $discord_bot_token ) {
 			$discod_server_roles_api = LEARNDASH_DISCORD_API_URL . 'guilds/' . $guild_id . '/roles';
 			$guild_args              = array(
@@ -277,9 +280,6 @@ class Learndash_Discord_Admin {
 							if ( array_key_exists( 'tags', $value ) ) {
 								if ( array_key_exists( 'bot_id', $value['tags'] ) ) {
 									$isbot = true;
-									if( $value['tags']['bot_id'] == $ets_learndash_discord_client_id ){    
-										update_option( 'ets_learndash_discord_connected_bot_name', $value['name'] );
-									}
 								}
 							}
 						}

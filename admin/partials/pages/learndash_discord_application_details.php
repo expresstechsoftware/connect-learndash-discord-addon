@@ -39,7 +39,7 @@ $ets_learndash_discord_connected_bot_name     = sanitize_text_field( trim( get_o
         </div>
 	<div class="ets-input-group">
             <?php
-            if ( isset( $ets_learndash_discord_connected_bot_name ) ){
+            if ( isset( $ets_learndash_discord_connected_bot_name ) && !empty( $ets_learndash_discord_connected_bot_name ) ){
                 echo sprintf(__( '<p class="description">Make sure the Bot %1$s <span class="discord-bot"><b>BOT</b></span>have the high priority than the roles it has to manage. Open <a href="https://discord.com/developers/applications/%2$s">Discord Server</a></p>', 'learndash-discord'), $ets_learndash_discord_connected_bot_name, $ets_learndash_discord_client_id );
             }
             ?>
