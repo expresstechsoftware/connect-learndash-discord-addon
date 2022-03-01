@@ -242,6 +242,7 @@ class Learndash_Discord_Public {
 		$user_id = sanitize_text_field( trim( get_current_user_id() ) );
 
 		$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_access_token', true ) ) );
+                $_ets_learndash_discord_username = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_username', true ) ) );
 		$allow_none_student  = sanitize_text_field( trim( get_option( 'ets_learndash_discord_allow_none_student' ) ) );
 
 		$default_role                   = sanitize_text_field( trim( get_option( 'ets_learndash_discord_default_role_id' ) ) );
@@ -283,7 +284,7 @@ class Learndash_Discord_Public {
 				$restrictcontent_discord .= '<label class="ets-connection-lbl">' . esc_html__( 'Discord connection', 'learndash-discord' ) . '</label>';
                                 $restrictcontent_discord .= '</div>';
                                 $restrictcontent_discord .= '<div class="">';
-				$restrictcontent_discord .= '<a href="#" class="ets-btn learndash-discord-btn-disconnect" id="learndash-discord-disconnect-discord" data-user-id="'. esc_attr( $user_id ) .'">'. esc_html__( 'Disconnect From Discord ', 'learndash-discord' ) . Learndash_Discord::get_discord_logo_white() . '</a>';
+				$restrictcontent_discord .= '<a href="#" class="ets-btn learndash-discord-btn-disconnect" id="learndash-discord-disconnect-discord" data-user-id="'. esc_attr( $user_id ) .'">'. esc_html__ ( sprintf( 'Disconnect From Discord %s', $_ets_learndash_discord_username ) , 'learndash-discord' ) . Learndash_Discord::get_discord_logo_white() . '</a>';
 				$restrictcontent_discord .= '<span class="ets-spinner"></span>';
                                 $restrictcontent_discord .= '</div>';
                                 $restrictcontent_discord .= '</div>';

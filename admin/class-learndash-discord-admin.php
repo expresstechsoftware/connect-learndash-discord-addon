@@ -651,8 +651,9 @@ class Learndash_Discord_Admin {
 		if ( $column_name === 'ets_learndash_disconnect_discord_connection' ){
 		
 			$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_access_token', true ) ) );
+			$_ets_learndash_discord_username = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_username', true ) ) );                        
 			if ( $access_token  ){
-				return '<button  data-user-id="' . $user_id  . '" class="learndash-disconnect-discord-user" >' . esc_html__( 'Disconnect', 'learndash-discord' ) . ' <i class="fab fa-discord"></i> <span class="spinner"></span> </button>';                    
+				return '<button  data-user-id="' . $user_id  . '" class="learndash-disconnect-discord-user" >' . esc_html__ ( sprintf( 'Disconnect %s', $_ets_learndash_discord_username ) , 'learndash-discord' ) . ' <i class="fab fa-discord"></i> <span class="spinner"></span> </button>';                    
 			}
 			return esc_html__( 'Not Connected', 'learndash-discord' );			
 		}
@@ -669,9 +670,10 @@ class Learndash_Discord_Admin {
 			$user_id =  ( isset( $_GET['user_id'] ) ) ? $_GET['user_id'] : get_current_user_id() ;
 			$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_access_token', true ) ) );
 			$refresh_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_refresh_token', true ) ) );                    
+			$_ets_learndash_discord_username = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_username', true ) ) );                                                
 			if( $access_token && $refresh_token ){
 				$DisConnect = '<h3>'.  esc_html__( 'LearnDash Discrod Add-On', 'learndash-discord' ).'</h3>';
-				$DisConnect .= '<button data-user-id='. $user_id .' type="button" class="button learndash-disconnect-discord-user" id="disconnect-discord-user">'. esc_html__( 'Disconnect from discord', 'learndash-discord' ) .' <i class="fab fa-discord"></i> <span class="spinner"></span> </button>';                    
+				$DisConnect .= '<button data-user-id='. $user_id .' type="button" class="button learndash-disconnect-discord-user" id="disconnect-discord-user">' . esc_html__ ( sprintf( 'Disconnect from discord %s', $_ets_learndash_discord_username ) , 'learndash-discord' ) . ' <i class="fab fa-discord"></i> <span class="spinner"></span> </button>';                    
 				echo $DisConnect;
                         }   
 		}          
