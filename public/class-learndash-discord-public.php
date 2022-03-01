@@ -217,9 +217,10 @@ class Learndash_Discord_Public {
 		delete_user_meta( $user_id, '_ets_learndash_discord_access_token' );
 		delete_user_meta( $user_id, '_ets_learndash_discord_refresh_token' );
 		delete_user_meta( $user_id, '_ets_learndash_discord_role_id' );
-                
-		foreach( $enrolled_courses as $course_id ){
-                    delete_user_meta( $user_id, '_ets_learndash_discord_role_id_for_' . $course_id );
+		if( is_array( $enrolled_courses ) ){
+			foreach( $enrolled_courses as $course_id ){
+				delete_user_meta( $user_id, '_ets_learndash_discord_role_id_for_' . $course_id );
+			}                    
 		}
                 
 		//delete_user_meta( $user_id, '_ets_learndash_discord_default_role_id' );
@@ -570,15 +571,16 @@ class Learndash_Discord_Public {
 		$courses                               = map_deep( ets_learndash_discord_get_student_courses_id( $user_id ) , 'sanitize_text_field' );
 		
 		$ets_learndash_discord_send_welcome_dm = sanitize_text_field( trim( get_option( 'ets_learndash_discord_send_welcome_dm' ) ) );
-                
-                foreach ( $courses as $course_id ) {
+		if( is_array( $courses ) ){
+			foreach ( $courses as $course_id ) {
                     
-                    if ( is_array( $ets_learndash_discord_role_mapping ) && array_key_exists( 'learndash_course_id_' . $course_id, $ets_learndash_discord_role_mapping ) ) {
-			$discord_role = sanitize_text_field( trim( $ets_learndash_discord_role_mapping[ 'learndash_course_id_' . $course_id ] ) );
-			array_push($discord_roles, $discord_role);
-			update_user_meta( $user_id, '_ets_learndash_discord_role_id_for_' . $course_id , $discord_role );
-                    }
-                }
+				if ( is_array( $ets_learndash_discord_role_mapping ) && array_key_exists( 'learndash_course_id_' . $course_id, $ets_learndash_discord_role_mapping ) ) {
+					$discord_role = sanitize_text_field( trim( $ets_learndash_discord_role_mapping[ 'learndash_course_id_' . $course_id ] ) );
+					array_push($discord_roles, $discord_role);
+					update_user_meta( $user_id, '_ets_learndash_discord_role_id_for_' . $course_id , $discord_role );
+				}
+			}
+		}
 
 		$guilds_memeber_api_url = LEARNDASH_DISCORD_API_URL . 'guilds/' . $guild_id . '/members/' . $_ets_learndash_discord_user_id;
 		$guild_args             = array(
@@ -713,7 +715,9 @@ class Learndash_Discord_Public {
 		}
                 
 		if ( $type == 'welcome' ) {
-			update_user_meta( $user_id, '_ets_learndash_discord_welcome_dm_for_' . implode ( '_' ,$courses ), true );
+			if( is_array( $courses ) ){
+				update_user_meta( $user_id, '_ets_learndash_discord_welcome_dm_for_' . implode ( '_' ,$courses ), true );
+			}
 			$message = ets_learndash_discord_get_formatted_dm( $user_id, $courses, $ets_learndash_discord_welcome_message );
 		}
 		if ( $type == 'course_complete' ) {
@@ -947,16 +951,14 @@ class Learndash_Discord_Public {
 	 */
 	public function ets_learndash_discord_update_course_access( $user_id, $course_id, $course_access_list, $remove  ) {
             
+		$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_access_token', true ) ) );
+		$refresh_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_refresh_token', true ) ) );            
 		$ets_learndash_discord_role_mapping = json_decode( get_option( 'ets_learndash_discord_role_mapping' ), true );
 		$default_role                          = sanitize_text_field( trim( get_option( 'ets_learndash_discord_default_role_id' ) ) );                
                 
 		if ( is_array( $ets_learndash_discord_role_mapping ) && array_key_exists( 'learndash_course_id_' . $course_id, $ets_learndash_discord_role_mapping ) ) {
 			$discord_role = sanitize_text_field( trim( $ets_learndash_discord_role_mapping[ 'learndash_course_id_' . $course_id ] ) );                            
 			if ( $discord_role && $discord_role != 'none' ) {
-				
-				$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_access_token', true ) ) );
-				$refresh_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_refresh_token', true ) ) );
-				
 				if ( $access_token && $refresh_token ){
                                     
 					if ( $remove ){
@@ -969,13 +971,15 @@ class Learndash_Discord_Public {
 				}                                       
 			}                    
 		}
-		if ( $default_role && $default_role != 'none' && isset( $user_id ) ) {
-			update_user_meta( $user_id, '_ets_learndash_discord_last_default_role', $default_role );
-			$this->put_discord_role_api( $user_id, $default_role );
-		}else{
-			$default_role = sanitize_text_field( trim( get_user_meta(  $user_id, '_ets_learndash_discord_last_default_role', true ) ) );
-			$this->delete_discord_role( $user_id, $default_role );   
-		}                
+		if ( $access_token && $refresh_token ){
+			if ( $default_role && $default_role != 'none' && isset( $user_id ) ) {
+				update_user_meta( $user_id, '_ets_learndash_discord_last_default_role', $default_role );
+				$this->put_discord_role_api( $user_id, $default_role );
+			}else{
+				$default_role = sanitize_text_field( trim( get_user_meta(  $user_id, '_ets_learndash_discord_last_default_role', true ) ) );
+				$this->delete_discord_role( $user_id, $default_role );   
+			}
+		}
 	}
         
 	/**

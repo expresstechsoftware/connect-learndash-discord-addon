@@ -133,6 +133,7 @@ function ets_learndash_discord_get_random_timestamp( $add_upon = '' ) {
  * Get formatted message to send in DM
  *
  * @param INT $user_id
+ * @param ARRAY $courses the student's list of sources
  * Merge fields: [LD_COURSES], [LD_STUDENT_NAME], [LD_STUDENT_EMAIL]
  */
 function ets_learndash_discord_get_formatted_dm( $user_id, $courses, $message ) {
@@ -142,23 +143,24 @@ function ets_learndash_discord_get_formatted_dm( $user_id, $courses, $message ) 
 	$STUDENT_EMAIL    = $user_obj->user_email;
 	$SITE_URL  = get_bloginfo( 'url' );
 	$BLOG_NAME = get_bloginfo( 'name' );
-        
-	$args_courses = array(
-        'orderby'          => 'title',
-        'order'            => 'ASC',
-        'numberposts' => count($courses),
-        'post_type'   => 'sfwd-courses',
-        'post__in' => $courses
-        );
 
-	$enrolled_courses = get_posts( $args_courses );
 	$COURSES = '';
-	$lastKeyCourse = array_key_last($enrolled_courses);
-	$commas = ', ';
-	foreach ($enrolled_courses as $key => $course) {
-            if ( $lastKeyCourse === $key )  
-                $commas = ' ' ;
-            $COURSES .= esc_html( $course->post_title ). $commas;
+        if( is_array( $courses ) ){
+		$args_courses = array(
+        	'orderby'          => 'title',
+        	'order'            => 'ASC',
+		'numberposts' => count( $courses ),
+		'post_type'   => 'sfwd-courses',
+		'post__in' => $courses
+		);
+		$enrolled_courses = get_posts( $args_courses );
+		$lastKeyCourse = array_key_last( $enrolled_courses );
+		$commas = ', ';        
+		foreach ($enrolled_courses as $key => $course) {
+		if ( $lastKeyCourse === $key )  
+			$commas = ' ' ;
+			$COURSES .= esc_html( $course->post_title ). $commas;
+		}
 	}
 
 
