@@ -209,25 +209,8 @@ class Learndash_Discord_Public {
 			}
 		}
                 
-                
-		$enrolled_courses = map_deep( ets_learndash_discord_get_student_courses_id( $user_id ) , 'sanitize_text_field' );
-
 		/*Delete all usermeta related to discord connection*/
-		delete_user_meta( $user_id, '_ets_learndash_discord_user_id' );
-		delete_user_meta( $user_id, '_ets_learndash_discord_access_token' );
-		delete_user_meta( $user_id, '_ets_learndash_discord_refresh_token' );
-		delete_user_meta( $user_id, '_ets_learndash_discord_role_id' );
-		if( is_array( $enrolled_courses ) ){
-			foreach( $enrolled_courses as $course_id ){
-				delete_user_meta( $user_id, '_ets_learndash_discord_role_id_for_' . $course_id );
-			}                    
-		}
-                
-		//delete_user_meta( $user_id, '_ets_learndash_discord_default_role_id' );
-		delete_user_meta( $user_id, '_ets_learndash_discord_username' );
-		delete_user_meta( $user_id, '_ets_learndash_discord_expires_in' );
-		delete_user_meta( $user_id, '_ets_learndash_discord_join_date' );                
-		delete_user_meta( $user_id, '_ets_learndash_discord_dm_channel' );                
+		ets_learndash_discord_remove_usermeta( $user_id );                              
 
 	}
         
@@ -286,6 +269,7 @@ class Learndash_Discord_Public {
                                 $restrictcontent_discord .= '<div class="">';
 				$restrictcontent_discord .= '<a href="#" class="ets-btn learndash-discord-btn-disconnect" id="learndash-discord-disconnect-discord" data-user-id="'. esc_attr( $user_id ) .'">'. esc_html__ ( sprintf( 'Disconnect From Discord %s', $_ets_learndash_discord_username ) , 'learndash-discord' ) . Learndash_Discord::get_discord_logo_white() . '</a>';
 				$restrictcontent_discord .= '<span class="ets-spinner"></span>';
+				$restrictcontent_discord .= '<p>' . esc_html__( 'Connect account: expresstechceo#9284', 'learndash-discord' ) . '</p>';
                                 $restrictcontent_discord .= '</div>';
                                 $restrictcontent_discord .= '</div>';
 				
