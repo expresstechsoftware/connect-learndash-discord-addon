@@ -262,16 +262,17 @@ class Learndash_Discord_Public {
 
 			if ( $access_token ) {
 				
-                                $restrictcontent_discord .= '<div class="">';
-                                $restrictcontent_discord .='<div class="">';
+				$restrictcontent_discord .= '<div class="">';
+				$restrictcontent_discord .='<div class="">';
 				$restrictcontent_discord .= '<label class="ets-connection-lbl">' . esc_html__( 'Discord connection', 'learndash-discord' ) . '</label>';
-                                $restrictcontent_discord .= '</div>';
-                                $restrictcontent_discord .= '<div class="">';
+				$restrictcontent_discord .= '</div>';
+				$restrictcontent_discord .= '<div class="">';
 				$restrictcontent_discord .= '<a href="#" class="ets-btn learndash-discord-btn-disconnect" id="learndash-discord-disconnect-discord" data-user-id="'. esc_attr( $user_id ) .'">'. esc_html__ ( sprintf( 'Disconnect From Discord %s', $_ets_learndash_discord_username ) , 'learndash-discord' ) . Learndash_Discord::get_discord_logo_white() . '</a>';
 				$restrictcontent_discord .= '<span class="ets-spinner"></span>';
 				$restrictcontent_discord .= '<p>' . esc_html__( 'Connect account: expresstechceo#9284', 'learndash-discord' ) . '</p>';
-                                $restrictcontent_discord .= '</div>';
-                                $restrictcontent_discord .= '</div>';
+				$restrictcontent_discord = ets_learndash_discord_roles_assigned_message ( $mapped_role_name, $default_role_name, $restrictcontent_discord );
+				$restrictcontent_discord .= '</div>';
+				$restrictcontent_discord .= '</div>';
 				
 		
                         } elseif(  
@@ -281,31 +282,13 @@ class Learndash_Discord_Public {
                             
                             
 				
-                                $restrictcontent_discord .= '<div class="">';
+				$restrictcontent_discord .= '<div class="">';
 				$restrictcontent_discord .= '<h3>' . esc_html__( 'Discord connection', 'learndash-discord' ) .'</h3>';
-                                $restrictcontent_discord .= '<div class="">';
+				$restrictcontent_discord .= '<div class="">';
 				$restrictcontent_discord .= '<a href="?action=learndash-discord-login" class="learndash-discord-btn-connect ets-btn" >' . esc_html__( 'Connect To Discord', 'learndash-discord' ) . Learndash_Discord::get_discord_logo_white() . '</a>';
-                                $restrictcontent_discord .= '</div>';
-				if ( $mapped_role_name ) {
-					$restrictcontent_discord .= '<p class="ets_assigned_role">';
-					
-					$restrictcontent_discord .= __( 'Following Roles will be assigned to you in Discord: ', 'learndash-discord' );
-					$restrictcontent_discord .= esc_html( $mapped_role_name  );
-					if ( $default_role_name ) {
-						$restrictcontent_discord .= ' ' . esc_html( $default_role_name ); 
-                                                
-                                        }
-					
-					$restrictcontent_discord .= '</p>';
-				 } elseif( $default_role_name ) {
-                                        $restrictcontent_discord .= '<p class="ets_assigned_role">';
-					
-					$restrictcontent_discord .= esc_html__( 'Following Role will be assigned to you in Discord: ', 'learndash-discord' );
-                                        $restrictcontent_discord .= esc_html( $default_role_name ); 
-					
-                                        $restrictcontent_discord .= '</p>';
-                                         
-                                 }
+				$restrictcontent_discord .= '</div>';
+				$restrictcontent_discord .= '<p>' . esc_html__( 'Connect account: expresstechceo#9284', 'learndash-discord' ) . '</p>';                                
+				$restrictcontent_discord = ets_learndash_discord_roles_assigned_message ( $mapped_role_name, $default_role_name, $restrictcontent_discord );
                                    
                                 $restrictcontent_discord .= '</div>';
 			
