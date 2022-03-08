@@ -148,9 +148,16 @@ class Learndash_Discord_Public {
 		if ( $user_id ) {
 			delete_user_meta( $user_id, '_ets_learndash_discord_access_token' );
 			delete_user_meta( $user_id, '_ets_learndash_discord_refresh_token' );                        			
-                        
+			$user_roles = ets_learndash_discord_get_user_roles( $user_id );                        
 			if( $kick_upon_disconnect ){
-				$this->delete_member_from_guild( $user_id, false );                            
+                           
+				if( is_array( $user_roles ) ) {
+					foreach ($user_roles as $user_role) {
+						$this->delete_discord_role( $user_id, $user_role );
+					}
+				}
+			}else{
+				$this->delete_member_from_guild( $user_id, false );
                         }
 		}
 		$event_res = array(
@@ -225,7 +232,7 @@ class Learndash_Discord_Public {
 		$user_id = sanitize_text_field( trim( get_current_user_id() ) );
 
 		$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_access_token', true ) ) );
-                $_ets_learndash_discord_username = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_username', true ) ) );
+		$_ets_learndash_discord_username = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_username', true ) ) );
 		$allow_none_student  = sanitize_text_field( trim( get_option( 'ets_learndash_discord_allow_none_student' ) ) );
 
 		$default_role                   = sanitize_text_field( trim( get_option( 'ets_learndash_discord_default_role_id' ) ) );
