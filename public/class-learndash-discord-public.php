@@ -978,26 +978,21 @@ class Learndash_Discord_Public {
 	public function ets_learndash_discord_certification_created ( $pdf, $cert_args ) {
       
 		$user_id = $cert_args['user_id'];
-		$ceticat_title = sanitize_file_name($cert_args['pdf_title']);
+		$ceticat_title = sanitize_file_name( $cert_args['pdf_title'] );
             
 		$upload_dir = wp_upload_dir();
 		$upload_dir_name = $upload_dir['basedir'];
             
-		//$file = fopen( $upload_dir_name . '/' . $ceticat_title . '.pdf', "w");
 
-		$pdf->Output($upload_dir['basedir'] . '/' . $ceticat_title . '.pdf' , 'F');
+
+		$pdf->Output( $upload_dir['basedir'] . '/' . $ceticat_title . '.pdf' , 'F' );
                 
 		$certificat_link = $upload_dir['baseurl'] . '/' . $ceticat_title .'.pdf' ;
             
-//            update_option('file_pdf_user', $user_id);
-//            update_option('file_pdf', $ceticat_title );
-//            update_option('file_pdf_url', $certificat_link );
-                
-		//if ( learndash_get_course_certificate_link( $course_id, $user_id )  ) {
                     
-			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $certificat_link, 'course_certificate_link' ), LEARNDASH_DISCORD_AS_GROUP_NAME );                        
+		as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $certificat_link, 'course_certificate_link' ), LEARNDASH_DISCORD_AS_GROUP_NAME );                        
                     
-		//}                
+		              
                 
           
 	}
