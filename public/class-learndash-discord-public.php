@@ -976,4 +976,44 @@ class Learndash_Discord_Public {
 		as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $certificat_link, 'course_certificate_link' ), LEARNDASH_DISCORD_AS_GROUP_NAME );
 
 	}
+
+	/*
+	 * Login with Discord button 
+	 */
+	public function ets_learndash_discord_registration_form (){
+		global $post;
+		if ( ! is_user_logged_in() ) {
+			$course_id = $post->ID;
+			$current_location_url = ets_learndash_discord_get_current_screen_url();
+			$default_role                       = sanitize_text_field( trim( get_option( 'ets_learndash_discord_default_role_id' ) ) );
+			$ets_learndash_discord_role_mapping = json_decode( get_option( 'ets_learndash_discord_role_mapping' ), true );
+			$all_roles                          = unserialize( get_option( 'ets_learndash_discord_all_roles' ) );
+			$mapped_role_name                   = '';                        
+			$login_with_discord_button = '';                       
+			if ( is_array( $all_roles ) && is_array( $ets_learndash_discord_role_mapping ) ) {
+
+
+				if ( array_key_exists( 'learndash_course_id_' . $course_id, $ets_learndash_discord_role_mapping ) ) {
+
+					$mapped_role_id = $ets_learndash_discord_role_mapping[ 'learndash_course_id_' . $course_id ];
+
+					if ( array_key_exists( $mapped_role_id, $all_roles ) ) {
+						$mapped_role_name .= $all_roles[ $mapped_role_id ] . ', ';
+					}
+				}
+
+			}                        
+			$default_role_name = '';
+			if ( is_array( $all_roles ) ) {
+				if ( $default_role != 'none' && array_key_exists( $default_role, $all_roles ) ) {
+					$default_role_name = $all_roles[ $default_role ];
+				}
+			}
+			$login_with_discord_button .= ets_learndash_discord_roles_assigned_message( $mapped_role_name, $default_role_name, $login_with_discord_button );
+                        
+			echo '<a href="#">' . esc_html( 'Login with Discord', 'learndash-discord' ) . Learndash_Discord::get_discord_logo_white() . '</a>';
+			echo $login_with_discord_button;
+		}            
+
+	}
 }

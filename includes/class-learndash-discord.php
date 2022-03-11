@@ -229,6 +229,7 @@ class Learndash_Discord {
 		$this->loader->add_action( 'ets_learndash_discord_as_schedule_delete_role',  $plugin_public, 'ets_learndash_discord_as_handler_delete_memberrole' , 10, 3 );
 //		$this->loader->add_filter( 'learndash_get_user_activity', $plugin_public, 'ets_learndash_discord_get_user_activity' , 10, 2 );                
 		$this->loader->add_action( 'learndash_certification_content_write_cell_after', $plugin_public, 'ets_learndash_discord_certification_created' , 10 , 2 );  
+		$this->loader->add_action( 'learndash-register-modal-heading-after', $plugin_public, 'ets_learndash_discord_registration_form' , 99 );                  
 
         }
         
