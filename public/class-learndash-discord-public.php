@@ -233,7 +233,10 @@ class Learndash_Discord_Public {
 		$access_token                    = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_access_token', true ) ) );
 		$_ets_learndash_discord_username = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_username', true ) ) );
 		$allow_none_student              = sanitize_text_field( trim( get_option( 'ets_learndash_discord_allow_none_student' ) ) );
-
+		$ets_learndash_discord_connect_button_bg_color    = sanitize_text_field( trim( get_option( 'ets_learndash_discord_connect_button_bg_color' ) ) );
+		$ets_learndash_discord_disconnect_button_bg_color = sanitize_text_field( trim( get_option( 'ets_learndash_discord_disconnect_button_bg_color' ) ) );                
+		$ets_learndash_discord_disconnect_button_text = sanitize_text_field( trim( get_option( 'ets_learndash_discord_disconnect_button_text' ) ) );                
+		$ets_learndash_discord_loggedin_button_text = sanitize_text_field( trim( get_option( 'ets_learndash_discord_loggedin_button_text' ) ) );
 		$default_role                       = sanitize_text_field( trim( get_option( 'ets_learndash_discord_default_role_id' ) ) );
 		$ets_learndash_discord_role_mapping = json_decode( get_option( 'ets_learndash_discord_role_mapping' ), true );
 		$all_roles                          = unserialize( get_option( 'ets_learndash_discord_all_roles' ) );
@@ -268,13 +271,13 @@ class Learndash_Discord_Public {
 		if ( learndash_discord_check_saved_settings_status() ) {
 
 			if ( $access_token ) {
-
+				$disconnect_btn_bg_color = 'style="background-color:' . $ets_learndash_discord_disconnect_button_bg_color . '"'; 
 				$restrictcontent_discord .= '<div class="">';
 				$restrictcontent_discord .= '<div class="">';
 				$restrictcontent_discord .= '<label class="ets-connection-lbl">' . esc_html__( 'Discord connection', 'learndash-discord' ) . '</label>';
 				$restrictcontent_discord .= '</div>';
 				$restrictcontent_discord .= '<div class="">';
-				$restrictcontent_discord .= '<a href="#" class="ets-btn learndash-discord-btn-disconnect" id="learndash-discord-disconnect-discord" data-user-id="' . esc_attr( $user_id ) . '">' . esc_html__( 'Disconnect From Discord', 'learndash-discord' ) . Learndash_Discord::get_discord_logo_white() . '</a>';
+				$restrictcontent_discord .= '<a href="#" class="ets-btn learndash-discord-btn-disconnect" class="' . $disconnect_btn_bg_color . '" id="learndash-discord-disconnect-discord" data-user-id="' . esc_attr( $user_id ) . '">' . esc_html__( $ets_learndash_discord_disconnect_button_text ) . Learndash_Discord::get_discord_logo_white() . '</a>';
 				$restrictcontent_discord .= '<span class="ets-spinner"></span>';
 				$restrictcontent_discord .= '<p>' . esc_html__( sprintf( 'Connected account: %s', $_ets_learndash_discord_username ), 'learndash-discord' ) . '</p>';
 				$restrictcontent_discord  = ets_learndash_discord_roles_assigned_message( $mapped_role_name, $default_role_name, $restrictcontent_discord );
@@ -284,11 +287,12 @@ class Learndash_Discord_Public {
 			} elseif ( ( ets_learndash_discord_get_student_courses_id( $user_id ) && $mapped_role_name )
 								|| ( ets_learndash_discord_get_student_courses_id( $user_id ) && ! $mapped_role_name && $default_role_name )
 								|| ( $allow_none_student == 'yes' ) ) {
-
+                            
+				$connect_btn_bg_color = 'style="background-color:' . $ets_learndash_discord_connect_button_bg_color . '"';
 				$restrictcontent_discord .= '<div class="">';
 				$restrictcontent_discord .= '<h3>' . esc_html__( 'Discord connection', 'learndash-discord' ) . '</h3>';
 				$restrictcontent_discord .= '<div class="">';
-				$restrictcontent_discord .= '<a href="?action=learndash-discord-login" class="learndash-discord-btn-connect ets-btn" >' . esc_html__( 'Connect To Discord', 'learndash-discord' ) . Learndash_Discord::get_discord_logo_white() . '</a>';
+				$restrictcontent_discord .= '<a href="?action=learndash-discord-login" class="learndash-discord-btn-connect ets-btn"' . $connect_btn_bg_color . ' >' . $ets_learndash_discord_loggedin_button_text . Learndash_Discord::get_discord_logo_white() . '</a>';
 				$restrictcontent_discord .= '</div>';
 				$restrictcontent_discord  = ets_learndash_discord_roles_assigned_message( $mapped_role_name, $default_role_name, $restrictcontent_discord );
 
@@ -1087,11 +1091,15 @@ class Learndash_Discord_Public {
 	public function ets_learndash_discord_registration_form (){
 		global $post;
 		if ( ! is_user_logged_in() ) {
+			wp_enqueue_style( $this->plugin_name );
 			$course_id = $post->ID;
 			$current_location_url = ets_learndash_discord_get_current_screen_url();
 			$default_role                       = sanitize_text_field( trim( get_option( 'ets_learndash_discord_default_role_id' ) ) );
 			$ets_learndash_discord_role_mapping = json_decode( get_option( 'ets_learndash_discord_role_mapping' ), true );
 			$all_roles                          = unserialize( get_option( 'ets_learndash_discord_all_roles' ) );
+			$ets_learndash_discord_non_login_button_text = sanitize_text_field( trim( get_option( 'ets_learndash_discord_non_login_button_text' ) ) );
+                        $ets_learndash_discord_connect_button_bg_color    = sanitize_text_field( trim( get_option( 'ets_learndash_discord_connect_button_bg_color' ) ) );
+                        $connect_btn_bg_color = 'style="background-color:' . $ets_learndash_discord_connect_button_bg_color . '"';                         
 			$mapped_role_name                   = '';                        
 			$login_with_discord_button = ''; 
                         
@@ -1116,7 +1124,7 @@ class Learndash_Discord_Public {
 			}
 			$login_with_discord_button .= ets_learndash_discord_roles_assigned_message( $mapped_role_name, $default_role_name, $login_with_discord_button );
                         
-			echo '<a href="?action=learndash-discord-login&current-location=' . $current_location_url . '">' . esc_html( 'Login with Discord', 'learndash-discord' ) . Learndash_Discord::get_discord_logo_white() . '</a>';
+			echo '<a class="learndash-discord-btn-connect ets-btn" ' . $connect_btn_bg_color . ' href="?action=learndash-discord-login&current-location=' . $current_location_url . '">' . esc_html( $ets_learndash_discord_non_login_button_text ) . Learndash_Discord::get_discord_logo_white() . '</a>';
 			echo $login_with_discord_button;
 		}            
 

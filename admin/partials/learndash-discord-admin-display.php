@@ -37,6 +37,10 @@ if ( isset( $_GET['save_settings_msg'] ) ) {
 				</button>
 				</li>
 				<li class="skltbs-tab-item">
+				<button class="skltbs-tab" data-identity="appearance" ><?php echo __( 'Appearance', 'learndash-discord' ); ?>	
+				</button>
+				</li>                                
+				<li class="skltbs-tab-item">
 				<button class="skltbs-tab" data-identity="logs" ><?php echo __( 'Logs', 'learndash-discord' ); ?>	
 				</button>
 				</li>                                
@@ -54,6 +58,9 @@ if ( isset( $_GET['save_settings_msg'] ) ) {
 				<div id='ets_learndash_discord_advanced' class="learndash-discord-tab-conetent skltbs-panel">
 				<?php require_once LEARNDASH_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/pages/learndash_discord_advanced.php'; ?>
 				</div>
+				<div id='ets_learndash_discord_appearance' class="learndash-discord-tab-conetent skltbs-panel">
+				<?php require_once LEARNDASH_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/pages/learndash_discord_appearance.php'; ?>
+				</div>                            
 				<div id='ets_learndash_discord_logs' class="learndash-discord-tab-conetent skltbs-panel">
 				<?php require_once LEARNDASH_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/pages/learndash_discord_error_log.php'; ?>
 				</div>                            

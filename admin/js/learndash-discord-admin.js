@@ -1,4 +1,4 @@
-jQuery(function($){
+(function($){
 //	'use strict';
 
 	/**
@@ -350,16 +350,17 @@ jQuery(function($){
 		$(document.body).on('change', '#ets_learndash_discord_redirect_url', function(e){
 			var page_url = $(this).find(':selected').data('page-url');
                         $('p.redirect-url').html('<b>'+page_url+'</b>');
-		});                 
+		});
+		$('#ets_learndash_discord_connect_button_bg_color').wpColorPicker();
+		$('#ets_learndash_discord_disconnect_button_bg_color').wpColorPicker();                 
 	}
         
 
-});
-if ( etsLearnDashParams.is_admin ) {
 	/*Tab options*/
-	if( typeof(skeletabs) !=='undefined' ){
-	jQuery.skeletabs.setDefaults({
-		keyboard: false
-	});
-    }
-}
+
+		$.skeletabs.setDefaults({
+			keyboard: false,
+		});            
+	
+    
+})(jQuery);
