@@ -51,7 +51,12 @@
 					if ($('.ets-tabs button[data-identity="level-mapping"]').length) {
 						$('.ets-tabs button[data-identity="level-mapping"]').show();
 					}
-					$("#learndash-connect-discord-bot").show().html("Bot Connected <i class='fab fa-discord'></i>").addClass('not-active');
+					if (response.bot_connected === 'yes') {
+						$("#learndash-connect-discord-bot").show().html("Bot Connected <i class='fab fa-discord'></i>").addClass('not-active');                                            
+					}else{
+						$("#learndash-connect-discord-bot").show().html("Error: Please check the Client ID is correct").addClass('error-bk');
+                                        }                                        
+					
 
 					var activeTab = localStorage.getItem('activeTab');
 					if ($('.ets-tabs button[data-identity="level-mapping"]').length == 0 && activeTab == 'level-mapping') {
@@ -65,7 +70,7 @@
 							}
 						}
 
-						if (key != 'previous_mapping' && isbot == false && val.name != '@everyone') {
+						if (key != 'bot_connected' && key != 'previous_mapping' && isbot == false && val.name != '@everyone') {
 							$('.learndash-discord-roles').append('<div class="makeMeDraggable" style="background-color:#'+val.color.toString(16)+'" data-learndash_role_id="' + val.id + '" >' + val.name + '</div>');
 							$('#learndash-defaultRole').append('<option value="' + val.id + '" >' + val.name + '</option>');
 							makeDrag($('.makeMeDraggable'));
