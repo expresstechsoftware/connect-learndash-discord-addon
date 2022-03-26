@@ -20,7 +20,7 @@ $ets_learndash_discord_connected_bot_name     = sanitize_text_field( trim( get_o
   </div>
 	<div class="ets-input-group">
 	  <label><?php echo __( 'Client Secret', 'learndash-discord' ); ?> :</label>
-		<input type="text" class="ets-input" name="ets_learndash_discord_client_secret" value="<?php
+		<input type="password" class="ets-input" name="ets_learndash_discord_client_secret" value="<?php
 		if ( isset( $ets_learndash_discord_client_secret ) ) {
 			echo esc_attr( $ets_learndash_discord_client_secret ); }
     ?>" required placeholder="Discord Client Secret">
