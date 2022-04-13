@@ -29,8 +29,35 @@
 	 * practising this, we should strive to set a better example in our own work.
 	 */
 //        console.log(etsLearnDashParams);
-        if (etsLearnDashParams.is_admin) {
-            $('#ets_learndash_discord_redirect_url').select2({});
+	if (etsLearnDashParams.is_admin) {
+		if(jQuery().select2) {
+			$('#ets_learndash_discord_redirect_url').select2({ width: 'resolve' });                
+                        $('#ets_learndash_discord_redirect_url').on('change', function(){
+				$.ajax({
+					url: etsLearnDashParams.admin_ajax,
+					type: "POST",
+					context: this,
+					data: { 'action': 'ets_learndash_discord_update_redirect_url', 'ets_learndash_page_id': $(this).val() , 'ets_learndash_discord_nonce': etsLearnDashParams.ets_learndash_discord_nonce },
+					beforeSend: function () {
+						$('p.redirect-url').find('b').html("");
+                                                $('p.ets-discord-update-message').css('display','none');                                               
+						$(this).siblings('p.description').find('span.spinner').addClass("ets-is-active").show();
+					},
+					success: function (data) { 
+						$('p.redirect-url').find('b').html(data.formated_discord_redirect_url);
+						$('p.ets-discord-update-message').css('display','block');                                               
+					},
+					error: function (response, textStatus, errorThrown ) {
+						console.log( textStatus + " :  " + response.status + " : " + errorThrown );
+					},
+					complete: function () {
+						$(this).siblings('p.description').find('span.spinner').removeClass("ets-is-active").hide();
+					}
+				});
+
+			});                        
+		}
+
 
 		/*Load all roles from discord server*/
 		$.ajax({

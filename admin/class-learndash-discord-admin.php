@@ -786,5 +786,31 @@ class Learndash_Discord_Admin {
 		
                 exit();                                        
                 
+	}
+	public function ets_learndash_discord_update_redirect_url(  ) {
+           
+		if ( ! current_user_can( 'administrator' ) ) {
+			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			exit();
+		}
+		// Check for nonce security
+		if ( ! wp_verify_nonce( $_POST['ets_learndash_discord_nonce'], 'ets-learndash-discord-ajax-nonce' ) ) {
+			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			exit();
+		}
+
+		$page_id = $_POST['ets_learndash_page_id'];
+		if( isset( $page_id ) ){
+			$formated_discord_redirect_url = ets_get_learndash_discord_formated_discord_redirect_url( $page_id );
+			update_option( 'ets_learndash_discord_redirect_page_id' ,$page_id );
+			update_option( 'ets_learndash_discord_redirect_url' ,$formated_discord_redirect_url );
+			$res = array(
+				'formated_discord_redirect_url' => $formated_discord_redirect_url,
+			);
+			wp_send_json( $res );
+		
+		}
+		exit();
+                
 	}        
 }

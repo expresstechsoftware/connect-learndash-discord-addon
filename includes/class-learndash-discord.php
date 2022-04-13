@@ -200,6 +200,7 @@ class Learndash_Discord {
 		$this->loader->add_action( 'wp_ajax_ets_learndash_discord_disconnect_user', $plugin_admin, 'ets_learndash_disconnect_user' );                                                                
 		$this->loader->add_action( 'learndash_update_course_access', $plugin_admin, 'ets_learndash_discord_admin_update_course_access' , 99 , 4 );                                
 		$this->loader->add_action( 'learndash_assignment_approved', $plugin_admin, 'ets_learndash_discord_admin_assignment_approved', 10, 1 );                                                                
+		$this->loader->add_action( 'wp_ajax_ets_learndash_discord_update_redirect_url', $plugin_admin, 'ets_learndash_discord_update_redirect_url' );                                                                                                
 	}
 
 	/**

@@ -31,11 +31,12 @@ $ets_learndash_discord_connected_bot_name     = sanitize_text_field( trim( get_o
 		<select class= "ets-input" id="ets_learndash_discord_redirect_url" name="ets_learndash_discord_redirect_url" style="max-width: 100%" required>
 		<?php echo ets_learndash_discord_pages_list( $ets_learndash_discord_redirect_page_id ) ; ?>
 		</select>
-		<p class="description"><?php echo __( 'Registered discord app redirect url', 'learndash-discord' ); ?></p>
+		<p class="description"><?php echo __( 'Registered discord app redirect url', 'learndash-discord' ); ?><span class="spinner"></span></p>
+                <p class="description ets-discord-update-message"><?php echo sprintf( __( 'Redirect URL updated, kindly add/update the same in your discord.com application link <a href="https://discord.com/developers/applications/%s/oauth2/general">https://discord.com/developers</a>', 'learndash-discord' ),  $ets_learndash_discord_client_id ); ?></p>                
 	</div>
 	<div class="ets-input-group">
             <label><?php echo __( 'Admin Redirect URL Connect to bot', 'learndash-discord' ); ?> :</label>
-            <input type="text" class="ets-input" value="<?php echo get_admin_url('', 'admin.php').'?page=learndash-discord&via=learndash-discord-bot'; ?>" disabled="" />
+            <input type="text" class="ets-input" value="<?php echo get_admin_url('', 'admin.php').'?page=learndash-discord&via=learndash-discord-bot'; ?>" readonly required />
         </div>
 	<div class="ets-input-group">
             <?php
