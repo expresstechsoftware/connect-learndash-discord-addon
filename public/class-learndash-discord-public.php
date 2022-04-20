@@ -335,7 +335,7 @@ class Learndash_Discord_Public {
 					'client_id'     => sanitize_text_field( trim( get_option( 'ets_learndash_discord_client_id' ) ) ),
 					'redirect_uri'  => sanitize_text_field( trim( get_option( 'ets_learndash_discord_redirect_url' ) ) ),
 					'response_type' => 'code',
-					'scope'         => 'identify email connections guilds guilds.join messages.read',
+					'scope'         => 'identify email connections guilds guilds.join',
 				);
 				$discord_authorise_api_url = LEARNDASH_DISCORD_API_URL . 'oauth2/authorize?' . http_build_query( $params );
 
