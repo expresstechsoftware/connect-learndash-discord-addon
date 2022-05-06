@@ -626,6 +626,7 @@ function ets_learndash_discord_get_rich_embed_message ( $message ){
 	
 	$SITE_URL  = get_bloginfo( 'url' );
 	$BLOG_NAME = get_bloginfo( 'name' );
+	$BLOG_DESCRIPTION = get_bloginfo( 'description' );
     
 	$timestamp = date( "c", strtotime( "now" ) );
 
@@ -638,8 +639,8 @@ function ets_learndash_discord_get_rich_embed_message ( $message ){
 			[
 				"title" => $message,
 				"type" => "rich",
-				"description" => "",
-				"url" => $SITE_URL,
+				"description" => $BLOG_DESCRIPTION,
+				"url" => '',
 				"timestamp" => $timestamp,
 				"color" => hexdec( "3366ff" ),
 				"footer" => [
