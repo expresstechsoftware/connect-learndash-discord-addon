@@ -1150,4 +1150,29 @@ class Learndash_Discord_Public {
             
             
 	}
+
+	/**
+	 * Revoke the role's course when the user course access is expired.
+	 *
+	 * @since    1.0.0
+	 * @param int $user_id User ID.
+	 * @param int $course_id  Course ID
+	 * @return NONE
+	 */
+	public function ets_learndash_discord_user_course_access_expired ( $user_id, $course_id ){
+
+		$access_token                       = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_access_token', true ) ) );
+		$refresh_token                      = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_refresh_token', true ) ) );
+		$ets_learndash_discord_role_mapping = json_decode( get_option( 'ets_learndash_discord_role_mapping' ), true );
+		if ( is_array( $ets_learndash_discord_role_mapping ) && array_key_exists( 'learndash_course_id_' . $course_id, $ets_learndash_discord_role_mapping ) ) {
+			$discord_role = sanitize_text_field( trim( $ets_learndash_discord_role_mapping[ 'learndash_course_id_' . $course_id ] ) );
+			if ( $discord_role ) {
+				if ( $access_token && $refresh_token ) {
+					delete_user_meta( $user_id, '_ets_learndash_discord_role_id_for_' . $course_id, $discord_role );
+					$this->delete_discord_role( $user_id, $discord_role );
+				}
+			}
+		}
+                    
+	}
 }

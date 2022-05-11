@@ -233,6 +233,7 @@ class Learndash_Discord {
 		$this->loader->add_action( 'learndash_certification_content_write_cell_after', $plugin_public, 'ets_learndash_discord_certification_created' , 10 , 2 );  
 		$this->loader->add_action( 'learndash-register-modal-heading-after', $plugin_public, 'ets_learndash_discord_registration_form' , 99 );                  
 		$this->loader->add_action( 'template_redirect', $plugin_public, 'ets_learndash_discord_login_with_discord' );                                  
+		$this->loader->add_action( 'learndash_user_course_access_expired', $plugin_public, 'ets_learndash_discord_user_course_access_expired', 10, 2 );                                                  
 
         }
         
