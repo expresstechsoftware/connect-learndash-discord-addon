@@ -20,6 +20,8 @@ $set_job_cnrc                                  = sanitize_text_field( trim( get_
 $set_job_q_batch_size                          = sanitize_text_field( trim( get_option( 'ets_learndash_discord_job_queue_batch_size' ) ) );
 $log_api_res                                   = sanitize_text_field( trim( get_option( 'ets_learndash_discord_log_api_response' ) ) );
 $embed_messaging_feature                       = sanitize_text_field( trim( get_option( 'ets_learndash_discord_embed_messaging_feature' ) ) );
+$remove_role_course_expired                    = sanitize_text_field( trim( get_option( 'ets_learndash_discord_remove_role_course_expired' ) ) );
+
 ?>
 <form method="post" action="<?php echo get_site_url().'/wp-admin/admin-post.php' ?>">
  <input type="hidden" name="action" value="learndash_discord_save_advance_settings">
@@ -45,7 +47,18 @@ $embed_messaging_feature                       = sanitize_text_field( trim( get_
 		?>
 		 value="1">
 		</fieldset></td>
-	  </tr>        
+	  </tr>
+	<tr>
+		<th scope="row"><?php echo __( 'Remove student discord role when course access expires?', 'learndash-discord' ); ?></th>
+		<td> <fieldset>
+		<input name="remove_role_course_expired" type="checkbox" id="remove_role_course_expired" 
+		<?php
+		if ( $remove_role_course_expired == true ) {
+			echo 'checked="checked"'; }
+		?>
+		 value="1">
+		</fieldset></td>
+	  </tr>          
 	<tr>
 		<th scope="row"><?php echo __( 'Send welcome message', 'learndash-discord' ); ?></th>
 		<td> <fieldset>

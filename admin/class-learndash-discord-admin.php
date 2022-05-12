@@ -374,6 +374,7 @@ class Learndash_Discord_Admin {
 			$set_job_q_batch_size                       = isset( $_POST['set_job_q_batch_size'] ) ? sanitize_textarea_field( trim( $_POST['set_job_q_batch_size'] ) ) : '';
 			$log_api_res                                = isset( $_POST['log_api_res'] ) ? sanitize_textarea_field( trim( $_POST['log_api_res'] ) ) : '';
 			$embed_messaging_feature                    = isset( $_POST['embed_messaging_feature'] ) ? sanitize_textarea_field( trim( $_POST['embed_messaging_feature'] ) ) : '';                        
+			$remove_role_course_expired                 = isset( $_POST['remove_role_course_expired'] ) ? sanitize_textarea_field( trim( $_POST['remove_role_course_expired'] ) ) : '';                                                
 			$ets_current_url = sanitize_text_field( trim( $_POST['current_url'] ) ) ;                                                                
 
 		if ( isset( $_POST['ets_learndash_discord_advance_settings_nonce'] ) && wp_verify_nonce( $_POST['ets_learndash_discord_advance_settings_nonce'], 'learndash_discord_advance_settings_nonce' ) ) {
@@ -479,6 +480,11 @@ class Learndash_Discord_Admin {
 					update_option( 'ets_learndash_discord_embed_messaging_feature', true );
 				} else {
 					update_option( 'ets_learndash_discord_embed_messaging_feature', false );
+				}
+				if ( isset( $_POST['remove_role_course_expired'] ) ) {
+					update_option( 'ets_learndash_discord_remove_role_course_expired', true );
+				} else {
+					update_option( 'ets_learndash_discord_remove_role_course_expired', false );
 				}                                
 
 				$message = 'Your settings are saved successfully.';
