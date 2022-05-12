@@ -47,7 +47,7 @@ $remove_role_course_expired                    = sanitize_text_field( trim( get_
 		?>
 		 value="1">
                 <br/>
-                <small>Use pipe character | to split lines.</small>                
+                <small>Use [LINEBREAK] to split lines.</small>                
 		</fieldset></td>
 	  </tr>
 	<tr>

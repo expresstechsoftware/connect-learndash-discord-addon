@@ -629,7 +629,7 @@ function ets_learndash_discord_get_rich_embed_message ( $message ){
 	$BLOG_DESCRIPTION = get_bloginfo( 'description' );
     
 	$timestamp = date( "c", strtotime( "now" ) );
-	$convert_lines = preg_split( "/\|/", $message );
+	$convert_lines = preg_split( "/\[LINEBREAK\]/", $message );
 	$fields = [];
 	if ( is_array ( $convert_lines ) ){
 		for ( $i = 0; $i< count( $convert_lines ); $i++ ){
