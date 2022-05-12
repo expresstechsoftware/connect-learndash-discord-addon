@@ -19,7 +19,7 @@ $retry_api_count                               = sanitize_text_field( trim( get_
 $set_job_cnrc                                  = sanitize_text_field( trim( get_option( 'ets_learndash_discord_job_queue_concurrency' ) ) );
 $set_job_q_batch_size                          = sanitize_text_field( trim( get_option( 'ets_learndash_discord_job_queue_batch_size' ) ) );
 $log_api_res                                   = sanitize_text_field( trim( get_option( 'ets_learndash_discord_log_api_response' ) ) );
-
+$embed_messaging_feature                       = sanitize_text_field( trim( get_option( 'ets_learndash_discord_embed_messaging_feature' ) ) );
 ?>
 <form method="post" action="<?php echo get_site_url().'/wp-admin/admin-post.php' ?>">
  <input type="hidden" name="action" value="learndash_discord_save_advance_settings">
@@ -34,7 +34,18 @@ $log_api_res                                   = sanitize_text_field( trim( get_
 		<br/>
 		<small><?php echo __( 'Use this shortcode [learndash_discord] to display connect to discord button on any page.', 'learndash-discord' ); ?></small>
 		</fieldset></td>
-	</tr>            
+	</tr>
+	<tr>
+		<th scope="row"><?php echo __( 'Use rich embed messaging feature?', 'learndash-discord' ); ?></th>
+		<td> <fieldset>
+		<input name="embed_messaging_feature" type="checkbox" id="embed_messaging_feature" 
+		<?php
+		if ( $embed_messaging_feature == true ) {
+			echo 'checked="checked"'; }
+		?>
+		 value="1">
+		</fieldset></td>
+	  </tr>        
 	<tr>
 		<th scope="row"><?php echo __( 'Send welcome message', 'learndash-discord' ); ?></th>
 		<td> <fieldset>
@@ -203,7 +214,7 @@ $log_api_res                                   = sanitize_text_field( trim( get_
 		 value="1">
 		</fieldset></td>
 	  </tr>
-	
+          	
 	</tbody>
   </table>
   <div class="bottom-btn">
