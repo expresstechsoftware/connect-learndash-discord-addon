@@ -290,9 +290,11 @@ class Learndash_Discord_Admin {
 						}
 						if ( $key != 'previous_mapping' && $isbot == false && isset( $value['name'] ) && $value['name'] != '@everyone' ) {
 							$discord_roles[ $value['id'] ] = $value['name'];
+							$discord_roles_color[ $value['id'] ] = $value['color'];
 						}
 					}
 					update_option( 'ets_learndash_discord_all_roles', serialize( $discord_roles ) );
+					update_option( 'ets_learndash_discord_roles_color', serialize( $discord_roles_color ) );                                        
 				}
 			}
 				return wp_send_json( $response_arr );

@@ -570,9 +570,9 @@ function ets_learndash_discord_roles_assigned_message ( $mapped_role_name, $defa
 		$restrictcontent_discord .= '<p class="ets_assigned_role">';
 					
 		$restrictcontent_discord .= __( 'Following Roles will be assigned to you in Discord: ', 'learndash-discord' );
-		$restrictcontent_discord .= esc_html( $mapped_role_name  );
+		$restrictcontent_discord .=  ets_learndash_discord_allowed_html( $mapped_role_name ) ;
 		if ( $default_role_name ) {
-			$restrictcontent_discord .= ' ' . esc_html( $default_role_name ); 
+			$restrictcontent_discord .=  ets_learndash_discord_allowed_html( $default_role_name ) ; 
                                                 
 		}
 					
@@ -581,7 +581,7 @@ function ets_learndash_discord_roles_assigned_message ( $mapped_role_name, $defa
 		$restrictcontent_discord .= '<p class="ets_assigned_role">';
 					
 		$restrictcontent_discord .= esc_html__( 'Following Role will be assigned to you in Discord: ', 'learndash-discord' );
-		$restrictcontent_discord .= esc_html( $default_role_name ); 
+		$restrictcontent_discord .= ets_learndash_discord_allowed_html( $default_role_name ) ; 
 					
 		$restrictcontent_discord .= '</p>';
                                          
@@ -673,3 +673,14 @@ function ets_learndash_discord_get_rich_embed_message ( $message ){
 
 	return $rich_embed_message ; 
 }
+function ets_learndash_discord_allowed_html( $html_message ) {
+	$allowed_html = array(
+		'span' => array(),
+		'i' => array(
+			'style' => array()
+		)
+	);
+
+	return wp_kses( $html_message, $allowed_html );
+}
+
