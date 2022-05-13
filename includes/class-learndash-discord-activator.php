@@ -41,17 +41,18 @@ class Learndash_Discord_Activator {
 		update_option( 'ets_learndash_discord_quiz_complete_message', 'Hi [LD_STUDENT_NAME] ([LD_STUDENT_EMAIL]), You have completed the quiz  [LD_QUIZ_NAME] at [LD_QUIZ_DATE] on website [SITE_URL], [BLOG_NAME]' );                                 
 		update_option( 'ets_learndash_discord_assignment_approved_message', 'Hi [LD_STUDENT_NAME] ([LD_STUDENT_EMAIL]), your assignments [LD_LINK_OF_ASSIGNMENT] ( [LD_ASSIGNMENT_COURSE], [LD_ASSIGNMENT_LESSON] )  has been approved on [LD_ASSIGNMENT_APPROVED_DATE] , points awarded: [LD_ASSIGNMENT_POINTS_AWARDED] , website [SITE_URL], [BLOG_NAME]' );                                                 
 		update_option( 'ets_learndash_discord_retry_failed_api', true );
-    update_option( 'ets_learndash_discord_connect_button_bg_color', '#7bbc36' );
-    update_option( 'ets_learndash_discord_disconnect_button_bg_color', '#ff0000' );
-    update_option( 'ets_learndash_discord_loggedin_button_text', 'Connect With Discord' );
-    update_option( 'ets_learndash_discord_non_login_button_text', 'Login With Discord' );
-    update_option( 'ets_learndash_discord_disconnect_button_text', 'Disconnect From Discord' );
+		update_option( 'ets_learndash_discord_connect_button_bg_color', '#7bbc36' );
+		update_option( 'ets_learndash_discord_disconnect_button_bg_color', '#ff0000' );
+		update_option( 'ets_learndash_discord_loggedin_button_text', 'Connect With Discord' );
+		update_option( 'ets_learndash_discord_non_login_button_text', 'Login With Discord' );
+		update_option( 'ets_learndash_discord_disconnect_button_text', 'Disconnect From Discord' );
 		update_option( 'ets_learndash_discord_kick_upon_disconnect', false ); 
 		update_option( 'ets_learndash_discord_retry_api_count', 5 );
 		update_option( 'ets_learndash_discord_job_queue_concurrency', 1 );
 		update_option( 'ets_learndash_discord_job_queue_batch_size', 6 );
 		update_option( 'ets_learndash_discord_log_api_response', false );
-		update_option( 'ets_learndash_discord_uuid_file_name', wp_generate_uuid4() );
+		update_option( 'ets_learndash_discord_embed_messaging_feature', false );
+                update_option( 'ets_learndash_discord_uuid_file_name', wp_generate_uuid4() );
 	}
 
 }
