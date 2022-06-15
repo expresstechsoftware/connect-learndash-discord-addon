@@ -684,3 +684,56 @@ function ets_learndash_discord_allowed_html( $html_message ) {
 	return wp_kses( $html_message, $allowed_html );
 }
 
+/**
+ * Get formatted complete course achievement message to send in DM
+ *
+ * @param INT $user_id
+ * @param INT $lesson_id
+ * 
+ */
+function ets_learndash_discord_get_formatted_complete_course_achievement_dm( $user_id, $course_id ) {
+	global $wpdb;
+	$user_obj    = get_user_by( 'id', $user_id );
+	$STUDENT_USERNAME = $user_obj->user_login;
+	$STUDENT_EMAIL    = $user_obj->user_email;
+	$SITE_URL  = get_bloginfo( 'url' );
+	$BLOG_NAME = get_bloginfo( 'name' );        
+        
+	$lesson = get_post( $course_id );
+	$COURSE_NAME = $lesson->post_title;
+    
+	$table_name = "{$wpdb->prefix}ld_achievements";
+	$sql = $wpdb->prepare( "SELECT `points` FROM `{$table_name}` WHERE `user_id` = %d and `post_id` = %d and  `trigger` = 'complete_course'", $user_id , $course_id );        
+	$points = $wpdb->get_results( $sql, ARRAY_A );        
+        
+	return 'HI ' . $STUDENT_USERNAME . '(' . $STUDENT_EMAIL . ')'. ' You Complete Course  Achievement : '. $COURSE_NAME  . ' , Points:' . $points[0]['points']  ; 
+
+}
+
+
+/**
+ * Get formatted complete lesson achievement message to send in DM
+ *
+ * @param INT $user_id
+ * @param INT $lesson_id
+ * 
+ */
+function ets_learndash_discord_get_formatted_complete_lesson_achievement_dm( $user_id, $lesson_id ) {
+	global $wpdb;
+	$user_obj    = get_user_by( 'id', $user_id );
+	$STUDENT_USERNAME = $user_obj->user_login;
+	$STUDENT_EMAIL    = $user_obj->user_email;
+	$SITE_URL  = get_bloginfo( 'url' );
+	$BLOG_NAME = get_bloginfo( 'name' );        
+        
+	$lesson = get_post( $lesson_id );
+	$LESSON_NAME = $lesson->post_title;
+    
+	$table_name = "{$wpdb->prefix}ld_achievements";
+	$sql = $wpdb->prepare( "SELECT `points` FROM `{$table_name}` WHERE `user_id` = %d and `post_id` = %d and  `trigger` = 'complete_lesson'", $user_id , $lesson_id );        
+	$points = $wpdb->get_results( $sql, ARRAY_A );        
+        
+	return 'HI ' . $STUDENT_USERNAME . '(' . $STUDENT_EMAIL . ')'. ' You Complete lesson Achievement : '. $LESSON_NAME  . ' , Points:' . $points[0]['points']  ; 
+
+}
+

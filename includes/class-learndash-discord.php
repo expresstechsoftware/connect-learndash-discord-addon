@@ -300,13 +300,22 @@ class Learndash_Discord {
 			return $concurrent_batches;
 		}
 	}
-     
+        
 	public static function get_discord_logo_white(){
 		$img = file_get_contents( plugin_dir_path( dirname( __FILE__ ) ) . 'public/images/discord-logo-white.svg' );
 		$data = base64_encode( $img );
                 
 		return '<img src="data:image/svg+xml;base64,' . $data . '" />';
         }
+
+        
+	public static function ets_achievement_add_on_is_active() {
+		if ( class_exists( 'LearnDash_Achievements' ) ){
+			return true;
+		} else {
+			return false;
+		}
+	}        
 
 	/**
 	 * Run the loader to execute all of the hooks with WordPress.

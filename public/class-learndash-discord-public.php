@@ -821,6 +821,16 @@ class Learndash_Discord_Public {
 			$message = ets_learndash_discord_get_formatted_assignment_approved_dm( $user_id, $courses, $ets_learndash_discord_assignment_approved_message );
 		}
 
+		if ( $type == 'complete_course_achievement' ) {
+
+			$message = ets_learndash_discord_get_formatted_complete_course_achievement_dm( $user_id, $courses );
+		}
+
+		if ( $type == 'complete_lesson_achievement' ) {
+
+			$message = ets_learndash_discord_get_formatted_complete_lesson_achievement_dm( $user_id, $courses );
+		}
+
 		$creat_dm_url = LEARNDASH_DISCORD_API_URL . '/channels/' . $dm_channel_id . '/messages';
 		if( $embed_messaging_feature ) {
 			$dm_args      = array(
@@ -965,6 +975,10 @@ class Learndash_Discord_Public {
 		if ( $ets_learndash_discord_send_course_complete_dm == true ) {
 			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $course_id, 'course_complete' ), LEARNDASH_DISCORD_AS_GROUP_NAME );
 		}
+		// Achievements
+		if ( Learndash_Discord::ets_achievement_add_on_is_active() ){  
+			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $lesson_id, 'complete_course_achievement' ), LEARNDASH_DISCORD_AS_GROUP_NAME );
+		}                
 
 	}
 
@@ -981,6 +995,11 @@ class Learndash_Discord_Public {
 		// Send Lesson Complete message.
 		if ( $ets_learndash_discord_send_lesson_complete_dm == true ) {
 			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $lesson_id, 'lesson_complete' ), LEARNDASH_DISCORD_AS_GROUP_NAME );
+		}
+                
+		// Achievements
+		if ( Learndash_Discord::ets_achievement_add_on_is_active() ){  
+			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $lesson_id, 'complete_lesson_achievement' ), LEARNDASH_DISCORD_AS_GROUP_NAME );
 		}
 
 	}
