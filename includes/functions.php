@@ -688,25 +688,25 @@ function ets_learndash_discord_allowed_html( $html_message ) {
  * Get formatted complete course achievement message to send in DM
  *
  * @param INT $user_id
- * @param INT $lesson_id
+ * @param INT $course_id
  * 
  */
 function ets_learndash_discord_get_formatted_complete_course_achievement_dm( $user_id, $course_id ) {
-	global $wpdb;
-	$user_obj    = get_user_by( 'id', $user_id );
-	$STUDENT_USERNAME = $user_obj->user_login;
-	$STUDENT_EMAIL    = $user_obj->user_email;
-	$SITE_URL  = get_bloginfo( 'url' );
-	$BLOG_NAME = get_bloginfo( 'name' );        
-        
-	$lesson = get_post( $course_id );
-	$COURSE_NAME = $lesson->post_title;
-    
-	$table_name = "{$wpdb->prefix}ld_achievements";
-	$sql = $wpdb->prepare( "SELECT `points` FROM `{$table_name}` WHERE `user_id` = %d and `post_id` = %d and  `trigger` = 'complete_course'", $user_id , $course_id );        
-	$points = $wpdb->get_results( $sql, ARRAY_A );        
-        
-	return 'HI ' . $STUDENT_USERNAME . '(' . $STUDENT_EMAIL . ')'. ' You Complete Course  Achievement : '. $COURSE_NAME  . ' , Points:' . $points[0]['points']  ; 
+//	global $wpdb;
+//	$user_obj    = get_user_by( 'id', $user_id );
+//	$STUDENT_USERNAME = $user_obj->user_login;
+//	$STUDENT_EMAIL    = $user_obj->user_email;
+//	$SITE_URL  = get_bloginfo( 'url' );
+//	$BLOG_NAME = get_bloginfo( 'name' );        
+//        
+//	$lesson = get_post( $course_id );
+//	$COURSE_NAME = $lesson->post_title;
+//    
+//	$table_name = "{$wpdb->prefix}ld_achievements";
+//	$sql = $wpdb->prepare( "SELECT `points` FROM `{$table_name}` WHERE `user_id` = %d and `post_id` = %d and  `trigger` = 'complete_course'", $user_id , $course_id );        
+//	$points = $wpdb->get_results( $sql, ARRAY_A );        
+//        
+//	return 'HI ' . $STUDENT_USERNAME . '(' . $STUDENT_EMAIL . ')'. ' You Complete Course  Achievement : '. $COURSE_NAME  . ' , Points:' . $points[0]['points']  ; 
 
 }
 
@@ -720,20 +720,79 @@ function ets_learndash_discord_get_formatted_complete_course_achievement_dm( $us
  */
 function ets_learndash_discord_get_formatted_complete_lesson_achievement_dm( $user_id, $lesson_id ) {
 	global $wpdb;
+        update_option('achisvement_lesson_id', $lesson_id);
 	$user_obj    = get_user_by( 'id', $user_id );
 	$STUDENT_USERNAME = $user_obj->user_login;
 	$STUDENT_EMAIL    = $user_obj->user_email;
-	$SITE_URL  = get_bloginfo( 'url' );
-	$BLOG_NAME = get_bloginfo( 'name' );        
-        
-	$lesson = get_post( $lesson_id );
-	$LESSON_NAME = $lesson->post_title;
-    
-	$table_name = "{$wpdb->prefix}ld_achievements";
-	$sql = $wpdb->prepare( "SELECT `points` FROM `{$table_name}` WHERE `user_id` = %d and `post_id` = %d and  `trigger` = 'complete_lesson'", $user_id , $lesson_id );        
-	$points = $wpdb->get_results( $sql, ARRAY_A );        
-        
-	return 'HI ' . $STUDENT_USERNAME . '(' . $STUDENT_EMAIL . ')'. ' You Complete lesson Achievement : '. $LESSON_NAME  . ' , Points:' . $points[0]['points']  ; 
 
+        
+	$blog_logo_full = esc_url( wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'full' )[0] );
+	$blog_logo_thumbnail =  esc_url( wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'thumbnail' )[0] );
+	
+	$SITE_URL  = get_bloginfo( 'url' );
+	$BLOG_NAME = get_bloginfo( 'name' );
+	$BLOG_DESCRIPTION = get_bloginfo( 'description' );
+    
+	$timestamp = date( "c", strtotime( "now" ) );        
+        
+//	$lesson = get_post( $lesson_id );
+//	$LESSON_NAME = $lesson->post_title;
+    
+	$sql = "SELECT `pm`.`post_id` FROM `{$wpdb->prefix}postmeta` as `pm` 
+	inner join `{$wpdb->prefix}posts`  as `ps`
+	on `pm`.`post_id` = `ps`.`ID`
+	where `ps`.`post_type` = 'ld-achievement'
+	and `pm`.`meta_key` = 'lesson_id'
+	and `pm`.`meta_value` =". $lesson_id;
+	$achievements = $wpdb->get_results( $sql, ARRAY_A );
+	if ( is_array ( $achievements ) && count( $achievements ) > 0 ){
+		foreach( $achievements as $achievement){
+			$achievement_id = $achievement['post_id'];
+			$post  = get_post( $achievement_id );
+			if ( ! is_object( $post ) ) {
+				continue;
+			}
+			$title   = $post->post_title;
+			$message = get_post_meta( $achievement_id, 'achievement_message', true );
+			$image = get_post_meta( $achievement_id, 'image', true );
+                        
+	$rich_embed_message = json_encode( [
+		"content" => "",
+		"username" =>  $BLOG_NAME,
+		"avatar_url" => $blog_logo_thumbnail,
+		"tts" => false,
+		"embeds" => [
+			[
+				"title" => $title,
+				"type" => "rich",
+				"description" => $message,
+				"url" => '',
+				"timestamp" => $timestamp,
+				"color" => hexdec( "3366ff" ),
+				"footer" => [
+					"text" => $BLOG_NAME,
+					"icon_url" => $blog_logo_thumbnail
+				],
+				"image" => [
+					"url" => $image
+				],
+				"thumbnail" => [
+					"url" => $blog_logo_thumbnail
+				],
+				"author" => [
+					"name" => $BLOG_NAME,
+					"url" => $SITE_URL
+				],
+				"fields" => []
+                            
+			]
+		]
+
+	], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
+
+	return $rich_embed_message ;                        
+		}
+	}
+        
 }
 

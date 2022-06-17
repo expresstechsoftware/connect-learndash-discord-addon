@@ -823,7 +823,7 @@ class Learndash_Discord_Public {
 
 		if ( $type == 'complete_course_achievement' ) {
 
-			$message = ets_learndash_discord_get_formatted_complete_course_achievement_dm( $user_id, $courses );
+			//$message = ets_learndash_discord_get_formatted_complete_course_achievement_dm( $user_id, $courses );
 		}
 
 		if ( $type == 'complete_lesson_achievement' ) {
@@ -832,16 +832,26 @@ class Learndash_Discord_Public {
 		}
 
 		$creat_dm_url = LEARNDASH_DISCORD_API_URL . '/channels/' . $dm_channel_id . '/messages';
-		if( $embed_messaging_feature ) {
+		if( $type == 'complete_lesson_achievement' || $type == 'complete_course_achievement' ) {
 			$dm_args      = array(
 				'method'  => 'POST',
 				'headers' => array(
 					'Content-Type'  => 'application/json',
 					'Authorization' => 'Bot ' . $discord_bot_token,
 				),
-				'body'    => ets_learndash_discord_get_rich_embed_message( trim ( $message ) ),
+				'body'    => $message,
 
 			); 
+		} else if ( $embed_messaging_feature ){
+			$dm_args      = array(
+				'method'  => 'POST',
+				'headers' => array(
+					'Content-Type'  => 'application/json',
+					'Authorization' => 'Bot ' . $discord_bot_token,
+				),
+				'body'    =>  ets_learndash_discord_get_rich_embed_message( trim ( $message ) ),
+
+			);                     
 		} else {
 			$dm_args      = array(
 				'method'  => 'POST',
@@ -975,10 +985,7 @@ class Learndash_Discord_Public {
 		if ( $ets_learndash_discord_send_course_complete_dm == true ) {
 			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $course_id, 'course_complete' ), LEARNDASH_DISCORD_AS_GROUP_NAME );
 		}
-		// Achievements
-		if ( Learndash_Discord::ets_achievement_add_on_is_active() ){  
-			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $lesson_id, 'complete_course_achievement' ), LEARNDASH_DISCORD_AS_GROUP_NAME );
-		}                
+               
 
 	}
 
@@ -997,11 +1004,6 @@ class Learndash_Discord_Public {
 			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $lesson_id, 'lesson_complete' ), LEARNDASH_DISCORD_AS_GROUP_NAME );
 		}
                 
-		// Achievements
-		if ( Learndash_Discord::ets_achievement_add_on_is_active() ){  
-			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $lesson_id, 'complete_lesson_achievement' ), LEARNDASH_DISCORD_AS_GROUP_NAME );
-		}
-
 	}
 
 	/**
@@ -1206,5 +1208,29 @@ class Learndash_Discord_Public {
 				}
 			}
 		}           
+	}
+
+	/**
+	 * Send achievement.
+	 *
+	 * @since    1.0.0
+	 * @param string $trigger Trigger hook.
+	 * @param int $user_id User ID.
+	 * @param int $trigger_post_id Post.
+	 * @param int $group_id group id. 
+	 * @param int $course_id  Course ID.
+	 * @param int $lesson_id  Lesson ID.
+	 * @param int $topic_id  Topic  ID.
+	 * @param int $quiz_id  Quiz_id  ID.
+	 * @return NONE
+	 */
+	public function ets_learndash_discord_ld_trigger_achievement_after_save( $trigger, $user_id, $trigger_post_id, $group_id, $course_id, $lesson_id, $topic_id, $quiz_id ){
+
+		if( $trigger === 'complete_course' ) {
+			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $course_id, 'complete_course_achievement' ), LEARNDASH_DISCORD_AS_GROUP_NAME );
+		}                
+		if( $trigger === 'complete_lesson' ) {    
+			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $lesson_id, 'complete_lesson_achievement' ), LEARNDASH_DISCORD_AS_GROUP_NAME );                                
+		}
 	}
 }
