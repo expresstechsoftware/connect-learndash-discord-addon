@@ -1,2 +1,1 @@
-# learndash-discord
-# wcfm-checkoutfinland-payment-gateway
+# connect-learndash-discord
