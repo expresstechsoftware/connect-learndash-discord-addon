@@ -1,21 +1,5 @@
 <?php
-
 /**
- * The public-facing functionality of the plugin.
- *
- * @link       https://www.expresstechsoftwares.com
- * @since      1.0.0
- *
- * @package    Learndash_Discord
- * @subpackage Learndash_Discord/public
- */
-
-/**
- * The public-facing functionality of the plugin.
- *
- * Defines the plugin name, version, and two examples hooks for how to
- * enqueue the public-facing stylesheet and JavaScript.
- *
  * @package    Learndash_Discord
  * @subpackage Learndash_Discord/public
  * @author     ExpressTech Softwares Solutions Pvt Ltd <contact@expresstechsoftwares.com>
@@ -79,18 +63,6 @@ class Learndash_Discord_Public {
 	 */
 	public function enqueue_styles() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Learndash_Discord_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Learndash_Discord_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
 		wp_register_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/learndash-discord-public.css', array(), $this->version, 'all' );
 
 	}
@@ -101,18 +73,6 @@ class Learndash_Discord_Public {
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
-
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Learndash_Discord_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Learndash_Discord_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
 
 		wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/learndash-discord-public.js', array( 'jquery' ), $this->version, false );
 		$script_params = array(

@@ -1,15 +1,4 @@
 <?php
-
-/**
- * The admin-specific functionality of the plugin.
- *
- * @link       https://www.expresstechsoftwares.com
- * @since      1.0.0
- *
- * @package    Learndash_Discord
- * @subpackage Learndash_Discord/admin
- */
-
 /**
  * The admin-specific functionality of the plugin.
  *
