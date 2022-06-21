@@ -39,12 +39,12 @@ function ets_get_learndash_discord_formated_discord_redirect_url( $page_id ) {
     
 	$parsed = parse_url( $url, PHP_URL_QUERY );
 	if ( $parsed === null ) {
-		return $url .= '?via=learndash-discord';
+		return $url .= '?via=connect-learndash-discord-addon';
 	} else {
-		if ( stristr( $url, 'via=learndash-discord' ) !== false ) {
+		if ( stristr( $url, 'via=connect-learndash-discord-addon' ) !== false ) {
 			return $url;
 		} else {
-			return $url .= '&via=learndash-discord';
+			return $url .= '&via=connect-learndash-discord-addon';
 		}
 	}
 }
