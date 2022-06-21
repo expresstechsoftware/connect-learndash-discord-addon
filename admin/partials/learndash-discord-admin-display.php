@@ -21,27 +21,27 @@ if ( isset( $_GET['save_settings_msg'] ) ) {
 	<?php
 }
 ?>
-<h1><?php echo __( 'LearnDash Discord Add On Settings', 'learndash-discord' ); ?></h1>
+<h1><?php echo __( 'LearnDash Discord Add On Settings', 'connect-learndash-discord-addon' ); ?></h1>
 		<div id="learndash-discord-outer" class="skltbs-theme-light" data-skeletabs='{ "startIndex": 0 }'>
 			<ul class="skltbs-tab-group">
 				<li class="skltbs-tab-item">
-				<button class="skltbs-tab" data-identity="settings" ><?php echo __( 'Application Details', 'learndash-discord' ); ?><span class="initialtab spinner"></span></button>
+				<button class="skltbs-tab" data-identity="settings" ><?php echo __( 'Application Details', 'connect-learndash-discord-addon' ); ?><span class="initialtab spinner"></span></button>
 				</li>
 				<li class="skltbs-tab-item">
 				<?php if ( learndash_discord_check_saved_settings_status() ): ?>
-				<button class="skltbs-tab" data-identity="level-mapping" ><?php echo __( 'Role Mappings', 'learndash-discord' ); ?></button>
+				<button class="skltbs-tab" data-identity="level-mapping" ><?php echo __( 'Role Mappings', 'connect-learndash-discord-addon' ); ?></button>
 				<?php endif; ?>
 				</li>
 				<li class="skltbs-tab-item">
-				<button class="skltbs-tab" data-identity="advanced" ><?php echo __( 'Advanced', 'learndash-discord' ); ?>	
+				<button class="skltbs-tab" data-identity="advanced" ><?php echo __( 'Advanced', 'connect-learndash-discord-addon' ); ?>	
 				</button>
 				</li>
 				<li class="skltbs-tab-item">
-				<button class="skltbs-tab" data-identity="appearance" ><?php echo __( 'Appearance', 'learndash-discord' ); ?>	
+				<button class="skltbs-tab" data-identity="appearance" ><?php echo __( 'Appearance', 'connect-learndash-discord-addon' ); ?>	
 				</button>
 				</li>                                
 				<li class="skltbs-tab-item">
-				<button class="skltbs-tab" data-identity="logs" ><?php echo __( 'Logs', 'learndash-discord' ); ?>	
+				<button class="skltbs-tab" data-identity="logs" ><?php echo __( 'Logs', 'connect-learndash-discord-addon' ); ?>	
 				</button>
 				</li>                                
 			

@@ -102,7 +102,7 @@ class Learndash_Discord_Dependencies {
         
         
 		return sprintf(
-                        esc_html__( '%1$s,The %2$sLearnDash LMS Plugin%3$s must be active and at least version %4$s or higher. Please %5$supdate%6$s or activate LearnDash LMS Plugin', 'learndash-discord' )
+                        esc_html__( '%1$s,The %2$sLearnDash LMS Plugin%3$s must be active and at least version %4$s or higher. Please %5$supdate%6$s or activate LearnDash LMS Plugin', 'connect-learndash-discord-addon' )
 				,'<strong>' . $this->plugin_name . ' is inactive </strong>',
                                 '<a href="' . esc_url( 'https://www.learndash.com/' ) . '">', '</a>',
 				self::MINIMUM_LEARNDASH_VERSION,

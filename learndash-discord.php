@@ -1,27 +1,21 @@
 <?php
-
 /**
- * The plugin bootstrap file
- *
- * This file is read by WordPress to generate the plugin information in the plugin
- * admin area. This file also includes all of the dependencies used by the plugin,
- * registers the activation and deactivation functions, and defines a function
- * that starts the plugin.
+
  *
  * @link              https://www.expresstechsoftwares.com
  * @since             1.0.0
  * @package           Learndash_Discord
  *
  * @wordpress-plugin
- * Plugin Name:       LearnDash Discord
+ * Plugin Name:       Connect LearnDash and Discord
  * Plugin URI:        https://www.expresstechsoftwares.com/learndash-and-discord-integration
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       Connect LearnDash with Discord and open an oppurtunity of creating a vibrating community of your learners.
  * Version:           1.0.0
  * Author:            ExpressTech Softwares Solutions Pvt Ltd
  * Author URI:        https://www.expresstechsoftwares.com
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       learndash-discord
+ * Text Domain:       connect-learndash-discord-addon
  * Domain Path:       /languages
  */
 

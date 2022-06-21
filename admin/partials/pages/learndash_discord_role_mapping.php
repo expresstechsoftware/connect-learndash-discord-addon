@@ -13,19 +13,19 @@ $default_role        = sanitize_text_field( trim( get_option( 'ets_learndash_dis
 $allow_none_student  = sanitize_text_field( trim( get_option( 'ets_learndash_discord_allow_none_student' ) ) );
 ?>
 <div class="notice notice-warning ets-notice">
-  <p><i class='fas fa-info'></i> <?php echo __( 'Drag and Drop the Discord Roles over to the Learndash Courses', 'learndash-discord' ); ?></p>
+  <p><i class='fas fa-info'></i> <?php echo __( 'Drag and Drop the Discord Roles over to the Learndash Courses', 'connect-learndash-discord-addon' ); ?></p>
 </div>
 
 <div class="row-container">
   <div class="ets-column learndash-discord-roles-col">
-	<h2><?php echo __( 'Discord Roles', 'learndash-discord' ); ?></h2>
+	<h2><?php echo __( 'Discord Roles', 'connect-learndash-discord-addon' ); ?></h2>
 	<hr>
 	<div class="learndash-discord-roles">
 	  <span class="spinner"></span>
 	</div>
   </div>
   <div class="ets-column">
-	<h2><?php echo __( 'Courses', 'learndash-discord' ); ?></h2>
+	<h2><?php echo __( 'Courses', 'connect-learndash-discord-addon' ); ?></h2>
 	<hr>
 	<div class="learndash-discord-courses">
 	<?php
@@ -46,18 +46,18 @@ $allow_none_student  = sanitize_text_field( trim( get_option( 'ets_learndash_dis
   <table class="form-table" role="presentation">
 	<tbody>
 	  <tr>
-		<th scope="row"><label for="learndash-defaultRole"><?php echo __( 'Default Role', 'learndash-discord' ); ?></label></th>
+		<th scope="row"><label for="learndash-defaultRole"><?php echo __( 'Default Role', 'connect-learndash-discord-addon' ); ?></label></th>
 		<td>
 		  <?php wp_nonce_field( 'learndash_discord_role_mappings_nonce', 'ets_learndash_discord_role_mappings_nonce' ); ?>
 		  <input type="hidden" id="selected_default_role" value="<?php echo esc_attr( $default_role ); ?>">
 		  <select id="learndash-defaultRole" name="learndash_defaultRole">
-			<option value="none"><?php echo __( '-None-', 'learndash-discord' ); ?></option>
+			<option value="none"><?php echo __( '-None-', 'connect-learndash-discord-addon' ); ?></option>
 		  </select>
-		  <p class="description"><?php echo __( 'This Role will be assigned to all', 'learndash-discord' ); ?></p>
+		  <p class="description"><?php echo __( 'This Role will be assigned to all', 'connect-learndash-discord-addon' ); ?></p>
 		</td>
 	  </tr>
 	  <tr>
-		<th scope="row"><label><?php echo __( 'Allow non-student', 'learndash-discord' ); ?></label></th>
+		<th scope="row"><label><?php echo __( 'Allow non-student', 'connect-learndash-discord-addon' ); ?></label></th>
 		<td>
 		  <fieldset>
 		  <label><input type="radio" name="allow_none_student" value="yes"  
@@ -65,14 +65,14 @@ $allow_none_student  = sanitize_text_field( trim( get_option( 'ets_learndash_dis
 			if ( $allow_none_student == 'yes' ) {
 				echo 'checked="checked"'; }
 			?>
-			 > <span><?php echo __( 'Yes', 'learndash-discord' ); ?></span></label><br>
+			 > <span><?php echo __( 'Yes', 'connect-learndash-discord-addon' ); ?></span></label><br>
 		  <label><input type="radio" name="allow_none_student" value="no" 
 		  <?php
 			if ( empty( $allow_none_student ) || $allow_none_student == 'no' ) {
 				echo 'checked="checked"'; }
 			?>
-			 > <span><?php echo __( 'No', 'learndash-discord' ); ?></span></label>
-		  <p class="description"><?php echo __( 'Display connect button to normal wordpress site users having learndash account', 'learndash-discord' ); ?></p>
+			 > <span><?php echo __( 'No', 'connect-learndash-discord-addon' ); ?></span></label>
+		  <p class="description"><?php echo __( 'Display connect button to normal wordpress site users having learndash account', 'connect-learndash-discord-addon' ); ?></p>
 		  </fieldset>
 		</td>
 	  </tr>          
@@ -90,10 +90,10 @@ $allow_none_student  = sanitize_text_field( trim( get_option( 'ets_learndash_dis
   </div>
   <div class="bottom-btn">
 	<button type="submit" name="submit" value="ets_submit" class="ets-submit ets-btn-submit ets-bg-green">
-	  <?php echo __( 'Save Settings', 'learndash-discord' ); ?>
+	  <?php echo __( 'Save Settings', 'connect-learndash-discord-addon' ); ?>
 	</button>
 	<button id="revertMapping" name="flush" class="ets-submit ets-btn-submit ets-bg-red">
-	  <?php echo __( 'Flush Mappings', 'learndash-discord' ); ?>
+	  <?php echo __( 'Flush Mappings', 'connect-learndash-discord-addon' ); ?>
 	</button>
   </div>
 </form>

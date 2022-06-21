@@ -31,8 +31,8 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 }
 
 if ( defined( 'WP_UNINSTALL_PLUGIN' )
-		&& $_REQUEST['plugin'] == 'learndash-discord-addon/learndash-discord.php'
-		&& $_REQUEST['slug'] == 'learndash-discord'
+		&& $_REQUEST['plugin'] == 'connect-learndash-discord-addon/learndash-discord.php'
+		&& $_REQUEST['slug'] == 'connect-learndash-discord-addon'
 	&& wp_verify_nonce( $_REQUEST['_ajax_nonce'], 'updates' )
   ) {
 	global $wpdb;
