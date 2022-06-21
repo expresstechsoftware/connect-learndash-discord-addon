@@ -99,7 +99,8 @@ class Learndash_Discord_Admin {
 		wp_register_script( $this->plugin_name . '-select2',  plugin_dir_url( __FILE__ ) . 'js/select2.js', array( 'jquery' ), $this->version, false );
             
 		wp_register_script( $this->plugin_name . '-tabs-js', plugin_dir_url( __FILE__ ) . 'js/skeletabs.js', array( 'jquery' ), $this->version, false );
-		wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/learndash-discord-admin.js', array( 'jquery' ), $this->version, false );                
+		$min_js = ( defined( 'WP_DEBUG' ) && true === WP_DEBUG  ) ? '' : '.min';                
+		wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/learndash-discord-admin' . $min_js . '.js', array( 'jquery' ), $this->version, false );                
 		$script_params = array(
 			'admin_ajax'                       => admin_url( 'admin-ajax.php' ),
 			'permissions_const'                => LEARNDASH_DISCORD_BOT_PERMISSIONS,
