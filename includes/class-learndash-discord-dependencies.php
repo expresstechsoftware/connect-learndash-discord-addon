@@ -1,15 +1,4 @@
 <?php
-
-/**
- * Check the plugin dependencies
- *
- * @link       https://www.expresstechsoftwares.com
- * @since      1.0.0
- *
- * @package    Learndash_Discord
- * @subpackage Learndash_Discord/includes
- */
-
 /**
  * Check the plugin dependencies
  *
@@ -128,17 +117,17 @@ class Learndash_Discord_Dependencies {
 		);
 	}
         
-        /**
-         * 
-         */
+  /*
+  * Check if LD is installed.
+  */
 	public function check_environment() {
             
 		if ( ! $this->check_learndash() ){
 			$this->deactivate_plugin();
 			$this->add_admin_notice( 'update_learndash', 'error', $this->get_learndash_notice() );
 		}
-        }
-        
+  }
+
 	/** 
 	* Displays any admin notices added.
 	*
