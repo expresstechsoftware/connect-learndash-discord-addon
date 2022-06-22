@@ -71,7 +71,7 @@ $ets_learndash_discord_connected_bot_name     = sanitize_text_field( trim( get_o
 	  <?php
 			$params                    = array(
 				'client_id'     => sanitize_text_field( trim( get_option( 'ets_learndash_discord_client_id' ) ) ),
-				'redirect_uri'  => get_admin_url('', 'admin.php').'?page=learndash-discord&via=learndash-discord-bot',
+				'redirect_uri'  => get_admin_url('', 'admin.php').'?page=connect-learndash-discord-addon&via=learndash-discord-bot',
 				'response_type' => 'code',
 				'scope'         => 'bot',
 				'permissions' => LEARNDASH_DISCORD_BOT_PERMISSIONS,
