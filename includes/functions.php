@@ -4,7 +4,9 @@
 */
 
 /**
- * 
+ * Get WP Pages list
+ * @param INT $ets_learndash_discord_redirect_page_id
+ * @return STRING $options
  */
 function ets_learndash_discord_pages_list( $ets_learndash_discord_redirect_page_id ){
     $args = array(
@@ -33,7 +35,11 @@ function ets_learndash_discord_pages_list( $ets_learndash_discord_redirect_page_
     return $options;
 }
 
-// function to get formated redirect url
+/*
+function to get formated redirect url
+ * @param INT $page_id
+ * @return STRING $url
+*/
 function ets_get_learndash_discord_formated_discord_redirect_url( $page_id ) {
     $url = esc_url( get_permalink( $page_id ) );
     
@@ -510,6 +516,10 @@ function ets_learndash_discord_get_all_pending_actions() {
 	}
 }
 
+/*
+Get All failed actions from action scheduler.
+*/
+
 function ets_learndash_discord_get_all_failed_actions(){
 	global $wpdb;
 	$result = $wpdb->get_results( $wpdb->prepare( 'SELECT aa.action_id, aa.hook, ag.slug AS as_group FROM ' . $wpdb->prefix . 'actionscheduler_actions as aa INNER JOIN ' . $wpdb->prefix . 'actionscheduler_groups as ag ON aa.group_id=ag.group_id WHERE  ag.slug=%s AND aa.status = "failed" ' , LEARNDASH_DISCORD_AS_GROUP_NAME ), ARRAY_A );
@@ -521,7 +531,9 @@ function ets_learndash_discord_get_all_failed_actions(){
 	}        
 }
 
-
+/*
+Get BOT name
+*/
 function ets_learndash_discord_update_bot_name_option ( ){
  
 	$guild_id          = sanitize_text_field( trim( get_option( 'ets_learndash_discord_server_id' ) ) );
@@ -553,6 +565,10 @@ function ets_learndash_discord_update_bot_name_option ( ){
 	}
 
 }
+/*
+  Remove all usermeta created by this plugin.
+  @param INT $user_id
+*/
 function ets_learndash_discord_remove_usermeta ( $user_id ){
  
 	global $wpdb;
@@ -564,6 +580,14 @@ function ets_learndash_discord_remove_usermeta ( $user_id ){
 	$wpdb->query( $delete_usermeta_sql );
              
 }
+
+/*
+  Get message for what role is assigned to the member.
+  @param STRING $mapped_role_name
+  @param STRING $default_role_name
+  @param STRING $restrictcontent_discord
+*/
+
 function ets_learndash_discord_roles_assigned_message ( $mapped_role_name, $default_role_name, $restrictcontent_discord ) {
     
 	if ( $mapped_role_name ) {
@@ -619,6 +643,13 @@ function ets_learndash_discord_get_user_roles ( $user_id ){
    
 }
 
+/**
+ * Get rich embed message
+ *
+ * @param STRING $message
+ * @return STRING $rich_embed_message
+ */
+
 function ets_learndash_discord_get_rich_embed_message ( $message ){
     
 	$blog_logo_full = esc_url( wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'full' )[0] );
@@ -673,6 +704,14 @@ function ets_learndash_discord_get_rich_embed_message ( $message ){
 
 	return $rich_embed_message ; 
 }
+
+/**
+ * Get allowed html using Wordpress API function wp_kses
+ *
+ * @param STRING $html_message
+ * @return STRING $html_message
+ */
+
 function ets_learndash_discord_allowed_html( $html_message ) {
 	$allowed_html = array(
 		'span' => array(),

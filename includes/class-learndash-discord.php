@@ -1,27 +1,5 @@
 <?php
-
 /**
- * The file that defines the core plugin class
- *
- * A class definition that includes attributes and functions used across both the
- * public-facing side of the site and the admin area.
- *
- * @link       https://www.expresstechsoftwares.com
- * @since      1.0.0
- *
- * @package    Learndash_Discord
- * @subpackage Learndash_Discord/includes
- */
-
-/**
- * The core plugin class.
- *
- * This is used to define internationalization, admin-specific hooks, and
- * public-facing site hooks.
- *
- * Also maintains the unique identifier of this plugin as well as the current
- * version of the plugin.
- *
  * @since      1.0.0
  * @package    Learndash_Discord
  * @subpackage Learndash_Discord/includes
@@ -229,18 +207,18 @@ class Learndash_Discord {
 		$this->loader->add_action( 'wp_ajax_learndash_disconnect_from_discord', $plugin_public, 'ets_learndash_discord_disconnect_from_discord' );
 		$this->loader->add_action( 'ets_learndash_discord_as_schedule_delete_member', $plugin_public, 'ets_learndash_discord_as_handler_delete_member_from_guild', 10, 3 );
 		$this->loader->add_action( 'ets_learndash_discord_as_schedule_delete_role',  $plugin_public, 'ets_learndash_discord_as_handler_delete_memberrole' , 10, 3 );
-//		$this->loader->add_filter( 'learndash_get_user_activity', $plugin_public, 'ets_learndash_discord_get_user_activity' , 10, 2 );                
-		$this->loader->add_action( 'learndash_certification_content_write_cell_after', $plugin_public, 'ets_learndash_discord_certification_created' , 10 , 2 );  
-		$this->loader->add_action( 'learndash-register-modal-heading-after', $plugin_public, 'ets_learndash_discord_registration_form' , 99 );                  
-		$this->loader->add_action( 'template_redirect', $plugin_public, 'ets_learndash_discord_login_with_discord' );                                  
+    //$this->loader->add_filter( 'learndash_get_user_activity', $plugin_public, 'ets_learndash_discord_get_user_activity' , 10, 2 );                
+		$this->loader->add_action( 'learndash_certification_content_write_cell_after', $plugin_public, 'ets_learndash_discord_certification_created' , 10 , 2 );
+		$this->loader->add_action( 'learndash-register-modal-heading-after', $plugin_public, 'ets_learndash_discord_registration_form' , 99 );
+		$this->loader->add_action( 'template_redirect', $plugin_public, 'ets_learndash_discord_login_with_discord' );
 		$this->loader->add_action( 'learndash_user_course_access_expired', $plugin_public, 'ets_learndash_discord_user_course_access_expired', 10, 2 );
 		if ( Learndash_Discord::ets_achievement_add_on_is_active() ){
-			$this->loader->add_action( 'ld_complete_lesson_achievement_after_save', $plugin_public, 'ets_learndash_discord_ld_trigger_achievement_after_save', 99, 8 );                                                                  
-			$this->loader->add_action( 'ld_complete_course_achievement_after_save', $plugin_public, 'ets_learndash_discord_ld_trigger_achievement_after_save', 99, 8 );                                                                                          
+			$this->loader->add_action( 'ld_complete_lesson_achievement_after_save', $plugin_public, 'ets_learndash_discord_ld_trigger_achievement_after_save', 99, 8 );
+			$this->loader->add_action( 'ld_complete_course_achievement_after_save', $plugin_public, 'ets_learndash_discord_ld_trigger_achievement_after_save', 99, 8 );
 		}
 
-        }
-        
+}
+
 	/**
 	 * Define actions which are not in admin or not public
 	 *
@@ -252,9 +230,9 @@ class Learndash_Discord {
 		$this->loader->add_filter( 'action_scheduler_queue_runner_batch_size', $this, 'ets_learndash_discord_queue_batch_size' );                
 		$this->loader->add_filter( 'action_scheduler_queue_runner_concurrent_batches', $this, 'ets_learndash_discord_concurrent_batches' );            
 		
-        }
+  }
 
-        /**
+  /**
 	 * Re-schedule  failed action 
 	 *
 	 * @param INT            $action_id

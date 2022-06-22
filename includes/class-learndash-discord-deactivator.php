@@ -1,16 +1,6 @@
 <?php
 
 /**
- * Fired during plugin deactivation
- *
- * @link       https://www.expresstechsoftwares.com
- * @since      1.0.0
- *
- * @package    Learndash_Discord
- * @subpackage Learndash_Discord/includes
- */
-
-/**
  * Fired during plugin deactivation.
  *
  * This class defines all code necessary to run during the plugin's deactivation.

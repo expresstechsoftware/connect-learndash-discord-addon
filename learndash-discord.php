@@ -9,7 +9,7 @@
  * @wordpress-plugin
  * Plugin Name:       Connect LearnDash and Discord
  * Plugin URI:        https://www.expresstechsoftwares.com/learndash-and-discord-integration
- * Description:       Connect LearnDash with Discord and open an oppurtunity of creating a vibrating community of your learners.
+ * Description:       Connect LearnDash with Discord and open an oppurtunity of creating a vibrating community of your course learners.
  * Version:           1.0.0
  * Author:            ExpressTech Softwares Solutions Pvt Ltd
  * Author URI:        https://www.expresstechsoftwares.com
@@ -86,11 +86,6 @@ function deactivate_learndash_discord() {
 
 register_activation_hook( __FILE__, 'activate_learndash_discord' );
 register_deactivation_hook( __FILE__, 'deactivate_learndash_discord' );
-
-// /**
-//    * The class responsible for defining all methods that help to schedule actions.
-// */
-// require_once 'includes/libraries/action-scheduler/action-scheduler.php';
 
 /**
  * The core plugin class that is used to define internationalization,
