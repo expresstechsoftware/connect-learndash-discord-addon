@@ -36,7 +36,7 @@ $ets_learndash_discord_connected_bot_name     = sanitize_text_field( trim( get_o
 	</div>
 	<div class="ets-input-group">
             <label><?php esc_html_e( 'Admin Redirect URL Connect to bot', 'connect-learndash-discord-addon' ); ?> :</label>
-            <input type="text" class="ets-input" value="<?php echo get_admin_url('', 'admin.php').'?page=connect-learndash-discord-addon&via=learndash-discord-bot'; ?>" readonly required />
+            <input type="text" class="ets-input" value="<?php echo esc_attr( get_admin_url('', 'admin.php').'?page=connect-learndash-discord-addon&via=learndash-discord-bot' ); ?>" readonly required />
         </div>
 	<div class="ets-input-group">
             <?php
