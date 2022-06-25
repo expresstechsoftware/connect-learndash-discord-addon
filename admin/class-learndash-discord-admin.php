@@ -566,7 +566,7 @@ class Learndash_Discord_Admin {
 			wp_enqueue_script( $this->plugin_name );
 			$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_access_token', true ) ) );
 			if ( $access_token  ){
-				return '<a href="#" data-user-id="' . $user_id  . '" class="ets-learndash-discord-run-api" >' . esc_html__( 'RUN API', 'connect-learndash-discord-addon' ) . '</a><span class=" run-api spinner" ></span><div class="run-api-success"></div>';                            
+				return '<a href="#" data-user-id="' . esc_attr( $user_id )  . '" class="ets-learndash-discord-run-api" >' . esc_html__( 'RUN API', 'connect-learndash-discord-addon' ) . '</a><span class=" run-api spinner" ></span><div class="run-api-success"></div>';                            
 			}
 			return esc_html__( 'Not Connected', 'connect-learndash-discord-addon' );			
 		}
@@ -693,7 +693,7 @@ class Learndash_Discord_Admin {
 			$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_access_token', true ) ) );
 			$_ets_learndash_discord_username = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_username', true ) ) );                        
 			if ( $access_token  ){
-				return '<button  data-user-id="' . $user_id  . '" class="learndash-disconnect-discord-user" >' . esc_html__ ( 'Disconnect from discord ' , 'connect-learndash-discord-addon' ) . ' <i class="fab fa-discord"></i> <span class="spinner"></span> </button><p>' . esc_html__ ( sprintf( 'Connected account: %s', $_ets_learndash_discord_username ) , 'connect-learndash-discord-addon' ) . '</p>';                                 
+				return '<button  data-user-id="' . esc_attr( $user_id )  . '" class="learndash-disconnect-discord-user" >' . esc_html__ ( 'Disconnect from discord ' , 'connect-learndash-discord-addon' ) . ' <i class="fab fa-discord"></i> <span class="spinner"></span> </button><p>' . esc_html__ ( sprintf( 'Connected account: %s', $_ets_learndash_discord_username ) , 'connect-learndash-discord-addon' ) . '</p>';                                 
 			}
 			return esc_html__( 'Not Connected', 'connect-learndash-discord-addon' );			
 		}
