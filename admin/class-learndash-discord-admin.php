@@ -711,12 +711,12 @@ class Learndash_Discord_Admin {
 			$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_access_token', true ) ) );
 			$refresh_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_refresh_token', true ) ) );                    
 			$_ets_learndash_discord_username = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_username', true ) ) );                                                
-			if( $access_token && $refresh_token ){
+			if ( $access_token && $refresh_token ) {
 				$DisConnect = '<h3>'.  esc_html__( 'LearnDash Discrod Add-On', 'connect-learndash-discord-addon' ).'</h3>';
 				$DisConnect .= '<button data-user-id='. $user_id .' type="button" class="button learndash-disconnect-discord-user" id="disconnect-discord-user">' . esc_html__ ( 'Disconnect from Discord' , 'connect-learndash-discord-addon' ) . ' <i class="fab fa-discord"></i> <span class="spinner"></span> </button>';                    
-                                $DisConnect .= '<p>' . esc_html__ ( sprintf( 'Connected account %s', $_ets_learndash_discord_username ) ) . '</p>';
-				echo $DisConnect;
-                        }   
+				$DisConnect .= '<p>' . esc_html__ ( sprintf( 'Connected account %s', $_ets_learndash_discord_username ) ) . '</p>';
+				_e( wp_kses( $DisConnect,  ets_learndash_discord_allowed_html() ) );
+			}   
 		}          
 	}
 	/**

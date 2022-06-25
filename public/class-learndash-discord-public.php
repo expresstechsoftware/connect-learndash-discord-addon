@@ -1125,7 +1125,7 @@ class Learndash_Discord_Public {
 					$connect_btn_bg_color 
 				) 
 			);
-			_e( 
+			_e ( 
 				sprintf ( 
 					wp_kses ( 
 						'<a class="learndash-discord-btn-connect ets-btn" href="?action=learndash-discord-login&current-location=%1$s"> %2$s </a>', 
@@ -1139,7 +1139,7 @@ class Learndash_Discord_Public {
 					$current_location_url, $ets_learndash_discord_non_login_button_text 
 				) 
 			) ;
-			_e( 
+			_e ( 
 				wp_kses ( 
 					Learndash_Discord::get_discord_logo_white(),
 					array( 

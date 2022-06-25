@@ -735,8 +735,14 @@ function ets_learndash_discord_allowed_html( ) {
 			'class' => array()
 		),
 		'i' => array(
-			'style' => array()
-		)
+			'style' => array(),
+			'class' => array()                    
+		),
+		'button' => array(
+			'class' => array(),
+			'data-user-id' => array(),
+			'id' => array(),                    
+		)            
 	);
 
 	return $allowed_html;
