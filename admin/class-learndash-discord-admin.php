@@ -591,7 +591,7 @@ class Learndash_Discord_Admin {
 			exit();
 		}
                 
-		$user_id = $_POST['ets_learndash_discord_user_id'];
+		$user_id = sanitize_text_field ( $_POST['ets_learndash_discord_user_id'] );
 		$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_access_token', true ) ) );
 		$refresh_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_refresh_token', true ) ) );                
 		$ets_learndash_discord_role_mapping = json_decode( get_option( 'ets_learndash_discord_role_mapping' ), true );
@@ -707,13 +707,13 @@ class Learndash_Discord_Admin {
            
 		if (  current_user_can( 'administrator' ) ) {
 			wp_enqueue_script( $this->plugin_name );
-			$user_id =  ( isset( $_GET['user_id'] ) ) ? $_GET['user_id'] : get_current_user_id() ;
+			$user_id =  ( isset( $_GET['user_id'] ) ) ? sanitize_text_field( $_GET['user_id'] ) : get_current_user_id() ;
 			$access_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_access_token', true ) ) );
 			$refresh_token = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_refresh_token', true ) ) );                    
 			$_ets_learndash_discord_username = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_username', true ) ) );                                                
 			if ( $access_token && $refresh_token ) {
 				$DisConnect = '<h3>'.  esc_html__( 'LearnDash Discrod Add-On', 'connect-learndash-discord-addon' ).'</h3>';
-				$DisConnect .= '<button data-user-id='. $user_id .' type="button" class="button learndash-disconnect-discord-user" id="disconnect-discord-user">' . esc_html__ ( 'Disconnect from Discord' , 'connect-learndash-discord-addon' ) . ' <i class="fab fa-discord"></i> <span class="spinner"></span> </button>';                    
+				$DisConnect .= '<button data-user-id='. esc_attr( $user_id ) .' type="button" class="button learndash-disconnect-discord-user" id="disconnect-discord-user">' . esc_html__ ( 'Disconnect from Discord' , 'connect-learndash-discord-addon' ) . ' <i class="fab fa-discord"></i> <span class="spinner"></span> </button>';                    
 				$DisConnect .= '<p>' . esc_html__ ( sprintf( 'Connected account %s', $_ets_learndash_discord_username ) ) . '</p>';
 				_e( wp_kses( $DisConnect,  ets_learndash_discord_allowed_html() ) );
 			}   
@@ -780,7 +780,7 @@ class Learndash_Discord_Admin {
 			exit();
 		}
 
-		$page_id = $_POST['ets_learndash_page_id'];
+		$page_id = sanitize_text_field( $_POST['ets_learndash_page_id'] );
 		if( isset( $page_id ) ){
 			$formated_discord_redirect_url = ets_get_learndash_discord_formated_discord_redirect_url( $page_id );
 			update_option( 'ets_learndash_discord_redirect_page_id' ,$page_id );
