@@ -357,20 +357,20 @@ class Learndash_Discord_Public {
 			}
 		} else {
 			if ( isset( $_GET['code'] ) && isset( $_GET['via'] ) && $_GET['via'] == 'connect-learndash-discord-addon' ) {
-                                update_option('check_redirect_connect', $_GET );
+                                
 				$code     = sanitize_text_field( trim( $_GET['code'] ) );                            
 				$response = $this->create_discord_auth_token( $code, 'new_learndash_student' );
 				if ( ! empty( $response ) && ! is_wp_error( $response ) ) {
 					$res_body = json_decode( wp_remote_retrieve_body( $response ), true );
-                                        update_option('check_res_body', $res_body );
+                                        
 					if ( is_array( $res_body ) ) {
 						if ( array_key_exists( 'access_token', $res_body ) ) {
 							$access_token       = sanitize_text_field( trim( $res_body['access_token'] ) );
 							$user_body          = $this->get_discord_current_user( $access_token , 'new_learndash_student' );
-                                                        update_option('check_user_body', $user_body );
+                                                        
 							$discord_user_email = $user_body['email'];
 							$password           = wp_generate_password( 12, true, false );
-                                                        update_option('check_user_email', $discord_user_email );
+                                                        
 							if ( email_exists( $discord_user_email ) ) {
 								$current_user = get_user_by( 'email', $discord_user_email );
 								$user_id      = $current_user->ID;
