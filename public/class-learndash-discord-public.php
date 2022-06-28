@@ -1180,7 +1180,7 @@ class Learndash_Discord_Public {
 			$discord_authorise_api_url = LEARNDASH_DISCORD_API_URL . 'oauth2/authorize?' . http_build_query( $params );
 			
 			if ( isset( $_GET['current-location'] ) ) {
-				setcookie( 'ets_learndash_current_location_storage', $_GET['current-location'], time() + 300, '/' );
+				setcookie( 'ets_learndash_current_location_storage', filter_input( INPUT_GET, $_GET['current-location'] ), time() + 300, '/' );
 			}
                         
 			wp_redirect( $discord_authorise_api_url, 302, get_site_url() );
