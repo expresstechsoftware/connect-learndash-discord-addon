@@ -35,7 +35,7 @@ class LearnDash_Discord_Add_On_Logs {
 			exit();
 		}
 		try {
-			$uuid      = get_option( 'ets_learndash_discord_uuid_file_name' );
+			$uuid      = sanitize_text_field( trim( get_option( 'ets_learndash_discord_uuid_file_name' ) ) );
 			$file_name = $uuid . $this::$log_file_name;
 			if ( fopen( WP_CONTENT_DIR . '/' . $file_name, 'w' ) ) {
 				$myfile = fopen( WP_CONTENT_DIR . '/' . $file_name, 'w' );
@@ -73,8 +73,8 @@ class LearnDash_Discord_Add_On_Logs {
 		if ( $user_id ) {
 			$user_details = '::User Id:' . $user_id;
 		}
-		$log_api_response = get_option( 'ets_learndash_discord_log_api_response' );
-		$uuid             = get_option( 'ets_learndash_discord_uuid_file_name' );
+		$log_api_response = sanitize_text_field( trim( get_option( 'ets_learndash_discord_log_api_response' ) ) );
+		$uuid             = sanitize_text_field( trim( get_option( 'ets_learndash_discord_uuid_file_name' ) ) );
 		$log_file_name    = $uuid . self::$log_file_name;
 		if( is_array( $response_arr ) ){
                         if (  array_key_exists( 'code', $response_arr ) ) {
