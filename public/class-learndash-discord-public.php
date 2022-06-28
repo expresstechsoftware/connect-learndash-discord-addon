@@ -424,7 +424,7 @@ class Learndash_Discord_Public {
 							wp_signon( $credentials, '' );
 							$discord_user_id = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_user_id', true ) ) );
                                                         $this->add_discord_member_in_guild( $discord_user_id, $user_id, $access_token );                                                        
-							if ( $_COOKIE['ets_learndash_current_location_storage'] ) {
+							if ( array_key_exists ( 'ets_learndash_current_location_storage', $_COOKIE )  && $_COOKIE['ets_learndash_current_location_storage'] ) {
 								wp_safe_redirect( urldecode_deep( $_COOKIE['ets_learndash_current_location_storage'] ) );
 								exit();
 							}
