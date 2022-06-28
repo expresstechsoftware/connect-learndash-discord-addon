@@ -784,7 +784,7 @@ function ets_learndash_discord_get_formatted_complete_course_achievement_dm( $us
  */
 function ets_learndash_discord_get_formatted_complete_lesson_achievement_dm( $user_id, $lesson_id ) {
 	global $wpdb;
-        update_option('achisvement_lesson_id', $lesson_id);
+
 	$user_obj    = get_user_by( 'id', $user_id );
 	$STUDENT_USERNAME = $user_obj->user_login;
 	$STUDENT_EMAIL    = $user_obj->user_email;
