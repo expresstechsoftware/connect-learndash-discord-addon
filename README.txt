@@ -48,8 +48,30 @@ Connect LearnDash to Discord Plugin Features:
 2. Or, download the latest version of the plugin, then go to Plugins > Add New and click the "Upload Plugin" button to upload your .zip file.
 3. Activate the plugin.
 
+== Checkout Our Other Plugins ==
+1. [Connect MemberPress and Discord](https://wordpress.org/plugins/expresstechsoftwares-memberpress-discord-add-on/)
+2. [Connect PaidmembershipPro and Discord](https://wordpress.org/plugins/pmpro-discord-add-on/)
 
 == Frequently Asked Questions ==
 = I'm getting an error in error Log 'Missing Access'
 Please make sure your bot role has the highest priority among all other roles in your discord server roles settings.
+= I'm getting an error in error Log 'Missing Access'
+Please make sure your bot role has the high priority among all other roles your bot has to manager in your discord server roles settings.
+= Role Settings is not appearing.
+1. Clear browser cache, to uninstall and install again.
+2. Try the disabling cache
+3. Try Disabling other plugins, there may be any conflict with another plugin.
+= Members are not being added spontaneously.
+1. Due to the nature of Discord API, we have to use schedules to precisely control API calls, This is the reason actions are delayed. 
+= Member roles are not being assigned spontaneously.
+1. Due to the nature of Discord API, we have to use schedules to precisely control API calls, This is the reason actions are delayed. 
+= Some members are not getting their role and there is no error in the log.
+1. Sometimes discord API behaves weirdly, It is suggested to TRY again OR use another discord account.
 
+
+== Screenshots ==
+1. Install and activate the plugin and view the "Discord Settings" menu inside LearnDash LMS.
+2. Map Discord roles and LearnDash Course.
+3. Advanced settings.
+4. Connect Button Appearance.
+5. Spot the "Connect to Discord" on Learners profile page.
