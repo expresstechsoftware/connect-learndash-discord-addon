@@ -22,7 +22,7 @@ class Learndash_Discord_i18n {
 	public function load_plugin_textdomain() {
 
 		load_plugin_textdomain(
-			'connect-learndash-discord-addon',
+			'connect-learndash-and-discord',
 			false,
 			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
 		);

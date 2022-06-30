@@ -50,7 +50,7 @@ class Learndash_Discord {
 		} else {
 			$this->version = '1.0.0';
 		}
-		$this->plugin_name = 'connect-learndash-discord-addon';
+		$this->plugin_name = 'connect-learndash-and-discord';
 
 		$this->load_dependencies();
 		$this->set_locale();

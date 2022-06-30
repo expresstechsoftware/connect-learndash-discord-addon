@@ -20,9 +20,9 @@
 		<input type="button" class="ets-submit ets-bg-green" value="Refresh" onClick="window.location.reload()">
 	</div>
 	<div class="form-group">
-		<a href="<?php echo esc_url( content_url('/') . $filename ); ?>" class="ets-submit ets-learndash-bg-download" download><?php esc_html_e( 'Download', 'connect-learndash-discord-addon'  ); ?></a>
+		<a href="<?php echo esc_url( content_url('/') . $filename ); ?>" class="ets-submit ets-learndash-bg-download" download><?php esc_html_e( 'Download', 'connect-learndash-and-discord'  ); ?></a>
 	</div>
 	<div class="form-group">
-            <a href="<?php echo esc_url( get_admin_url('', 'tools.php') ) . '?page=action-scheduler&status=pending&s=learndash'; ?>" class="ets-submit ets-learndash-bg-scheduled-actions"><?php esc_html_e( 'Scheduled Actions', 'connect-learndash-discord-addon'  ); ?></a>
+            <a href="<?php echo esc_url( get_admin_url('', 'tools.php') ) . '?page=action-scheduler&status=pending&s=learndash'; ?>" class="ets-submit ets-learndash-bg-scheduled-actions"><?php esc_html_e( 'Scheduled Actions', 'connect-learndash-and-discord'  ); ?></a>
 	</div>    
 </div>

@@ -30,15 +30,15 @@ $remove_role_course_expired                    = sanitize_text_field( trim( get_
   <table class="form-table" role="presentation">
 	<tbody>
 	<tr>
-		<th scope="row"><?php esc_html_e( 'Shortcode:', 'connect-learndash-discord-addon' ); ?></th>
+		<th scope="row"><?php esc_html_e( 'Shortcode:', 'connect-learndash-and-discord' ); ?></th>
 		<td> <fieldset>
 		[learndash_discord]
 		<br/>
-		<small><?php esc_html_e( 'Use this shortcode [learndash_discord] to display connect to discord button on any page.', 'connect-learndash-discord-addon' ); ?></small>
+		<small><?php esc_html_e( 'Use this shortcode [learndash_discord] to display connect to discord button on any page.', 'connect-learndash-and-discord' ); ?></small>
 		</fieldset></td>
 	</tr>
 	<tr>
-		<th scope="row"><?php esc_html_e( 'Use rich embed messaging feature?', 'connect-learndash-discord-addon' ); ?></th>
+		<th scope="row"><?php esc_html_e( 'Use rich embed messaging feature?', 'connect-learndash-and-discord' ); ?></th>
 		<td> <fieldset>
 		<input name="embed_messaging_feature" type="checkbox" id="embed_messaging_feature" 
 		<?php
@@ -51,7 +51,7 @@ $remove_role_course_expired                    = sanitize_text_field( trim( get_
 		</fieldset></td>
 	  </tr>
 	<tr>
-		<th scope="row"><?php esc_html_e( 'Remove student discord role when course access expires?', 'connect-learndash-discord-addon' ); ?></th>
+		<th scope="row"><?php esc_html_e( 'Remove student discord role when course access expires?', 'connect-learndash-and-discord' ); ?></th>
 		<td> <fieldset>
 		<input name="remove_role_course_expired" type="checkbox" id="remove_role_course_expired" 
 		<?php
@@ -62,7 +62,7 @@ $remove_role_course_expired                    = sanitize_text_field( trim( get_
 		</fieldset></td>
 	  </tr>          
 	<tr>
-		<th scope="row"><?php esc_html_e( 'Send welcome message', 'connect-learndash-discord-addon' ); ?></th>
+		<th scope="row"><?php esc_html_e( 'Send welcome message', 'connect-learndash-and-discord' ); ?></th>
 		<td> <fieldset>
 		<input name="ets_learndash_discord_send_welcome_dm" type="checkbox" id="ets_learndash_discord_send_welcome_dm" 
 		<?php
@@ -73,7 +73,7 @@ $remove_role_course_expired                    = sanitize_text_field( trim( get_
 		</fieldset></td>
 	</tr>
 	<tr>
-		<th scope="row"><?php esc_html_e( 'Welcome message', 'connect-learndash-discord-addon' ); ?></th>
+		<th scope="row"><?php esc_html_e( 'Welcome message', 'connect-learndash-and-discord' ); ?></th>
 		<td> <fieldset>
 		<textarea class="ets_learndash_discord_dm_textarea" name="ets_learndash_discord_welcome_message" id="ets_learndash_discord_welcome_message" row="25" cols="50"><?php if ( $ets_learndash_discord_welcome_message ) { echo esc_textarea( wp_unslash( $ets_learndash_discord_welcome_message ) ); } ?></textarea> 
 	<br/>
@@ -81,7 +81,7 @@ $remove_role_course_expired                    = sanitize_text_field( trim( get_
 		</fieldset></td>
 	</tr>
 	<tr>
-		<th scope="row"><?php esc_html_e( 'Send Course Complete message', 'connect-learndash-discord-addon' ); ?></th>
+		<th scope="row"><?php esc_html_e( 'Send Course Complete message', 'connect-learndash-and-discord' ); ?></th>
 		<td> <fieldset>
 		<input name="ets_learndash_discord_send_course_complete_dm" type="checkbox" id="ets_learndash_discord_send_course_complete_dm" 
 		<?php
@@ -92,7 +92,7 @@ $remove_role_course_expired                    = sanitize_text_field( trim( get_
 		</fieldset></td>
 	</tr>
 	<tr>
-		<th scope="row"><?php esc_html_e( 'Course Complete message', 'connect-learndash-discord-addon' ); ?></th>
+		<th scope="row"><?php esc_html_e( 'Course Complete message', 'connect-learndash-and-discord' ); ?></th>
 		<td> <fieldset>
 		<textarea class="ets_learndash_discord_course_complete_message" name="ets_learndash_discord_course_complete_message" id="ets_learndash_discord_course_complete_message" row="25" cols="50"><?php if ( $ets_learndash_discord_course_complete_message ) { echo esc_textarea( wp_unslash( $ets_learndash_discord_course_complete_message ) ); } ?></textarea> 
 	<br/>
@@ -100,7 +100,7 @@ $remove_role_course_expired                    = sanitize_text_field( trim( get_
 		</fieldset></td>
 	</tr>
 	<tr>
-		<th scope="row"><?php esc_html_e( 'Send Lesson Complete message', 'connect-learndash-discord-addon' ); ?></th>
+		<th scope="row"><?php esc_html_e( 'Send Lesson Complete message', 'connect-learndash-and-discord' ); ?></th>
 		<td> <fieldset>
 		<input name="ets_learndash_discord_send_lesson_complete_dm" type="checkbox" id="ets_learndash_discord_send_lesson_complete_dm" 
 		<?php
@@ -111,7 +111,7 @@ $remove_role_course_expired                    = sanitize_text_field( trim( get_
 		</fieldset></td>
 	  </tr>
 	<tr>
-		<th scope="row"><?php esc_html_e( 'Lesson Complete message', 'connect-learndash-discord-addon' ); ?></th>
+		<th scope="row"><?php esc_html_e( 'Lesson Complete message', 'connect-learndash-and-discord' ); ?></th>
 		<td> <fieldset>
 		<textarea class="ets_learndash_discord_lesson_complete_message" name="ets_learndash_discord_lesson_complete_message" id="ets_learndash_discord_lesson_complete_message" row="25" cols="50"><?php if ( $ets_learndash_discord_lesson_complete_message ) { echo esc_textarea( wp_unslash( $ets_learndash_discord_lesson_complete_message ) ); } ?></textarea> 
 	<br/>
@@ -119,7 +119,7 @@ $remove_role_course_expired                    = sanitize_text_field( trim( get_
 		</fieldset></td>
 	  </tr>
  	<tr>
-		<th scope="row"><?php esc_html_e( 'Send Topic Complete message', 'connect-learndash-discord-addon' ); ?></th>
+		<th scope="row"><?php esc_html_e( 'Send Topic Complete message', 'connect-learndash-and-discord' ); ?></th>
 		<td> <fieldset>
 		<input name="ets_learndash_discord_send_topic_complete_dm" type="checkbox" id="ets_learndash_discord_send_topic_complete_dm" 
 		<?php
@@ -130,7 +130,7 @@ $remove_role_course_expired                    = sanitize_text_field( trim( get_
 		</fieldset></td>
 	  </tr>
 	<tr>
-		<th scope="row"><?php esc_html_e( 'Topic Complete message', 'connect-learndash-discord-addon' ); ?></th>
+		<th scope="row"><?php esc_html_e( 'Topic Complete message', 'connect-learndash-and-discord' ); ?></th>
 		<td> <fieldset>
 		<textarea class="ets_learndash_discord_topic_complete_message" name="ets_learndash_discord_topic_complete_message" id="ets_learndash_discord_topic_complete_message" row="25" cols="50"><?php if ( $ets_learndash_discord_topic_complete_message ) { echo esc_textarea( wp_unslash( $ets_learndash_discord_topic_complete_message ) ); } ?></textarea> 
 	<br/>
@@ -139,7 +139,7 @@ $remove_role_course_expired                    = sanitize_text_field( trim( get_
 	  </tr>
           
   <tr>
-		<th scope="row"><?php esc_html_e( 'Send Quiz Complete message', 'connect-learndash-discord-addon' ); ?></th>
+		<th scope="row"><?php esc_html_e( 'Send Quiz Complete message', 'connect-learndash-and-discord' ); ?></th>
 		<td> <fieldset>
 		<input name="ets_learndash_discord_send_quiz_complete_dm" type="checkbox" id="ets_learndash_discord_send_quiz_complete_dm" 
 		<?php
@@ -150,7 +150,7 @@ $remove_role_course_expired                    = sanitize_text_field( trim( get_
 		</fieldset></td>
 	  </tr>
 	<tr>
-		<th scope="row"><?php esc_html_e( 'Quiz Complete message', 'connect-learndash-discord-addon' ); ?></th>
+		<th scope="row"><?php esc_html_e( 'Quiz Complete message', 'connect-learndash-and-discord' ); ?></th>
 		<td> <fieldset>
 		<textarea class="ets_learndash_discord_quiz_complete_message" name="ets_learndash_discord_quiz_complete_message" id="ets_learndash_discord_quiz_complete_message" row="25" cols="50"><?php if ( $ets_learndash_discord_quiz_complete_message ) { echo esc_textarea( wp_unslash( $ets_learndash_discord_quiz_complete_message ) ); } ?></textarea> 
 	<br/>
@@ -159,7 +159,7 @@ $remove_role_course_expired                    = sanitize_text_field( trim( get_
 	  </tr>
           
   <tr>
-		<th scope="row"><?php esc_html_e( 'Send Assignment Approved message', 'connect-learndash-discord-addon' ); ?></th>
+		<th scope="row"><?php esc_html_e( 'Send Assignment Approved message', 'connect-learndash-and-discord' ); ?></th>
 		<td> <fieldset>
 		<input name="ets_learndash_discord_send_assignment_approved_dm" type="checkbox" id="ets_learndash_discord_send_assignment_approved_dm" 
 		<?php
@@ -170,7 +170,7 @@ $remove_role_course_expired                    = sanitize_text_field( trim( get_
 		</fieldset></td>
 	  </tr>
 	<tr>
-		<th scope="row"><?php esc_html_e( 'Assignment Approved message', 'connect-learndash-discord-addon' ); ?></th>
+		<th scope="row"><?php esc_html_e( 'Assignment Approved message', 'connect-learndash-and-discord' ); ?></th>
 		<td> <fieldset>
 		<textarea class="ets_learndash_discord_assignment_approved_message" name="ets_learndash_discord_assignment_approved_message" id="ets_learndash_discord_assignment_approved_message" row="25" cols="50"><?php if ( $ets_learndash_discord_assignment_approved_message ) { echo esc_textarea( wp_unslash( $ets_learndash_discord_assignment_approved_message ) ); } ?></textarea> 
 	<br/>
@@ -179,7 +179,7 @@ $remove_role_course_expired                    = sanitize_text_field( trim( get_
 	  </tr>          
 
 	  <tr>
-		<th scope="row"><?php esc_html_e( 'Retry Failed API calls', 'connect-learndash-discord-addon' ); ?></th>
+		<th scope="row"><?php esc_html_e( 'Retry Failed API calls', 'connect-learndash-and-discord' ); ?></th>
 		<td> <fieldset>
 		<input name="retry_failed_api" type="checkbox" id="retry_failed_api" 
 		<?php
@@ -190,7 +190,7 @@ $remove_role_course_expired                    = sanitize_text_field( trim( get_
 		</fieldset></td>
 	  </tr>
 	  <tr>
-		<th scope="row"><?php esc_html_e( 'Don\'t kick students upon disconnect', 'connect-learndash-discord-addon' ); ?></th>
+		<th scope="row"><?php esc_html_e( 'Don\'t kick students upon disconnect', 'connect-learndash-and-discord' ); ?></th>
 		<td> <fieldset>
 		<input name="kick_upon_disconnect" type="checkbox" id="kick_upon_disconnect" 
 		<?php
@@ -201,25 +201,25 @@ $remove_role_course_expired                    = sanitize_text_field( trim( get_
 		</fieldset></td>
 	  </tr>
 	<tr>
-		<th scope="row"><?php esc_html_e( 'How many times a failed API call should get re-try', 'connect-learndash-discord-addon' ); ?></th>
+		<th scope="row"><?php esc_html_e( 'How many times a failed API call should get re-try', 'connect-learndash-and-discord' ); ?></th>
 		<td> <fieldset>
 		<input name="ets_learndash_retry_api_count" type="number" min="1" id="ets_learndash_retry_api_count" value="<?php if ( isset( $retry_api_count ) ) { echo esc_attr( intval( $retry_api_count ) ); } else { echo 1; } ?>">
 		</fieldset></td>
 	  </tr> 
 	  <tr>
-		<th scope="row"><?php esc_html_e( 'Set job queue concurrency', 'connect-learndash-discord-addon' ); ?></th>
+		<th scope="row"><?php esc_html_e( 'Set job queue concurrency', 'connect-learndash-and-discord' ); ?></th>
 		<td> <fieldset>
 		<input name="set_job_cnrc" type="number" min="1" id="set_job_cnrc" value="<?php if ( isset( $set_job_cnrc ) ) { echo esc_attr( intval( $set_job_cnrc ) ); } else { echo 1; } ?>">
 		</fieldset></td>
 	  </tr>
 	  <tr>
-		<th scope="row"><?php esc_html_e( 'Set job queue batch size', 'connect-learndash-discord-addon' ); ?></th>
+		<th scope="row"><?php esc_html_e( 'Set job queue batch size', 'connect-learndash-and-discord' ); ?></th>
 		<td> <fieldset>
 		<input name="set_job_q_batch_size" type="number" min="1" id="set_job_q_batch_size" value="<?php if ( isset( $set_job_q_batch_size ) ) { echo esc_attr ( intval( $set_job_q_batch_size ) ); } else { echo 10; } ?>">
 		</fieldset></td>
 	  </tr>
 	<tr>
-		<th scope="row"><?php esc_html_e( 'Log API calls response (For debugging purpose)', 'connect-learndash-discord-addon' ); ?></th>
+		<th scope="row"><?php esc_html_e( 'Log API calls response (For debugging purpose)', 'connect-learndash-and-discord' ); ?></th>
 		<td> <fieldset>
 		<input name="log_api_res" type="checkbox" id="log_api_res" 
 		<?php
@@ -234,7 +234,7 @@ $remove_role_course_expired                    = sanitize_text_field( trim( get_
   </table>
   <div class="bottom-btn">
 	<button type="submit" name="adv_submit" value="ets_submit" class="ets-submit ets-bg-green">
-	  <?php esc_html_e( 'Save Settings', 'connect-learndash-discord-addon' ); ?>
+	  <?php esc_html_e( 'Save Settings', 'connect-learndash-and-discord' ); ?>
 	</button>
   </div>
 </form>

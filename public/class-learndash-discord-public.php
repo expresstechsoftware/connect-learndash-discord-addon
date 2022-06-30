@@ -230,12 +230,12 @@ class Learndash_Discord_Public {
 				$disconnect_btn_bg_color = 'style="background-color:' . $ets_learndash_discord_disconnect_button_bg_color . '"'; 
 				$restrictcontent_discord .= '<div>';
 				$restrictcontent_discord .= '<div>';
-				$restrictcontent_discord .= '<label class="ets-connection-lbl">' . esc_html__( 'Discord connection', 'connect-learndash-discord-addon' ) . '</label>';
+				$restrictcontent_discord .= '<label class="ets-connection-lbl">' . esc_html__( 'Discord connection', 'connect-learndash-and-discord' ) . '</label>';
 				$restrictcontent_discord .= '</div>';
 				$restrictcontent_discord .= '<div>';
 				$restrictcontent_discord .= '<a href="#" class="ets-btn learndash-discord-btn-disconnect" ' . $disconnect_btn_bg_color . ' id="learndash-discord-disconnect-discord" data-user-id="' . esc_attr( $user_id ) . '">' . esc_html( $ets_learndash_discord_disconnect_button_text ) . '</a>';
 				$restrictcontent_discord .= '<span class="ets-spinner"></span>';
-				$restrictcontent_discord .= '<p>' . esc_html__( sprintf( 'Connected account: %s', $_ets_learndash_discord_username ), 'connect-learndash-discord-addon' ) . '</p>';
+				$restrictcontent_discord .= '<p>' . esc_html__( sprintf( 'Connected account: %s', $_ets_learndash_discord_username ), 'connect-learndash-and-discord' ) . '</p>';
 				$restrictcontent_discord  = ets_learndash_discord_roles_assigned_message( $mapped_role_name, $default_role_name, $restrictcontent_discord );
 				$restrictcontent_discord .= '</div>';
 				$restrictcontent_discord .= '</div>';
@@ -246,7 +246,7 @@ class Learndash_Discord_Public {
                             
 				$connect_btn_bg_color = 'style="background-color:' . $ets_learndash_discord_connect_button_bg_color . '"';
 				$restrictcontent_discord .= '<div>';
-				$restrictcontent_discord .= '<h3>' . esc_html__( 'Discord connection', 'connect-learndash-discord-addon' ) . '</h3>';
+				$restrictcontent_discord .= '<h3>' . esc_html__( 'Discord connection', 'connect-learndash-and-discord' ) . '</h3>';
 				$restrictcontent_discord .= '<div>';
 				$restrictcontent_discord .= '<a href="?action=learndash-discord-login" class="learndash-discord-btn-connect ets-btn" ' . $connect_btn_bg_color . ' >' . esc_html( $ets_learndash_discord_loggedin_button_text ) .  '</a>';
 				$restrictcontent_discord .= '</div>';
@@ -299,7 +299,7 @@ class Learndash_Discord_Public {
 				exit;
 			}
 
-			if ( isset( $_GET['code'] ) && isset( $_GET['via'] ) && $_GET['via'] == 'connect-learndash-discord-addon' ) {
+			if ( isset( $_GET['code'] ) && isset( $_GET['via'] ) && $_GET['via'] == 'connect-learndash-and-discord' ) {
 				$code     = sanitize_text_field( trim( $_GET['code'] ) );
 				$response = $this->create_discord_auth_token( $code, $user_id );
 
@@ -356,7 +356,7 @@ class Learndash_Discord_Public {
 				}
 			}
 		} else {
-			if ( isset( $_GET['code'] ) && isset( $_GET['via'] ) && $_GET['via'] == 'connect-learndash-discord-addon' ) {
+			if ( isset( $_GET['code'] ) && isset( $_GET['via'] ) && $_GET['via'] == 'connect-learndash-and-discord' ) {
                                 
 				$code     = sanitize_text_field( trim( $_GET['code'] ) );                            
 				$response = $this->create_discord_auth_token( $code, 'new_learndash_student' );
