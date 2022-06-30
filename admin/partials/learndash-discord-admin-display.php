@@ -42,7 +42,15 @@ if ( isset( $_GET['save_settings_msg'] ) ) {
 				<li class="skltbs-tab-item">
 				<button class="skltbs-tab" data-identity="logs" ><?php esc_html_e( 'Logs', 'connect-learndash-discord-addon' ); ?>	
 				</button>
-				</li>                                
+				</li> 
+        <li class="skltbs-tab-item">
+				<button class="skltbs-tab" data-identity="documentation" ><?php esc_html_e( 'Documentation', 'connect-learndash-discord-addon' ); ?>	
+				</button>
+				</li> 
+        <li class="skltbs-tab-item">
+				<button class="skltbs-tab" data-identity="support" ><?php esc_html_e( 'Support', 'connect-learndash-discord-addon' ); ?>	
+				</button>
+				</li> 
 			
                         </ul>
 			<div class="skltbs-panel-group">
@@ -62,6 +70,12 @@ if ( isset( $_GET['save_settings_msg'] ) ) {
 				</div>                            
 				<div id='ets_learndash_discord_logs' class="learndash-discord-tab-conetent skltbs-panel">
 				<?php require_once LEARNDASH_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/pages/learndash_discord_error_log.php'; ?>
+				</div>
+        <div id='ets_learndash_discord_documentation' class="learndash-discord-tab-conetent skltbs-panel">
+				<?php require_once LEARNDASH_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/pages/learndash_discord_documentation.php'; ?>
+				</div>
+        <div id='ets_learndash_discord_support' class="learndash-discord-tab-conetent skltbs-panel">
+				<?php require_once LEARNDASH_DISCORD_PLUGIN_DIR_PATH . 'admin/partials/pages/learndash_discord_support.php'; ?>
 				</div>                            
 			</div>  
 		</div>
