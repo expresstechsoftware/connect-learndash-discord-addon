@@ -1,5 +1,5 @@
 === Connect LearnDash to Discord ===
-Contributors: expresstechsoftware, webbdeveloper, geek92sunny 
+Contributors: expresstechsoftware, webbdeveloper, sunnysoni 
 Tags: Discord, Talk, Video Chat, Hang Out, Friends, Memberships, discord role management, lms, learndash, learning community management.
 Donate link: https://paypal.me/supportets
 Author URI: https://www.expresstechsoftwares.com
