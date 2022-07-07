@@ -31,15 +31,15 @@ Connect LearnDash to Discord Plugin Features:
 
 4) Send custom welcome message when student joins the server.
 
-5) Send custom welcome message when student completes a course.
+5) Send custom message when student completes a course.
 
-6) Send custom welcome message when student completes a lesson.
+6) Send custom message when student completes a lesson.
 
-7) Send custom welcome message when student completes a topic.
+7) Send custom message when student completes a topic.
 
-8) Send custom welcome message when student completes a quiz.
+8) Send custom message when student completes a quiz.
 
-9) Send custom welcome message when assignment is approved.
+9) Send custom message when assignment is approved.
 
 == Installation ==
 
