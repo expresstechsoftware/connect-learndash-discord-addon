@@ -1,5 +1,6 @@
 (function( $ ) {
 	'use strict';
+	$(document).ready(function(){
 	/*Call-back on disconnect from discord and kick student if the case */
 	$('#learndash-discord-disconnect-discord').on('click', function (e) {
             
@@ -22,6 +23,7 @@
 				console.log( textStatus + " :  " + response.status + " : " + errorThrown );
 			}
 		});
+	});
 	});        
 
 })( jQuery );

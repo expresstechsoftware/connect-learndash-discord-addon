@@ -62,8 +62,8 @@ class Learndash_Discord_Public {
 	 * @since    1.0.0
 	 */
 	public function enqueue_styles() {
-
-		wp_register_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/learndash-discord-public.css', array(), $this->version, 'all' );
+		$min_css = ( defined( 'WP_DEBUG' ) && true === WP_DEBUG ) ? '' : '.min';
+		wp_register_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/learndash-discord-public' . $min_css . '.css', array(), $this->version, 'all' );
 
 	}
 
@@ -73,7 +73,7 @@ class Learndash_Discord_Public {
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
-		$min_js = ( defined( 'WP_DEBUG' ) && true === WP_DEBUG  ) ? '' : '.min';
+		$min_js = ( defined( 'WP_DEBUG' ) && true === WP_DEBUG ) ? '' : '.min';
 		wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/learndash-discord-public' . $min_js . '.js', array( 'jquery' ), $this->version, false );
 		$script_params = array(
 			'admin_ajax'                  => admin_url( 'admin-ajax.php' ),
@@ -190,19 +190,19 @@ class Learndash_Discord_Public {
 
 		$user_id = sanitize_text_field( trim( get_current_user_id() ) );
 
-		$access_token                    = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_access_token', true ) ) );
-		$_ets_learndash_discord_username = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_username', true ) ) );
-		$allow_none_student              = sanitize_text_field( trim( get_option( 'ets_learndash_discord_allow_none_student' ) ) );
+		$access_token                                     = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_access_token', true ) ) );
+		$_ets_learndash_discord_username                  = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_username', true ) ) );
+		$allow_none_student                               = sanitize_text_field( trim( get_option( 'ets_learndash_discord_allow_none_student' ) ) );
 		$ets_learndash_discord_connect_button_bg_color    = sanitize_text_field( trim( get_option( 'ets_learndash_discord_connect_button_bg_color' ) ) );
-		$ets_learndash_discord_disconnect_button_bg_color = sanitize_text_field( trim( get_option( 'ets_learndash_discord_disconnect_button_bg_color' ) ) );                
-		$ets_learndash_discord_disconnect_button_text = sanitize_text_field( trim( get_option( 'ets_learndash_discord_disconnect_button_text' ) ) );                
-		$ets_learndash_discord_loggedin_button_text = sanitize_text_field( trim( get_option( 'ets_learndash_discord_loggedin_button_text' ) ) );
-		$default_role                       = sanitize_text_field( trim( get_option( 'ets_learndash_discord_default_role_id' ) ) );
-		$ets_learndash_discord_role_mapping = json_decode( get_option( 'ets_learndash_discord_role_mapping' ), true );
-		$all_roles                          = unserialize( get_option( 'ets_learndash_discord_all_roles' ) );
-		$roles_color = unserialize( get_option( 'ets_learndash_discord_roles_color' ) );
-		$enrolled_courses                   = ets_learndash_discord_get_student_courses_id( $user_id );
-		$mapped_role_name                   = '';
+		$ets_learndash_discord_disconnect_button_bg_color = sanitize_text_field( trim( get_option( 'ets_learndash_discord_disconnect_button_bg_color' ) ) );
+		$ets_learndash_discord_disconnect_button_text     = sanitize_text_field( trim( get_option( 'ets_learndash_discord_disconnect_button_text' ) ) );
+		$ets_learndash_discord_loggedin_button_text       = sanitize_text_field( trim( get_option( 'ets_learndash_discord_loggedin_button_text' ) ) );
+		$default_role                                     = sanitize_text_field( trim( get_option( 'ets_learndash_discord_default_role_id' ) ) );
+		$ets_learndash_discord_role_mapping               = json_decode( get_option( 'ets_learndash_discord_role_mapping' ), true );
+		$all_roles                                        = unserialize( get_option( 'ets_learndash_discord_all_roles' ) );
+		$roles_color                                      = unserialize( get_option( 'ets_learndash_discord_roles_color' ) );
+		$enrolled_courses                                 = ets_learndash_discord_get_student_courses_id( $user_id );
+		$mapped_role_name                                 = '';
 		if ( is_array( $enrolled_courses ) && is_array( $all_roles ) && is_array( $ets_learndash_discord_role_mapping ) ) {
 			foreach ( $enrolled_courses as $key => $enrolled_course_id ) {
 				if ( array_key_exists( 'learndash_course_id_' . $enrolled_course_id, $ets_learndash_discord_role_mapping ) ) {
@@ -227,7 +227,7 @@ class Learndash_Discord_Public {
 		if ( learndash_discord_check_saved_settings_status() ) {
 
 			if ( $access_token ) {
-				$disconnect_btn_bg_color = 'style="background-color:' . $ets_learndash_discord_disconnect_button_bg_color . '"'; 
+				$disconnect_btn_bg_color  = 'style="background-color:' . $ets_learndash_discord_disconnect_button_bg_color . '"';
 				$restrictcontent_discord .= '<div>';
 				$restrictcontent_discord .= '<div>';
 				$restrictcontent_discord .= '<label class="ets-connection-lbl">' . esc_html__( 'Discord connection', 'connect-learndash-and-discord' ) . '</label>';
@@ -243,12 +243,12 @@ class Learndash_Discord_Public {
 			} elseif ( ( ets_learndash_discord_get_student_courses_id( $user_id ) && $mapped_role_name )
 								|| ( ets_learndash_discord_get_student_courses_id( $user_id ) && ! $mapped_role_name && $default_role_name )
 								|| ( $allow_none_student == 'yes' ) ) {
-                            
-				$connect_btn_bg_color = 'style="background-color:' . $ets_learndash_discord_connect_button_bg_color . '"';
+
+				$connect_btn_bg_color     = 'style="background-color:' . $ets_learndash_discord_connect_button_bg_color . '"';
 				$restrictcontent_discord .= '<div>';
 				$restrictcontent_discord .= '<h3>' . esc_html__( 'Discord connection', 'connect-learndash-and-discord' ) . '</h3>';
 				$restrictcontent_discord .= '<div>';
-				$restrictcontent_discord .= '<a href="?action=learndash-discord-login" class="learndash-discord-btn-connect ets-btn" ' . $connect_btn_bg_color . ' >' . esc_html( $ets_learndash_discord_loggedin_button_text ) .  '</a>';
+				$restrictcontent_discord .= '<a href="?action=learndash-discord-login" class="learndash-discord-btn-connect ets-btn" ' . $connect_btn_bg_color . ' >' . esc_html( $ets_learndash_discord_loggedin_button_text ) . '</a>';
 				$restrictcontent_discord .= '</div>';
 				$restrictcontent_discord  = ets_learndash_discord_roles_assigned_message( $mapped_role_name, $default_role_name, $restrictcontent_discord );
 
@@ -259,7 +259,7 @@ class Learndash_Discord_Public {
 		wp_enqueue_style( $this->plugin_name );
 		wp_enqueue_script( $this->plugin_name );
 
-		return wp_kses ( $restrictcontent_discord, ets_learndash_discord_allowed_html() );
+		return wp_kses( $restrictcontent_discord, ets_learndash_discord_allowed_html() );
 	}
 
 	/**
@@ -299,7 +299,7 @@ class Learndash_Discord_Public {
 				exit;
 			}
 
-			if ( isset( $_GET['code'] ) && isset( $_GET['via'] ) && $_GET['via'] == 'connect-learndash-and-discord' ) {
+			if ( isset( $_GET['code'] ) && isset( $_GET['via'] ) && $_GET['via'] == 'connect-learndash-discord-addon' ) {
 				$code     = sanitize_text_field( trim( $_GET['code'] ) );
 				$response = $this->create_discord_auth_token( $code, $user_id );
 
@@ -357,20 +357,20 @@ class Learndash_Discord_Public {
 			}
 		} else {
 			if ( isset( $_GET['code'] ) && isset( $_GET['via'] ) && $_GET['via'] == 'connect-learndash-and-discord' ) {
-                                
-				$code     = sanitize_text_field( trim( $_GET['code'] ) );                            
+
+				$code     = sanitize_text_field( trim( $_GET['code'] ) );
 				$response = $this->create_discord_auth_token( $code, 'new_learndash_student' );
 				if ( ! empty( $response ) && ! is_wp_error( $response ) ) {
 					$res_body = json_decode( wp_remote_retrieve_body( $response ), true );
-                                        
+
 					if ( is_array( $res_body ) ) {
 						if ( array_key_exists( 'access_token', $res_body ) ) {
-							$access_token       = sanitize_text_field( trim( $res_body['access_token'] ) );
-							$user_body          = $this->get_discord_current_user( $access_token , 'new_learndash_student' );
-                                                        
+							$access_token = sanitize_text_field( trim( $res_body['access_token'] ) );
+							$user_body    = $this->get_discord_current_user( $access_token, 'new_learndash_student' );
+
 							$discord_user_email = $user_body['email'];
 							$password           = wp_generate_password( 12, true, false );
-                                                        
+
 							if ( email_exists( $discord_user_email ) ) {
 								$current_user = get_user_by( 'email', $discord_user_email );
 								$user_id      = $current_user->ID;
@@ -379,7 +379,7 @@ class Learndash_Discord_Public {
 								wp_new_user_notification( $user_id, null, $password );
 							}
 							update_user_meta( $user_id, '_ets_learndash_discord_access_token', $access_token );
-                                                        $discord_exist_user_id = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_user_id', true ) ) );
+														$discord_exist_user_id = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_user_id', true ) ) );
 							if ( array_key_exists( 'refresh_token', $res_body ) ) {
 								$refresh_token = sanitize_text_field( trim( $res_body['refresh_token'] ) );
 								update_user_meta( $user_id, '_ets_learndash_discord_refresh_token', $refresh_token );
@@ -391,7 +391,6 @@ class Learndash_Discord_Public {
 								$token_expiry_time = $date->getTimestamp();
 								update_user_meta( $user_id, '_ets_learndash_discord_expires_in', $token_expiry_time );
 							}
-							
 
 							if ( is_array( $user_body ) && array_key_exists( 'discriminator', $user_body ) ) {
 								$discord_user_number           = $user_body['discriminator'];
@@ -413,29 +412,27 @@ class Learndash_Discord_Public {
 									}
 								}
 								update_user_meta( $user_id, '_ets_learndash_discord_user_id', $_ets_learndash_discord_user_id );
-								
-							
-                                                        
-							$credentials = array(
-								'user_login'    => $discord_user_email,
-								'user_password' => $password,
-							);
-							wp_set_auth_cookie( $user_id, false, '', '' );
-							wp_signon( $credentials, '' );
-							$discord_user_id = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_user_id', true ) ) );
-                                                        $this->add_discord_member_in_guild( $discord_user_id, $user_id, $access_token );                                                        
-							if ( array_key_exists ( 'ets_learndash_current_location_storage', $_COOKIE )  && $_COOKIE['ets_learndash_current_location_storage'] ) {
-								wp_safe_redirect( urldecode_deep( $_COOKIE['ets_learndash_current_location_storage'] ) );
-								exit();
+
+								$credentials = array(
+									'user_login'    => $discord_user_email,
+									'user_password' => $password,
+								);
+								wp_set_auth_cookie( $user_id, false, '', '' );
+								wp_signon( $credentials, '' );
+								$discord_user_id = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_user_id', true ) ) );
+														$this->add_discord_member_in_guild( $discord_user_id, $user_id, $access_token );
+								if ( array_key_exists( 'ets_learndash_current_location_storage', $_COOKIE ) && $_COOKIE['ets_learndash_current_location_storage'] ) {
+									wp_safe_redirect( urldecode_deep( $_COOKIE['ets_learndash_current_location_storage'] ) );
+									exit();
+								}
 							}
 						}
 					}
-				}                                
-			}                  
+				}
 			}
 		}
 	}
-       
+
 
 	/**
 	 * Create authentication token for discord API
@@ -446,9 +443,9 @@ class Learndash_Discord_Public {
 	 */
 	public function create_discord_auth_token( $code, $user_id ) {
 		if ( ! is_user_logged_in() ) {
-			if( isset( $code ) && !empty( $code ) && $user_id == 'new_learndash_student' ){
+			if ( isset( $code ) && ! empty( $code ) && $user_id == 'new_learndash_student' ) {
 				$discord_token_api_url = LEARNDASH_DISCORD_API_URL . 'oauth2/token';
-				$params     = array(
+				$params                = array(
 					'method'  => 'POST',
 					'headers' => array(
 						'Content-Type' => 'application/x-www-form-urlencoded',
@@ -461,15 +458,15 @@ class Learndash_Discord_Public {
 						'redirect_uri'  => sanitize_text_field( trim( get_option( 'ets_learndash_discord_redirect_url' ) ) ),
 					),
 				);
-				$response = wp_remote_post( $discord_token_api_url, $params );
+				$response              = wp_remote_post( $discord_token_api_url, $params );
 				ets_learndash_discord_log_api_response( $user_id, $discord_token_api_url, $params, $response );
 				if ( ets_learndash_discord_check_api_errors( $response ) ) {
 					$response_arr = json_decode( wp_remote_retrieve_body( $response ), true );
 					write_api_response_logs( $response_arr, $user_id, debug_backtrace()[0] );
 				}
-				return $response;                            
-                            
-			} else{                    
+				return $response;
+
+			} else {
 				wp_send_json_error( 'Unauthorized user', 401 );
 				exit();
 			}
@@ -541,7 +538,7 @@ class Learndash_Discord_Public {
 	 * @param STRING $access_token
 	 * @return OBJECT REST API response
 	 */
-	public function get_discord_current_user( $access_token , $new_learndash_student = '' ) {
+	public function get_discord_current_user( $access_token, $new_learndash_student = '' ) {
 		if ( ! is_user_logged_in() && $new_learndash_student == '' ) {
 			wp_send_json_error( 'Unauthorized user', 401 );
 			exit();
@@ -574,10 +571,10 @@ class Learndash_Discord_Public {
 	 * @return NONE
 	 */
 	public function add_discord_member_in_guild( $_ets_learndash_discord_user_id, $user_id, $access_token ) {
-//		if ( ! is_user_logged_in() ) {
-//			wp_send_json_error( 'Unauthorized user', 401 );
-//			exit();
-//		}
+		// if ( ! is_user_logged_in() ) {
+		// wp_send_json_error( 'Unauthorized user', 401 );
+		// exit();
+		// }
 		$enrolled_courses = map_deep( ets_learndash_discord_get_student_courses_id( $user_id ), 'sanitize_text_field' );
 		if ( $enrolled_courses !== null ) {
 			// It is possible that we may exhaust API rate limit while adding members to guild, so handling off the job to queue.
@@ -737,7 +734,7 @@ class Learndash_Discord_Public {
 		$ets_learndash_discord_topic_complete_message      = sanitize_text_field( trim( get_option( 'ets_learndash_discord_topic_complete_message' ) ) );
 		$ets_learndash_discord_quiz_complete_message       = sanitize_text_field( trim( get_option( 'ets_learndash_discord_quiz_complete_message' ) ) );
 		$ets_learndash_discord_assignment_approved_message = sanitize_text_field( trim( get_option( 'ets_learndash_discord_assignment_approved_message' ) ) );
-		$embed_messaging_feature                           = sanitize_text_field( trim( get_option( 'ets_learndash_discord_embed_messaging_feature' ) ) );                
+		$embed_messaging_feature                           = sanitize_text_field( trim( get_option( 'ets_learndash_discord_embed_messaging_feature' ) ) );
 		// Check if DM channel is already created for the user.
 		$user_dm = get_user_meta( $user_id, '_ets_learndash_discord_dm_channel', true );
 
@@ -783,7 +780,7 @@ class Learndash_Discord_Public {
 
 		if ( $type == 'complete_course_achievement' ) {
 
-			//$message = ets_learndash_discord_get_formatted_complete_course_achievement_dm( $user_id, $courses );
+			// $message = ets_learndash_discord_get_formatted_complete_course_achievement_dm( $user_id, $courses );
 		}
 
 		if ( $type == 'complete_lesson_achievement' ) {
@@ -792,8 +789,8 @@ class Learndash_Discord_Public {
 		}
 
 		$creat_dm_url = LEARNDASH_DISCORD_API_URL . '/channels/' . $dm_channel_id . '/messages';
-		if( $type == 'complete_lesson_achievement' || $type == 'complete_course_achievement' ) {
-			$dm_args      = array(
+		if ( $type == 'complete_lesson_achievement' || $type == 'complete_course_achievement' ) {
+			$dm_args = array(
 				'method'  => 'POST',
 				'headers' => array(
 					'Content-Type'  => 'application/json',
@@ -801,19 +798,19 @@ class Learndash_Discord_Public {
 				),
 				'body'    => $message,
 
-			); 
-		} else if ( $embed_messaging_feature ){
-			$dm_args      = array(
+			);
+		} elseif ( $embed_messaging_feature ) {
+			$dm_args = array(
 				'method'  => 'POST',
 				'headers' => array(
 					'Content-Type'  => 'application/json',
 					'Authorization' => 'Bot ' . $discord_bot_token,
 				),
-				'body'    =>  ets_learndash_discord_get_rich_embed_message( trim ( $message ) ),
+				'body'    => ets_learndash_discord_get_rich_embed_message( trim( $message ) ),
 
-			);                     
+			);
 		} else {
-			$dm_args      = array(
+			$dm_args = array(
 				'method'  => 'POST',
 				'headers' => array(
 					'Content-Type'  => 'application/json',
@@ -824,9 +821,9 @@ class Learndash_Discord_Public {
 						'content' => sanitize_text_field( trim( wp_unslash( $message ) ) ),
 					)
 				),
-			);                    
+			);
 		}
-		$dm_response  = wp_remote_post( $creat_dm_url, $dm_args );
+		$dm_response = wp_remote_post( $creat_dm_url, $dm_args );
 		ets_learndash_discord_log_api_response( $user_id, $creat_dm_url, $dm_args, $dm_response );
 		$dm_response_body = json_decode( wp_remote_retrieve_body( $dm_response ), true );
 		if ( ets_learndash_discord_check_api_errors( $dm_response ) ) {
@@ -945,7 +942,6 @@ class Learndash_Discord_Public {
 		if ( $ets_learndash_discord_send_course_complete_dm == true ) {
 			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $course_id, 'course_complete' ), LEARNDASH_DISCORD_AS_GROUP_NAME );
 		}
-               
 
 	}
 
@@ -963,7 +959,7 @@ class Learndash_Discord_Public {
 		if ( $ets_learndash_discord_send_lesson_complete_dm == true ) {
 			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $lesson_id, 'lesson_complete' ), LEARNDASH_DISCORD_AS_GROUP_NAME );
 		}
-                
+
 	}
 
 	/**
@@ -1076,25 +1072,24 @@ class Learndash_Discord_Public {
 	}
 
 	/*
-	 * Login with Discord button 
+	 * Login with Discord button
 	 */
-	public function ets_learndash_discord_registration_form (){
+	public function ets_learndash_discord_registration_form() {
 		global $post;
 		if ( ! is_user_logged_in() ) {
 			wp_enqueue_style( $this->plugin_name );
-			$course_id = $post->ID;
-			$current_location_url = ets_learndash_discord_get_current_screen_url();
-			$default_role                       = sanitize_text_field( trim( get_option( 'ets_learndash_discord_default_role_id' ) ) );
-			$ets_learndash_discord_role_mapping = json_decode( get_option( 'ets_learndash_discord_role_mapping' ), true );
-			$all_roles                          = unserialize( get_option( 'ets_learndash_discord_all_roles' ) );
-			$ets_learndash_discord_non_login_button_text = sanitize_text_field( trim( get_option( 'ets_learndash_discord_non_login_button_text' ) ) );
-			$ets_learndash_discord_connect_button_bg_color    = sanitize_text_field( trim( get_option( 'ets_learndash_discord_connect_button_bg_color' ) ) );
-			$connect_btn_bg_color = '<style>a.learndash-discord-btn-connect ets-btn{background-color:' . $ets_learndash_discord_connect_button_bg_color . '</style>';                         
-			$mapped_role_name                   = '';                        
-			$login_with_discord_button = ''; 
-                        
-			if ( is_array( $all_roles ) && is_array( $ets_learndash_discord_role_mapping ) ) {
+			$course_id                                     = $post->ID;
+			$current_location_url                          = ets_learndash_discord_get_current_screen_url();
+			$default_role                                  = sanitize_text_field( trim( get_option( 'ets_learndash_discord_default_role_id' ) ) );
+			$ets_learndash_discord_role_mapping            = json_decode( get_option( 'ets_learndash_discord_role_mapping' ), true );
+			$all_roles                                     = unserialize( get_option( 'ets_learndash_discord_all_roles' ) );
+			$ets_learndash_discord_non_login_button_text   = sanitize_text_field( trim( get_option( 'ets_learndash_discord_non_login_button_text' ) ) );
+			$ets_learndash_discord_connect_button_bg_color = sanitize_text_field( trim( get_option( 'ets_learndash_discord_connect_button_bg_color' ) ) );
+			$connect_btn_bg_color                          = '<style>a.learndash-discord-btn-connect ets-btn{background-color:' . $ets_learndash_discord_connect_button_bg_color . '</style>';
+			$mapped_role_name                              = '';
+			$login_with_discord_button                     = '';
 
+			if ( is_array( $all_roles ) && is_array( $ets_learndash_discord_role_mapping ) ) {
 
 				if ( array_key_exists( 'learndash_course_id_' . $course_id, $ets_learndash_discord_role_mapping ) ) {
 
@@ -1104,8 +1099,7 @@ class Learndash_Discord_Public {
 						$mapped_role_name .= $all_roles[ $mapped_role_id ] . ', ';
 					}
 				}
-
-			}                        
+			}
 			$default_role_name = '';
 			if ( is_array( $all_roles ) ) {
 				if ( $default_role != 'none' && array_key_exists( $default_role, $all_roles ) ) {
@@ -1113,63 +1107,64 @@ class Learndash_Discord_Public {
 				}
 			}
 			$login_with_discord_button .= ets_learndash_discord_roles_assigned_message( $mapped_role_name, $default_role_name, $login_with_discord_button );
-                        
-			_e ( 
-				sprintf ( 
-					wp_kses ( 
-						'<style>a.learndash-discord-btn-connect ets-btn{background-color: %s</style>', 
-						array( 
-							'style' => array()
-						) 
-					), 
-					$connect_btn_bg_color 
-				) 
+
+			_e(
+				sprintf(
+					wp_kses(
+						'<style>a.learndash-discord-btn-connect ets-btn{background-color: %s</style>',
+						array(
+							'style' => array(),
+						)
+					),
+					$connect_btn_bg_color
+				)
 			);
-			_e ( 
-				sprintf ( 
-					wp_kses ( 
-						'<a class="learndash-discord-btn-connect ets-btn" href="?action=learndash-discord-login&current-location=%1$s"> %2$s </a>', 
+			_e(
+				sprintf(
+					wp_kses(
+						'<a class="learndash-discord-btn-connect ets-btn" href="?action=learndash-discord-login&current-location=%1$s"> %2$s </a>',
 						array(
 							'a' => array(
-									'class' => array(),		
-									'href' => array(),
-							),                                                   
-						) 
-					),
-					$current_location_url, $ets_learndash_discord_non_login_button_text 
-				) 
-			) ;
-			_e ( 
-				wp_kses ( 
-					Learndash_Discord::get_discord_logo_white(),
-					array( 
-						'img' => array ( 
-								'src' => array(),
-								'class' => array()                                                    
-								) 
-					) 
-				) 
-			);
-			_e (  
-				wp_kses ( 
-					$login_with_discord_button , 
-					array(
-						'p' => array( 
-								'class' => array()
+								'class' => array(),
+								'href'  => array(),
 							),
-						'span' => array(),
-						'i' => array(
-								'style' => array()
-							)
-					)
-				) 
+						)
+					),
+					$current_location_url,
+					$ets_learndash_discord_non_login_button_text
+				)
 			);
-		}            
+			_e(
+				wp_kses(
+					Learndash_Discord::get_discord_logo_white(),
+					array(
+						'img' => array(
+							'src'   => array(),
+							'class' => array(),
+						),
+					)
+				)
+			);
+			_e(
+				wp_kses(
+					$login_with_discord_button,
+					array(
+						'p'    => array(
+							'class' => array(),
+						),
+						'span' => array(),
+						'i'    => array(
+							'style' => array(),
+						),
+					)
+				)
+			);
+		}
 
 	}
 
-	public function ets_learndash_discord_login_with_discord (){
-	
+	public function ets_learndash_discord_login_with_discord() {
+
 		if ( isset( $_GET['action'] ) && $_GET['action'] == 'learndash-discord-login' ) {
 			$params                    = array(
 				'client_id'     => sanitize_text_field( trim( get_option( 'ets_learndash_discord_client_id' ) ) ),
@@ -1178,18 +1173,16 @@ class Learndash_Discord_Public {
 				'scope'         => 'identify email connections guilds guilds.join',
 			);
 			$discord_authorise_api_url = LEARNDASH_DISCORD_API_URL . 'oauth2/authorize?' . http_build_query( $params );
-			
+
 			if ( isset( $_GET['current-location'] ) ) {
 				setcookie( 'ets_learndash_current_location_storage', filter_input( INPUT_GET, $_GET['current-location'] ), time() + 300, '/' );
 			}
-                        
+
 			wp_redirect( $discord_authorise_api_url, 302, get_site_url() );
-                        
+
 			exit;
-		}        
-            
-            
-            
+		}
+
 	}
 
 	/**
@@ -1200,8 +1193,8 @@ class Learndash_Discord_Public {
 	 * @param int $course_id  Course ID
 	 * @return NONE
 	 */
-	public function ets_learndash_discord_user_course_access_expired ( $user_id, $course_id ){
-		$remove_role_course_expired                    = sanitize_text_field( trim( get_option( 'ets_learndash_discord_remove_role_course_expired' ) ) );
+	public function ets_learndash_discord_user_course_access_expired( $user_id, $course_id ) {
+		$remove_role_course_expired = sanitize_text_field( trim( get_option( 'ets_learndash_discord_remove_role_course_expired' ) ) );
 		if ( $remove_role_course_expired ) {
 			$access_token                       = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_access_token', true ) ) );
 			$refresh_token                      = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_refresh_token', true ) ) );
@@ -1215,7 +1208,7 @@ class Learndash_Discord_Public {
 					}
 				}
 			}
-		}           
+		}
 	}
 
 	/**
@@ -1223,22 +1216,22 @@ class Learndash_Discord_Public {
 	 *
 	 * @since    1.0.0
 	 * @param string $trigger Trigger hook.
-	 * @param int $user_id User ID.
-	 * @param int $trigger_post_id Post.
-	 * @param int $group_id group id. 
-	 * @param int $course_id  Course ID.
-	 * @param int $lesson_id  Lesson ID.
-	 * @param int $topic_id  Topic  ID.
-	 * @param int $quiz_id  Quiz_id  ID.
+	 * @param int    $user_id User ID.
+	 * @param int    $trigger_post_id Post.
+	 * @param int    $group_id group id.
+	 * @param int    $course_id  Course ID.
+	 * @param int    $lesson_id  Lesson ID.
+	 * @param int    $topic_id  Topic  ID.
+	 * @param int    $quiz_id  Quiz_id  ID.
 	 * @return NONE
 	 */
-	public function ets_learndash_discord_ld_trigger_achievement_after_save( $trigger, $user_id, $trigger_post_id, $group_id, $course_id, $lesson_id, $topic_id, $quiz_id ){
+	public function ets_learndash_discord_ld_trigger_achievement_after_save( $trigger, $user_id, $trigger_post_id, $group_id, $course_id, $lesson_id, $topic_id, $quiz_id ) {
 
-		if( $trigger === 'complete_course' ) {
+		if ( $trigger === 'complete_course' ) {
 			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $course_id, 'complete_course_achievement' ), LEARNDASH_DISCORD_AS_GROUP_NAME );
-		}                
-		if( $trigger === 'complete_lesson' ) {    
-			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $lesson_id, 'complete_lesson_achievement' ), LEARNDASH_DISCORD_AS_GROUP_NAME );                                
+		}
+		if ( $trigger === 'complete_lesson' ) {
+			as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $lesson_id, 'complete_lesson_achievement' ), LEARNDASH_DISCORD_AS_GROUP_NAME );
 		}
 	}
 
@@ -1248,7 +1241,7 @@ class Learndash_Discord_Public {
 	 * @since    1.0.0
 	 * @return array
 	 */
-	public function ets_learndash_discord_allow_data_protocol( $protocols ){
+	public function ets_learndash_discord_allow_data_protocol( $protocols ) {
 
 		$protocols[] = 'data';
 		return $protocols;
