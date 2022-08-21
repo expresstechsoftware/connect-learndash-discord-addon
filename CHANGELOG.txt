@@ -1,0 +1,2 @@
+= 1.0.1 =
+- Fixed the problem of connect button not working GH#PR-62
