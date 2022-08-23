@@ -788,6 +788,12 @@ class Learndash_Discord_Public {
 			$message = ets_learndash_discord_get_formatted_complete_lesson_achievement_dm( $user_id, $courses );
 		}
 
+		if ( $type == 'course_update' ) {
+			$course = get_post( $courses );
+			$COURSES_NAME = $course->post_title;
+			$message = esc_html__( 'The Discord role linked to the ' . $COURSES_NAME . ' course has been updated', 'connect-learndash-and-discord' );
+		}
+
 		$creat_dm_url = LEARNDASH_DISCORD_API_URL . '/channels/' . $dm_channel_id . '/messages';
 		if ( $type == 'complete_lesson_achievement' || $type == 'complete_course_achievement' ) {
 			$dm_args = array(
@@ -1021,6 +1027,8 @@ class Learndash_Discord_Public {
 						update_user_meta( $user_id, '_ets_learndash_discord_role_id_for_' . $course_id, $discord_role );
 						$this->put_discord_role_api( $user_id, $discord_role );
 					}
+					// Sent a notification about the course access update.
+					as_schedule_single_action( ets_learndash_discord_get_random_timestamp( ets_learndash_discord_get_highest_last_attempt_timestamp() ), 'ets_learndash_discord_as_send_dm', array( $user_id, $course_id, 'course_update' ), LEARNDASH_DISCORD_AS_GROUP_NAME );
 				}
 			}
 		}
