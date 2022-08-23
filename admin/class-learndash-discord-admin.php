@@ -91,7 +91,7 @@ class Learndash_Discord_Admin {
 	 * @since    1.0.0
 	 */
 	public function ets_learndash_Discord_add_settings_menu() {
-		add_submenu_page( 'learndash-lms', __( 'Discord Settings', 'connect-learndash-and-discord' ), __( 'Discord Settings', 'connect-learndash-and-discord' ), 'manage_options', 'connect-learndash-and-discord', array( $this, 'ets_learndash_discord_setting_page' ) );
+		add_submenu_page( 'learndash-lms', __( 'Discord Settings', 'connect-learndash-and-discord' ), __( 'Discord Settings', 'connect-learndash-and-discord' ), 'manage_options', 'connect-learndash-discord-addon', array( $this, 'ets_learndash_discord_setting_page' ) );
 	}
         
 	/**
