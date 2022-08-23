@@ -356,7 +356,7 @@ class Learndash_Discord_Public {
 				}
 			}
 		} else {
-			if ( isset( $_GET['code'] ) && isset( $_GET['via'] ) && $_GET['via'] == 'connect-learndash-and-discord' ) {
+			if ( isset( $_GET['code'] ) && isset( $_GET['via'] ) && $_GET['via'] == 'connect-learndash-discord-addon' ) {
 
 				$code     = sanitize_text_field( trim( $_GET['code'] ) );
 				$response = $this->create_discord_auth_token( $code, 'new_learndash_student' );
