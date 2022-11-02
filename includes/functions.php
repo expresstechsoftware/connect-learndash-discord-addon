@@ -742,7 +742,11 @@ function ets_learndash_discord_allowed_html( ) {
 			'class' => array(),
 			'data-user-id' => array(),
 			'id' => array(),                    
-		)            
+		),
+		'img'  => array(
+			'src' => array(),
+			'class' => array()
+		),		            
 	);
 
 	return $allowed_html;
@@ -860,3 +864,17 @@ function ets_learndash_discord_get_formatted_complete_lesson_achievement_dm( $us
         
 }
 
+/**
+ * Get the discord user avatar.
+ * 
+ * @param INTI  $discord_user_id 
+ * @param INT    $user_avatar 
+ * @param STRING $restrictcontent_discord
+ */
+function ets_learndash_discord_get_user_avatar( $discord_user_id, $user_avatar, $restrictcontent_discord ) {
+	if ( $user_avatar ) {
+		$avatar_url                            = '<img class="ets_discord_user_avatar" src="https://cdn.discordapp.com/avatars/' . $discord_user_id . '/' . $user_avatar . '.png" />';
+		$restrictcontent_discord .= wp_kses( $avatar_url, ets_learndash_discord_allowed_html() );
+	}
+	return $restrictcontent_discord;
+}
