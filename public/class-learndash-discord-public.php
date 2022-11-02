@@ -191,7 +191,9 @@ class Learndash_Discord_Public {
 		$user_id = sanitize_text_field( trim( get_current_user_id() ) );
 
 		$access_token                                     = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_access_token', true ) ) );
+		$_ets_learndash_discord_user_id                   = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_user_id', true ) ) );
 		$_ets_learndash_discord_username                  = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_username', true ) ) );
+		$discord_user_avatar                              = sanitize_text_field( trim( get_user_meta( $user_id, '_ets_learndash_discord_avatar', true ) ) );
 		$allow_none_student                               = sanitize_text_field( trim( get_option( 'ets_learndash_discord_allow_none_student' ) ) );
 		$ets_learndash_discord_connect_button_bg_color    = sanitize_text_field( trim( get_option( 'ets_learndash_discord_connect_button_bg_color' ) ) );
 		$ets_learndash_discord_disconnect_button_bg_color = sanitize_text_field( trim( get_option( 'ets_learndash_discord_disconnect_button_bg_color' ) ) );
@@ -236,6 +238,7 @@ class Learndash_Discord_Public {
 				$restrictcontent_discord .= '<a href="#" class="ets-btn learndash-discord-btn-disconnect" ' . $disconnect_btn_bg_color . ' id="learndash-discord-disconnect-discord" data-user-id="' . esc_attr( $user_id ) . '">' . esc_html( $ets_learndash_discord_disconnect_button_text ) . '</a>';
 				$restrictcontent_discord .= '<span class="ets-spinner"></span>';
 				$restrictcontent_discord .= '<p>' . esc_html__( sprintf( 'Connected account: %s', $_ets_learndash_discord_username ), 'connect-learndash-and-discord' ) . '</p>';
+				$restrictcontent_discord  = ets_learndash_discord_get_user_avatar( $_ets_learndash_discord_user_id, $discord_user_avatar, $restrictcontent_discord );
 				$restrictcontent_discord  = ets_learndash_discord_roles_assigned_message( $mapped_role_name, $default_role_name, $restrictcontent_discord );
 				$restrictcontent_discord .= '</div>';
 				$restrictcontent_discord .= '</div>';
@@ -328,8 +331,10 @@ class Learndash_Discord_Public {
 							if ( is_array( $user_body ) && array_key_exists( 'discriminator', $user_body ) ) {
 								$discord_user_number           = $user_body['discriminator'];
 								$discord_user_name             = $user_body['username'];
+								$discord_user_avatar           = $user_body['avatar'];
 								$discord_user_name_with_number = $discord_user_name . '#' . $discord_user_number;
 								update_user_meta( $user_id, '_ets_learndash_discord_username', $discord_user_name_with_number );
+								update_user_meta( $user_id, '_ets_learndash_discord_avatar', $discord_user_avatar );
 							}
 							if ( is_array( $user_body ) && array_key_exists( 'id', $user_body ) ) {
 								$_ets_learndash_discord_user_id = sanitize_text_field( trim( $user_body['id'] ) );
@@ -789,9 +794,9 @@ class Learndash_Discord_Public {
 		}
 
 		if ( $type == 'course_update' ) {
-			$course = get_post( $courses );
+			$course       = get_post( $courses );
 			$COURSES_NAME = $course->post_title;
-			$message = esc_html__( 'The Discord role linked to the ' . $COURSES_NAME . ' course has been updated', 'connect-learndash-and-discord' );
+			$message      = esc_html__( 'The Discord role linked to the ' . $COURSES_NAME . ' course has been updated', 'connect-learndash-and-discord' );
 		}
 
 		$creat_dm_url = LEARNDASH_DISCORD_API_URL . '/channels/' . $dm_channel_id . '/messages';
