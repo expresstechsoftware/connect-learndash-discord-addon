@@ -53,15 +53,15 @@ This plugin provides the following features:
 
 4) Send custom welcome message when student joins the server.
 
-5) Send custom welcome message when student completes a course.
+5) Send custom message when student completes a course.
 
-6) Send custom welcome message when student completes a lesson.
+6) Send custom message when student completes a lesson.
 
-7) Send custom welcome message when student completes a topic.
+7) Send custom message when student completes a topic.
 
-8) Send custom welcome message when student completes a quiz.
+8) Send custom message when student completes a quiz.
 
-9) Send custom welcome message when assignment is approved.
+9) Send custom message when assignment is approved.
 
 ## Solution of Missing Access Error
 - Inside the log tab you will see "50001:Missing Access", which is happening because the new BOT role need to the TOP priroty among the other roles.
@@ -83,3 +83,10 @@ This plugin provides the following features:
 - - Due to the nature of Discord API, we have to use schedules to precisely control API calls, that why actions are delayed. 
 - Some learned are not getting their role and there is no error in the log.
 - - It is suggested to TRY again OR use another discord account.
+
+# Checkout Our Other Plugins
+- [Connect MemberPress and Discord](https://wordpress.org/plugins/expresstechsoftwares-memberpress-discord-add-on/)
+- [Connect PaidmembershipPro and Discord](https://wordpress.org/plugins/pmpro-discord-add-on/)
+- [Product Questions & Answers for WooCommerce](https://wordpress.org/plugins/product-questions-answers-for-woocommerce/)
+- [Webhook For WCFM Vendors](https://wordpress.org/plugins/webhook-for-wcfm-vendors/)
+- [Inspect HTTP Requests](https://wordpress.org/plugins/inspect-http-requests/)

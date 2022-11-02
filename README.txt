@@ -5,9 +5,9 @@ Donate link: https://paypal.me/supportets
 Author URI: https://www.expresstechsoftwares.com
 Author: ExpressTech Software Solutions Pvt. Ltd.
 Requires at least: 4.7
-Tested up to: 6.0
+Tested up to: 6.1
 Requires PHP: 7.0
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,15 +31,15 @@ Connect LearnDash to Discord Plugin Features:
 
 4) Send custom welcome message when student joins the server.
 
-5) Send custom welcome message when student completes a course.
+5) Send custom message when student completes a course.
 
-6) Send custom welcome message when student completes a lesson.
+6) Send custom message when student completes a lesson.
 
-7) Send custom welcome message when student completes a topic.
+7) Send custom message when student completes a topic.
 
-8) Send custom welcome message when student completes a quiz.
+8) Send custom message when student completes a quiz.
 
-9) Send custom welcome message when assignment is approved.
+9) Send custom message when assignment is approved.
 
 == Installation ==
 
