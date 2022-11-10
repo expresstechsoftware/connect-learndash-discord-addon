@@ -786,4 +786,50 @@ class Learndash_Discord_Admin {
 		exit();
 
 	}
+
+	/**
+	 * 
+	 */
+	public function ets_learndash_discord_send_support_mail() {
+		if ( ! current_user_can( 'administrator' ) ) {
+			wp_send_json_error( 'You do not have sufficient rights', 403 );
+			exit();
+		}
+
+		if ( isset( $_POST['ets_learndash_send_support_mail'] ) ) {
+
+			// Check for nonce security
+			if ( ! wp_verify_nonce( $_POST['ets_learndas_discord_send_support_mail'], 'send_support_mail' ) ) {
+				wp_send_json_error( 'You do not have sufficient rights', 403 );
+				exit();
+			}
+			$etsUserName  = isset( $_POST['ets_user_name'] ) ? sanitize_text_field( trim( $_POST['ets_user_name'] ) ) : '';
+			$etsUserEmail = isset( $_POST['ets_user_email'] ) ? sanitize_text_field( trim( $_POST['ets_user_email'] ) ) : '';
+			$message      = isset( $_POST['ets_support_msg'] ) ? sanitize_text_field( trim( $_POST['ets_support_msg'] ) ) : '';
+			$sub          = isset( $_POST['ets_support_subject'] ) ? sanitize_text_field( trim( $_POST['ets_support_subject'] ) ) : '';
+
+			if ( $etsUserName && $etsUserEmail && $message && $sub ) {
+
+				$subject   = $sub;
+				$to        = array( 'contact@expresstechsoftwares.com,vinod.tiwari@expresstechsoftwares.com' );
+				$content   = 'Name: ' . $etsUserName . '<br>';
+				$content  .= 'Contact Email: ' . $etsUserEmail . '<br>';
+				$content  .= 'MemberPress Support Message: ' . $message;
+				$headers   = array();
+				$blogemail = get_bloginfo( 'admin_email' );
+				$headers[] = 'From: ' . get_bloginfo( 'name' ) . ' <' . $blogemail . '>' . "\r\n";
+				$mail      = wp_mail( $to, $subject, $content, $headers );
+
+				if ( $mail ) {
+					$message = esc_html__( 'Your request have been successfully submitted!', 'connect-learndash-and-discord' );
+				} else {
+					$message = esc_html__( 'failure to send email!', 'connect-learndash-and-discord' );
+				}
+				if ( isset( $_POST['current_url'] ) ) {
+					$pre_location = sanitize_text_field( $_POST['current_url'] ) . '&save_settings_msg=' . $message . '#ets_learndash_discord_support';
+					wp_safe_redirect( $pre_location );
+				}
+			}
+		}
+	}
 }

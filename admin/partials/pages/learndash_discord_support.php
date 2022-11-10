@@ -8,6 +8,7 @@ if ( $currentUser ) {
 <div class="contact-form ">
 	<form method="post" action="<?php echo esc_attr( get_site_url() ) . '/wp-admin/admin-post.php' ?>">
 		<input type="hidden" name="action" value="ets_learndash_discord_send_support_mail">
+		<input type="hidden" name="current_url" value="<?php echo esc_url( ets_learndash_discord_get_current_screen_url() ); ?>">   
 	  <div class="ets-container">
 		<div class="top-logo-title">
 		  <img src="<?php echo LEARNDASH_DISCORD_PLUGIN_DIR_URL  . 'admin/images/ets-logo.png'; ?>" class="img-fluid company-logo" alt="">
@@ -22,7 +23,7 @@ if ( $currentUser ) {
 				<div class="ets-form-group">
 				  <label><?php esc_html_e( 'Full Name', 'connect-learndash-and-discord' ); ?></label>
 				  <input type="text" name="ets_user_name" value="<?php echo esc_html( $currUserName ); ?>" class="form-control contact-input" placeholder="<?php esc_html_e( 'Write Your Full Name', 'connect-learndash-and-discord' ); ?>">
-				  <?php wp_nonce_field( 'send_support_mail', 'ets_discord_send_support_mail' ); ?>
+				  <?php wp_nonce_field( 'send_support_mail', 'ets_learndas_discord_send_support_mail' ); ?>
 				</div>
 				<div class="ets-form-group">
 				  <label><?php esc_html_e( 'Contact Email', 'connect-learndash-and-discord' ); ?></label>
@@ -37,7 +38,7 @@ if ( $currentUser ) {
 				  <textarea name="ets_support_msg" class="form-control contact-textarea" required=""></textarea>
 				</div>
 				<div class="submit-btn d-flex align-items-center w-100 pt-3">
-				  <input type="submit" name="save" id="save" class="btn btn-submit ets-bg-green" value="Submit">                  
+				  <input type="submit" name="ets_learndash_send_support_mail" id="ets_learndash_send_support_mail" class="btn btn-submit ets-bg-green" value="Submit">                  
 				  <a href="skype:ravi.soni971?chat" class="btn btn-skype ml-auto"><?php esc_html_e( 'Skype', 'connect-learndash-and-discord' ); ?></a>
 				</div>
 			  </div>

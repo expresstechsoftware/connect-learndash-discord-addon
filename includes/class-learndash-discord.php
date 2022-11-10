@@ -179,6 +179,7 @@ class Learndash_Discord {
 		$this->loader->add_action( 'learndash_update_course_access', $plugin_admin, 'ets_learndash_discord_admin_update_course_access', 99, 4 );
 		$this->loader->add_action( 'learndash_assignment_approved', $plugin_admin, 'ets_learndash_discord_admin_assignment_approved', 10, 1 );
 		$this->loader->add_action( 'wp_ajax_ets_learndash_discord_update_redirect_url', $plugin_admin, 'ets_learndash_discord_update_redirect_url' );
+		$this->loader->add_action( 'admin_post_ets_learndash_discord_send_support_mail', $plugin_admin, 'ets_learndash_discord_send_support_mail' );
 	}
 
 	/**
