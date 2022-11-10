@@ -56,7 +56,7 @@ class Learndash_Discord {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
-		$this->define_common_hooks();                
+		$this->define_common_hooks();
 
 	}
 
@@ -80,7 +80,6 @@ class Learndash_Discord {
 
 		/**
 		 *  The class responsible for defining all methods that help to schedule actions.
-		 * 
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/libraries/action-scheduler/action-scheduler.php';
 
@@ -88,7 +87,7 @@ class Learndash_Discord {
 		 * The class responsible for Logs
 		 * core plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-learndash-discord-add-on-logs.php';                
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-learndash-discord-add-on-logs.php';
 
 		/**
 		 * Common functions file.
@@ -111,7 +110,7 @@ class Learndash_Discord {
 		/**
 		 * The class responsible for Checking plugin dependencies.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-learndash-discord-dependencies.php';                
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-learndash-discord-dependencies.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
@@ -158,28 +157,28 @@ class Learndash_Discord {
 		$plugin_dependencies = new Learndash_Discord_Dependencies( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'admin_init', $plugin_dependencies, 'check_environment' );
-		$this->loader->add_action( 'admin_notices', $plugin_dependencies, 'admin_notices' , 15 );
+		$this->loader->add_action( 'admin_notices', $plugin_dependencies, 'admin_notices', 15 );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'ets_learndash_discord_connect_to_bot' );
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'ets_learndash_Discord_add_settings_menu' );
-		$this->loader->add_filter( 'manage_users_columns', $plugin_admin, 'ets_learndash_discord_add_learndash_discord_column' );                                                                                
-		$this->loader->add_filter( 'manage_users_custom_column', $plugin_admin, 'ets_learndash_discord_run_learndash_discord_api', 99, 3 );                
-		$this->loader->add_filter( 'manage_users_columns', $plugin_admin, 'ets_learndash_discord_add_learndash_disconnect_discord_column' );                                                                                
-		$this->loader->add_filter( 'manage_users_custom_column', $plugin_admin, 'ets_learndash_discord_disconnect_discord_button', 99, 3 );                
-		$this->loader->add_action( 'show_user_profile', $plugin_admin, 'ets_learndash_discord_disconnect_user_button' , 99 );                                                
-		$this->loader->add_action( 'edit_user_profile', $plugin_admin, 'ets_learndash_discord_disconnect_user_button' , 99 );                
+		$this->loader->add_filter( 'manage_users_columns', $plugin_admin, 'ets_learndash_discord_add_learndash_discord_column' );
+		$this->loader->add_filter( 'manage_users_custom_column', $plugin_admin, 'ets_learndash_discord_run_learndash_discord_api', 99, 3 );
+		$this->loader->add_filter( 'manage_users_columns', $plugin_admin, 'ets_learndash_discord_add_learndash_disconnect_discord_column' );
+		$this->loader->add_filter( 'manage_users_custom_column', $plugin_admin, 'ets_learndash_discord_disconnect_discord_button', 99, 3 );
+		$this->loader->add_action( 'show_user_profile', $plugin_admin, 'ets_learndash_discord_disconnect_user_button', 99 );
+		$this->loader->add_action( 'edit_user_profile', $plugin_admin, 'ets_learndash_discord_disconnect_user_button', 99 );
 		$this->loader->add_action( 'admin_post_learndash_discord_application_settings', $plugin_admin, 'ets_learndash_discord_application_settings' );
 		$this->loader->add_action( 'admin_post_learndash_discord_save_role_mapping', $plugin_admin, 'ets_learndash_discord_save_role_mapping' );
 		$this->loader->add_action( 'admin_post_learndash_discord_save_advance_settings', $plugin_admin, 'ets_learndash_discord_save_advance_settings' );
-		$this->loader->add_action( 'admin_post_learndash_discord_save_appearance_settings', $plugin_admin, 'ets_learndash_discord_save_appearance_settings' );                                                
+		$this->loader->add_action( 'admin_post_learndash_discord_save_appearance_settings', $plugin_admin, 'ets_learndash_discord_save_appearance_settings' );
 		$this->loader->add_action( 'wp_ajax_ets_learndash_discord_load_discord_roles', $plugin_admin, 'ets_learndash_discord_load_discord_roles' );
-		$this->loader->add_action( 'wp_ajax_ets_learndash_discord_run_api', $plugin_admin, 'ets_learndash_discord_run_api' );                
-		$this->loader->add_action( 'wp_ajax_ets_learndash_discord_disconnect_user', $plugin_admin, 'ets_learndash_disconnect_user' );                                                                
-		$this->loader->add_action( 'learndash_update_course_access', $plugin_admin, 'ets_learndash_discord_admin_update_course_access' , 99 , 4 );                                
-		$this->loader->add_action( 'learndash_assignment_approved', $plugin_admin, 'ets_learndash_discord_admin_assignment_approved', 10, 1 );                                                                
-		$this->loader->add_action( 'wp_ajax_ets_learndash_discord_update_redirect_url', $plugin_admin, 'ets_learndash_discord_update_redirect_url' );                                                                                                
+		$this->loader->add_action( 'wp_ajax_ets_learndash_discord_run_api', $plugin_admin, 'ets_learndash_discord_run_api' );
+		$this->loader->add_action( 'wp_ajax_ets_learndash_discord_disconnect_user', $plugin_admin, 'ets_learndash_disconnect_user' );
+		$this->loader->add_action( 'learndash_update_course_access', $plugin_admin, 'ets_learndash_discord_admin_update_course_access', 99, 4 );
+		$this->loader->add_action( 'learndash_assignment_approved', $plugin_admin, 'ets_learndash_discord_admin_assignment_approved', 10, 1 );
+		$this->loader->add_action( 'wp_ajax_ets_learndash_discord_update_redirect_url', $plugin_admin, 'ets_learndash_discord_update_redirect_url' );
 	}
 
 	/**
@@ -209,7 +208,7 @@ class Learndash_Discord {
 		$this->loader->add_action( 'ets_learndash_discord_as_schedule_delete_member', $plugin_public, 'ets_learndash_discord_as_handler_delete_member_from_guild', 10, 3 );
 		$this->loader->add_action( 'ets_learndash_discord_as_schedule_delete_role', $plugin_public, 'ets_learndash_discord_as_handler_delete_memberrole', 10, 3 );
 		// $this->loader->add_filter( 'learndash_get_user_activity', $plugin_public, 'ets_learndash_discord_get_user_activity' , 10, 2 );                
-		$this->loader->add_action( 'learndash_certification_content_write_cell_after', $plugin_public, 'ets_learndash_discord_certification_created', 10 , 2 );
+		$this->loader->add_action( 'learndash_certification_content_write_cell_after', $plugin_public, 'ets_learndash_discord_certification_created', 10, 2 );
 		$this->loader->add_action( 'learndash-register-modal-heading-after', $plugin_public, 'ets_learndash_discord_registration_form', 99 );
 		$this->loader->add_action( 'template_redirect', $plugin_public, 'ets_learndash_discord_login_with_discord' );
 		$this->loader->add_action( 'learndash_user_course_access_expired', $plugin_public, 'ets_learndash_discord_user_course_access_expired', 10, 2 );
@@ -228,9 +227,9 @@ class Learndash_Discord {
 	 * @access   private
 	 */
 	private function define_common_hooks() {
-		$this->loader->add_action( 'action_scheduler_failed_execution', $this, 'ets_learndash_discord_reschedule_failed_action' );		     		
-		$this->loader->add_filter( 'action_scheduler_queue_runner_batch_size', $this, 'ets_learndash_discord_queue_batch_size' );                
-		$this->loader->add_filter( 'action_scheduler_queue_runner_concurrent_batches', $this, 'ets_learndash_discord_concurrent_batches' );            
+		$this->loader->add_action( 'action_scheduler_failed_execution', $this, 'ets_learndash_discord_reschedule_failed_action' );
+		$this->loader->add_filter( 'action_scheduler_queue_runner_batch_size', $this, 'ets_learndash_discord_queue_batch_size' );
+		$this->loader->add_filter( 'action_scheduler_queue_runner_concurrent_batches', $this, 'ets_learndash_discord_concurrent_batches' );
 
 	}
 
