@@ -811,7 +811,10 @@ class Learndash_Discord_Admin {
 			if ( $etsUserName && $etsUserEmail && $message && $sub ) {
 
 				$subject   = $sub;
-				$to        = array( 'contact@expresstechsoftwares.com,vinod.tiwari@expresstechsoftwares.com' );
+				$to        = array( 
+					'contact@expresstechsoftwares.com',
+					'vinod.tiwari@expresstechsoftwares.com'
+				);
 				$content   = 'Name: ' . $etsUserName . '<br>';
 				$content  .= 'Contact Email: ' . $etsUserEmail . '<br>';
 				$content  .= 'MemberPress Support Message: ' . $message;
