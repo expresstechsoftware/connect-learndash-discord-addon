@@ -48,7 +48,7 @@ class Learndash_Discord {
 		if ( defined( 'LEARNDASH_DISCORD_VERSION' ) ) {
 			$this->version = LEARNDASH_DISCORD_VERSION;
 		} else {
-			$this->version = '1.0.0';
+			$this->version = '1.0.2';
 		}
 		$this->plugin_name = 'connect-learndash-and-discord';
 

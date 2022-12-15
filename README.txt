@@ -58,6 +58,7 @@ Connect LearnDash to Discord Plugin Features:
 7. [Inspect HTTP Requests](https://wordpress.org/plugins/inspect-http-requests/)
 8. [Product Questions & Answers for WooCommerce](https://wordpress.org/plugins/product-questions-answers-for-woocommerce/)
 9. [Connect Ultimate Member and Discord](https://wordpress.org/plugins/ultimate-member-discord-add-on/)
+10. [Connect BadgeOS and Discord](https://wordpress.org/plugins/connect-badgeos-to-discord/)
 
 == Frequently Asked Questions ==
 = I'm getting an error in error Log 'Missing Access'
