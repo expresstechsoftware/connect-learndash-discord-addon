@@ -817,7 +817,7 @@ class Learndash_Discord_Admin {
 				);
 				$content   = 'Name: ' . $etsUserName . '<br>';
 				$content  .= 'Contact Email: ' . $etsUserEmail . '<br>';
-				$content  .= 'MemberPress Support Message: ' . $message;
+				$content  .= 'LearnDash Support Message: ' . $message;
 				$headers   = array();
 				$blogemail = get_bloginfo( 'admin_email' );
 				$headers[] = 'From: ' . get_bloginfo( 'name' ) . ' <' . $blogemail . '>' . "\r\n";
