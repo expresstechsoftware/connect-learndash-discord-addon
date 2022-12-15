@@ -75,12 +75,8 @@ $remove_role_course_expired = sanitize_text_field( trim( get_option( 'ets_learnd
 	<tr>
 		<th scope="row"><?php esc_html_e( 'Welcome message', 'connect-learndash-and-discord' ); ?></th>
 		<td> <fieldset>
-		<textarea class="ets_learndash_discord_dm_textarea" name="ets_learndash_discord_welcome_message" id="ets_learndash_discord_welcome_message" row="25" cols="50">
-		<?php
-		if ( $ets_learndash_discord_welcome_message ) {
-			echo esc_textarea( wp_unslash( $ets_learndash_discord_welcome_message ) ); }
-		?>
-		</textarea> 
+			<?php $ets_learndash_discord_welcome_message_value = isset( $ets_learndash_discord_welcome_message ) ? $ets_learndash_discord_welcome_message : ''; ?>
+		<textarea class="ets_learndash_discord_dm_textarea" name="ets_learndash_discord_welcome_message" id="ets_learndash_discord_welcome_message" row="25" cols="50"><?php echo esc_textarea( wp_unslash( $ets_learndash_discord_welcome_message_value ) ); ?></textarea> 
 	<br/>
 	<small>Merge fields: [LD_STUDENT_NAME], [LD_STUDENT_EMAIL], [LD_COURSES], [SITE_URL], [BLOG_NAME]</small>
 		</fieldset></td>
@@ -99,12 +95,8 @@ $remove_role_course_expired = sanitize_text_field( trim( get_option( 'ets_learnd
 	<tr>
 		<th scope="row"><?php esc_html_e( 'Course Complete message', 'connect-learndash-and-discord' ); ?></th>
 		<td> <fieldset>
-		<textarea class="ets_learndash_discord_course_complete_message" name="ets_learndash_discord_course_complete_message" id="ets_learndash_discord_course_complete_message" row="25" cols="50">
-		<?php
-		if ( $ets_learndash_discord_course_complete_message ) {
-			echo esc_textarea( wp_unslash( $ets_learndash_discord_course_complete_message ) ); }
-		?>
-		</textarea> 
+			<?php $ets_learndash_discord_course_complete_message_value = isset( $ets_learndash_discord_course_complete_message ) ? $ets_learndash_discord_course_complete_message : ''; ?>
+		<textarea class="ets_learndash_discord_course_complete_message" name="ets_learndash_discord_course_complete_message" id="ets_learndash_discord_course_complete_message" row="25" cols="50"><?php echo esc_textarea( wp_unslash( $ets_learndash_discord_course_complete_message_value ) ); ?></textarea> 
 	<br/>
 	<small>Merge fields: [LD_STUDENT_NAME], [LD_STUDENT_EMAIL], [LD_COURSE_NAME], [LD_COURSE_COMPLETE_DATE], [SITE_URL], [BLOG_NAME]</small>
 		</fieldset></td>
@@ -123,12 +115,8 @@ $remove_role_course_expired = sanitize_text_field( trim( get_option( 'ets_learnd
 	<tr>
 		<th scope="row"><?php esc_html_e( 'Lesson Complete message', 'connect-learndash-and-discord' ); ?></th>
 		<td> <fieldset>
-		<textarea class="ets_learndash_discord_lesson_complete_message" name="ets_learndash_discord_lesson_complete_message" id="ets_learndash_discord_lesson_complete_message" row="25" cols="50">
-		<?php
-		if ( $ets_learndash_discord_lesson_complete_message ) {
-			echo esc_textarea( wp_unslash( $ets_learndash_discord_lesson_complete_message ) ); }
-		?>
-		</textarea> 
+			<?php $ets_learndash_discord_lesson_complete_message_value = isset( $ets_learndash_discord_lesson_complete_message ) ? $ets_learndash_discord_lesson_complete_message : ''; ?>
+		<textarea class="ets_learndash_discord_lesson_complete_message" name="ets_learndash_discord_lesson_complete_message" id="ets_learndash_discord_lesson_complete_message" row="25" cols="50"><?php echo esc_textarea( wp_unslash( $ets_learndash_discord_lesson_complete_message_value ) ); ?></textarea> 
 	<br/>
 	<small>Merge fields:  [LD_STUDENT_NAME], [LD_STUDENT_EMAIL], [LD_LESSON_NAME], [LD_COURSE_LESSON_DATE], [SITE_URL], [BLOG_NAME]</small>
 		</fieldset></td>
@@ -147,12 +135,8 @@ $remove_role_course_expired = sanitize_text_field( trim( get_option( 'ets_learnd
 	<tr>
 		<th scope="row"><?php esc_html_e( 'Topic Complete message', 'connect-learndash-and-discord' ); ?></th>
 		<td> <fieldset>
-		<textarea class="ets_learndash_discord_topic_complete_message" name="ets_learndash_discord_topic_complete_message" id="ets_learndash_discord_topic_complete_message" row="25" cols="50">
-		<?php
-		if ( $ets_learndash_discord_topic_complete_message ) {
-			echo esc_textarea( wp_unslash( $ets_learndash_discord_topic_complete_message ) ); }
-		?>
-		</textarea> 
+			<?php $ets_learndash_discord_topic_complete_message_value = isset( $ets_learndash_discord_topic_complete_message ) ? $ets_learndash_discord_topic_complete_message : ''; ?>
+		<textarea class="ets_learndash_discord_topic_complete_message" name="ets_learndash_discord_topic_complete_message" id="ets_learndash_discord_topic_complete_message" row="25" cols="50"><?php echo esc_textarea( wp_unslash( $ets_learndash_discord_topic_complete_message_value ) ); ?></textarea> 
 	<br/>
 	<small>Merge fields: [LD_STUDENT_NAME], [LD_STUDENT_EMAIL], [LD_TOPIC_NAME], [LD_COURSE_TOPIC_DATE], [SITE_URL], [BLOG_NAME]</small>
 		</fieldset></td>
@@ -172,12 +156,8 @@ $remove_role_course_expired = sanitize_text_field( trim( get_option( 'ets_learnd
 	<tr>
 		<th scope="row"><?php esc_html_e( 'Quiz Complete message', 'connect-learndash-and-discord' ); ?></th>
 		<td> <fieldset>
-		<textarea class="ets_learndash_discord_quiz_complete_message" name="ets_learndash_discord_quiz_complete_message" id="ets_learndash_discord_quiz_complete_message" row="25" cols="50">
-		<?php
-		if ( $ets_learndash_discord_quiz_complete_message ) {
-			echo esc_textarea( wp_unslash( $ets_learndash_discord_quiz_complete_message ) ); }
-		?>
-		</textarea> 
+			<?php $ets_learndash_discord_quiz_complete_message_value = isset( $ets_learndash_discord_quiz_complete_message ) ? $ets_learndash_discord_quiz_complete_message : ''; ?>
+		<textarea class="ets_learndash_discord_quiz_complete_message" name="ets_learndash_discord_quiz_complete_message" id="ets_learndash_discord_quiz_complete_message" row="25" cols="50"><?php echo esc_textarea( wp_unslash( $ets_learndash_discord_quiz_complete_message ) ); ?></textarea> 
 	<br/>
 	<small>Merge fields: [LD_STUDENT_NAME], [LD_STUDENT_EMAIL], [LD_QUIZ_NAME], [LD_QUIZ_DATE], [SITE_URL], [BLOG_NAME]</small>
 		</fieldset></td>
@@ -197,12 +177,8 @@ $remove_role_course_expired = sanitize_text_field( trim( get_option( 'ets_learnd
 	<tr>
 		<th scope="row"><?php esc_html_e( 'Assignment Approved message', 'connect-learndash-and-discord' ); ?></th>
 		<td> <fieldset>
-		<textarea class="ets_learndash_discord_assignment_approved_message" name="ets_learndash_discord_assignment_approved_message" id="ets_learndash_discord_assignment_approved_message" row="25" cols="50">
-		<?php
-		if ( $ets_learndash_discord_assignment_approved_message ) {
-			echo esc_textarea( wp_unslash( $ets_learndash_discord_assignment_approved_message ) ); }
-		?>
-		</textarea> 
+		<?php $ets_learndash_discord_assignment_approved_message_value = isset( $ets_learndash_discord_assignment_approved_message ) ? $ets_learndash_discord_assignment_approved_message : ''; ?>
+		<textarea class="ets_learndash_discord_assignment_approved_message" name="ets_learndash_discord_assignment_approved_message" id="ets_learndash_discord_assignment_approved_message" row="25" cols="50"><?php echo esc_textarea( wp_unslash( $ets_learndash_discord_assignment_approved_message_value ) ); ?> </textarea> 
 	<br/>
 	<small>Merge fields: [LD_STUDENT_NAME], [LD_STUDENT_EMAIL], [LD_ASSIGNMENT_COURSE], [LD_ASSIGNMENT_LESSON], [SITE_URL], [BLOG_NAME], [LD_ASSIGNMENT_APPROVED_DATE], [LD_LINK_OF_ASSIGNMENT], [LD_ASSIGNMENT_POINTS_AWARDED]</small>
 		</fieldset></td>
