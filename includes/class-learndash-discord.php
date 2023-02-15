@@ -48,7 +48,7 @@ class Learndash_Discord {
 		if ( defined( 'LEARNDASH_DISCORD_VERSION' ) ) {
 			$this->version = LEARNDASH_DISCORD_VERSION;
 		} else {
-			$this->version = '1.0.2';
+			$this->version = '1.0.4';
 		}
 		$this->plugin_name = 'connect-learndash-and-discord';
 
@@ -153,7 +153,7 @@ class Learndash_Discord {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new Learndash_Discord_Admin( $this->get_plugin_name(), $this->get_version(), Learndash_Discord_Public::get_learndash_discord_public_instance( $this->get_plugin_name(), $this->get_version() ) );
+		$plugin_admin        = new Learndash_Discord_Admin( $this->get_plugin_name(), $this->get_version(), Learndash_Discord_Public::get_learndash_discord_public_instance( $this->get_plugin_name(), $this->get_version() ) );
 		$plugin_dependencies = new Learndash_Discord_Dependencies( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'admin_init', $plugin_dependencies, 'check_environment' );
@@ -195,7 +195,7 @@ class Learndash_Discord {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-		$this->loader->add_filter( 'do_shortcode_tag', $plugin_public, 'ets_learndash_show_discord_button' , 10 , 3  );
+		$this->loader->add_filter( 'do_shortcode_tag', $plugin_public, 'ets_learndash_show_discord_button', 10, 3 );
 		$this->loader->add_shortcode( 'learndash_discord', $plugin_public, 'ets_learndash_discord_add_connect_discord_button' );
 		$this->loader->add_action( 'init', $plugin_public, 'ets_learndash_discord_api_callback' );
 		$this->loader->add_action( 'ets_learndash_discord_as_handle_add_member_to_guild', $plugin_public, 'ets_learndash_discord_as_handler_add_member_to_guild', 10, 3 );
@@ -208,18 +208,18 @@ class Learndash_Discord {
 		$this->loader->add_action( 'wp_ajax_learndash_disconnect_from_discord', $plugin_public, 'ets_learndash_discord_disconnect_from_discord' );
 		$this->loader->add_action( 'ets_learndash_discord_as_schedule_delete_member', $plugin_public, 'ets_learndash_discord_as_handler_delete_member_from_guild', 10, 3 );
 		$this->loader->add_action( 'ets_learndash_discord_as_schedule_delete_role', $plugin_public, 'ets_learndash_discord_as_handler_delete_memberrole', 10, 3 );
-		// $this->loader->add_filter( 'learndash_get_user_activity', $plugin_public, 'ets_learndash_discord_get_user_activity' , 10, 2 );                
+		// $this->loader->add_filter( 'learndash_get_user_activity', $plugin_public, 'ets_learndash_discord_get_user_activity' , 10, 2 );
 		$this->loader->add_action( 'learndash_certification_content_write_cell_after', $plugin_public, 'ets_learndash_discord_certification_created', 10, 2 );
 		$this->loader->add_action( 'learndash-register-modal-heading-after', $plugin_public, 'ets_learndash_discord_registration_form', 99 );
 		$this->loader->add_action( 'template_redirect', $plugin_public, 'ets_learndash_discord_login_with_discord' );
 		$this->loader->add_action( 'learndash_user_course_access_expired', $plugin_public, 'ets_learndash_discord_user_course_access_expired', 10, 2 );
 		$this->loader->add_filter( 'kses_allowed_protocols', $plugin_public, 'ets_learndash_discord_allow_data_protocol' );
-		if ( Learndash_Discord::ets_achievement_add_on_is_active() ) {
+		if ( self::ets_achievement_add_on_is_active() ) {
 			$this->loader->add_action( 'ld_complete_lesson_achievement_after_save', $plugin_public, 'ets_learndash_discord_ld_trigger_achievement_after_save', 99, 8 );
 			$this->loader->add_action( 'ld_complete_course_achievement_after_save', $plugin_public, 'ets_learndash_discord_ld_trigger_achievement_after_save', 99, 8 );
 		}
 
-}
+	}
 
 	/**
 	 * Define actions which are not in admin or not public
@@ -235,7 +235,7 @@ class Learndash_Discord {
 	}
 
 	/**
-	 * Re-schedule  failed action 
+	 * Re-schedule  failed action
 	 *
 	 * @param INT            $action_id
 	 * @param OBJECT         $e
@@ -288,19 +288,19 @@ class Learndash_Discord {
 	/**
 	 * Retrieve the Discord Logo.
 	 */
-	public static function get_discord_logo_white(){
-		$img = file_get_contents( plugin_dir_path( dirname( __FILE__ ) ) . 'public/images/discord-logo-white.svg' );
+	public static function get_discord_logo_white() {
+		$img  = file_get_contents( plugin_dir_path( dirname( __FILE__ ) ) . 'public/images/discord-logo-white.svg' );
 		$data = base64_encode( $img );
 		return '<img class="ets-discord" src="data:image/svg+xml;base64,' . $data . '" />';
 	}
 
 	/**
 	 * Check if the LearnDash Achievement Add-on is active.
-	 * 
+	 *
 	 * @return BOLL
 	 */
 	public static function ets_achievement_add_on_is_active() {
-		if ( class_exists( 'LearnDash_Achievements' ) ){
+		if ( class_exists( 'LearnDash_Achievements' ) ) {
 			return true;
 		} else {
 			return false;

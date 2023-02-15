@@ -1,2 +1,8 @@
+= 1.0.4 =
+- Fixed Remove option values when deleting the plugin
+
+= 1.0.3 =
+- Fixed connect the bot button
+
 = 1.0.1 =
 - Fixed the problem of connect button not working GH#PR-62

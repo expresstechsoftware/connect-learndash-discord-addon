@@ -37,8 +37,8 @@ class Learndash_Discord_Activator {
 		update_option( 'ets_learndash_discord_disconnect_button_text', 'Disconnect From Discord' );
 		update_option( 'ets_learndash_discord_kick_upon_disconnect', false ); 
 		update_option( 'ets_learndash_discord_retry_api_count', 5 );
-		update_option( 'ets_learndash_discord_job_queue_concurrency', 1 );
-		update_option( 'ets_learndash_discord_job_queue_batch_size', 6 );
+		update_option( 'ets_learndash_discord_job_queue_concurrency', 2 );
+		update_option( 'ets_learndash_discord_job_queue_batch_size', 1 );
 		update_option( 'ets_learndash_discord_log_api_response', false );
 		update_option( 'ets_learndash_discord_embed_messaging_feature', false );
     update_option( 'ets_learndash_discord_uuid_file_name', wp_generate_uuid4() );
