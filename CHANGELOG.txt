@@ -1,3 +1,6 @@
+= 1.0.5 =
+- Add link to support forum
+
 = 1.0.4 =
 - Fixed Remove option values when deleting the plugin
 
