@@ -2,6 +2,7 @@
 
 /**
  * Fired when the plugin is uninstalled.
+ *
  * @link       https://www.expresstechsoftwares.com
  * @since      1.0.0
  *
@@ -17,8 +18,11 @@ if ( defined( 'WP_UNINSTALL_PLUGIN' )
 		&& $_REQUEST['slug'] === 'connect-learndash-and-discord'
 	&& wp_verify_nonce( $_REQUEST['_ajax_nonce'], 'updates' )
   ) {
-	global $wpdb;
-	  $wpdb->query( 'DELETE FROM ' . $wpdb->prefix . "usermeta WHERE `meta_key` LIKE '_ets_learndash_discord%'" );
-	  $wpdb->query( 'DELETE FROM ' . $wpdb->prefix . "options WHERE `option_name` LIKE 'ets_learndash_discord_%'" );
+	$ets_learndash_discord_data_erases = sanitize_text_field( trim( get_option( 'ets_learndash_discord_data_erases' ) ) );
+	if ( $ets_learndash_discord_data_erases == true ) {
+		global $wpdb;
+		$wpdb->query( 'DELETE FROM ' . $wpdb->prefix . "usermeta WHERE `meta_key` LIKE '_ets_learndash_discord%'" );
+		$wpdb->query( 'DELETE FROM ' . $wpdb->prefix . "options WHERE `option_name` LIKE 'ets_learndash_discord_%'" );
+	}
 }
 
