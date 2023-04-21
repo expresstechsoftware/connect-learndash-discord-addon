@@ -455,6 +455,11 @@ class Learndash_Discord_Admin {
 				} else {
 					update_option( 'ets_learndash_discord_data_erases', false );
 				}
+				if ( isset( $_POST['ets_learndash_discord_login_with_discord'] ) ) {
+					update_option( 'ets_learndash_discord_login_with_discord', true );
+				} else {
+					update_option( 'ets_learndash_discord_login_with_discord', false );
+				}
 
 				$message      = 'Your settings are saved successfully.';
 				$pre_location = $ets_current_url . '&save_settings_msg=' . $message . '#ets_learndash_discord_advanced';

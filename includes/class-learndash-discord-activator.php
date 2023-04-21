@@ -42,6 +42,7 @@ class Learndash_Discord_Activator {
 		update_option( 'ets_learndash_discord_log_api_response', false );
 		update_option( 'ets_learndash_discord_embed_messaging_feature', false );
 		update_option( 'ets_learndash_discord_data_erases', false );
+		update_option( 'ets_learndash_discord_login_with_discord', true );
 		update_option( 'ets_learndash_discord_uuid_file_name', wp_generate_uuid4() );
 	}
 
