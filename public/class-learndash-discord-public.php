@@ -1089,6 +1089,10 @@ class Learndash_Discord_Public {
 	 */
 	public function ets_learndash_discord_registration_form() {
 		global $post;
+		$ets_learndash_discord_login_with_discord = sanitize_text_field( trim( get_option( 'ets_learndash_discord_login_with_discord' ) ) );
+		if ( ! $ets_learndash_discord_login_with_discord ) {
+			return;
+		}
 		if ( ! is_user_logged_in() ) {
 			wp_enqueue_style( $this->plugin_name );
 			$course_id                                     = $post->ID;

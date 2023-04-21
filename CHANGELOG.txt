@@ -1,3 +1,6 @@
+= 1.0.6 =
+- Add setting option : Show/ Hide the Connect With Discord button on registration page.
+- Add opting out
 = 1.0.5 =
 - Add link to support forum
 
