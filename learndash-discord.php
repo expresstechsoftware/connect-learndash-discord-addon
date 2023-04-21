@@ -10,7 +10,7 @@
  * Plugin Name:       Connect LearnDash and Discord
  * Plugin URI:        https://www.expresstechsoftwares.com/learndash-and-discord-integration
  * Description:       Connect LearnDash with Discord and open an oppurtunity of creating a vibrating community of your course learners.
- * Version:           1.0.5
+ * Version:           1.0.6
  * Author:            ExpressTech Softwares Solutions Pvt Ltd
  * Author URI:        https://www.expresstechsoftwares.com
  * License:           GPL-2.0+
