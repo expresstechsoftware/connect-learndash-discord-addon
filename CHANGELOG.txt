@@ -1,3 +1,8 @@
+= 1.0.8 =
+- Add links to github discord Addons Documentation
+= 1.0.7 =
+- Add support WordPress 6.2
+
 = 1.0.6 =
 - Add setting option : Show/ Hide the Connect With Discord button on registration page.
 - Add opting out
