@@ -8,7 +8,7 @@
 		<li>
 			 <label><?php esc_html_e( 'Step-by-Step Written guide on how to connect the plugin with Discord server', 'connect-learndash-and-discord' ); ?>
 			</label>
-			<a href="https://www.expresstechsoftwares.com/step-by-step-documentation-guide-on-how-to-connect-pmpro-and-discord-server-using-discord-addon/" target="_blank" ><?php esc_html_e( 'Click Here', 'connect-learndash-and-discord' ); ?> <i class="fa fa-mouse-pointer" aria-hidden="true"></i></a>
+			<a href="https://github.com/ravisoni6262/discord-addons-documentation" target="_blank" ><?php esc_html_e( 'Click Here', 'connect-learndash-and-discord' ); ?> <i class="fa fa-mouse-pointer" aria-hidden="true"></i></a>
 		</li>
 		<li>
 			<label><?php esc_html_e( 'Features and other documentation', 'connect-learndash-and-discord' ); ?>
