@@ -15,8 +15,8 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 }
 $ets_learndash_discord_data_erases = sanitize_text_field( trim( get_option( 'ets_learndash_discord_data_erases' ) ) );
 if ( defined( 'WP_UNINSTALL_PLUGIN' )
-		&& $_REQUEST['plugin'] === 'connect-learndash-discord-addon/learndash-discord.php'
-		&& $_REQUEST['slug'] === 'connect-learndash-and-discord'
+		&& $_REQUEST['plugin'] == 'connect-learndash-and-discord/learndash-discord.php'
+		&& $_REQUEST['slug'] == 'connect-learndash-and-discord'
 	&& wp_verify_nonce( $_REQUEST['_ajax_nonce'], 'updates' )
 	&& $ets_learndash_discord_data_erases
   ) {
