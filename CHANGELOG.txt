@@ -1,3 +1,6 @@
+= 1.0.10 =
+- Add dismissible notification asking for review
+
 = 1.0.9 =
 - Add support WordPress 6.3
 

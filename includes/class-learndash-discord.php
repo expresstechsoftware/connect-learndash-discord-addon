@@ -123,6 +123,8 @@ class Learndash_Discord {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-learndash-discord-public.php';
 
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-learndash-discord-admin-notices.php';
+
 		$this->loader = new Learndash_Discord_Loader();
 
 	}
@@ -180,6 +182,7 @@ class Learndash_Discord {
 		$this->loader->add_action( 'learndash_assignment_approved', $plugin_admin, 'ets_learndash_discord_admin_assignment_approved', 10, 1 );
 		$this->loader->add_action( 'wp_ajax_ets_learndash_discord_update_redirect_url', $plugin_admin, 'ets_learndash_discord_update_redirect_url' );
 		$this->loader->add_action( 'admin_post_ets_learndash_discord_send_support_mail', $plugin_admin, 'ets_learndash_discord_send_support_mail' );
+		$this->loader->add_action( 'wp_ajax_ets_learndash_discord_notice_dismiss', $plugin_admin, 'ets_learndash_discord_notice_dismiss' );
 	}
 
 	/**

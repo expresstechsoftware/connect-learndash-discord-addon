@@ -359,7 +359,35 @@
                         $('p.redirect-url').html('<b>'+page_url+'</b>');
 		});
 		$('#ets_learndash_discord_connect_button_bg_color').wpColorPicker();
-		$('#ets_learndash_discord_disconnect_button_bg_color').wpColorPicker();                 
+		$('#ets_learndash_discord_disconnect_button_bg_color').wpColorPicker(); 
+		
+		$(document).ready(function(){
+			$(' .ets-learndash-discord-review-notice > button.notice-dismiss' ).on('click', function() {
+
+				$.ajax({
+					type: "POST",
+					dataType: "JSON",
+					url: etsLearnDashParams.admin_ajax,
+					data: { 
+						'action': 'ets_learndash_discord_notice_dismiss', 
+						'ets_learndash_discord_nonce' : etsLearnDashParams.ets_learndash_discord_nonce 
+					},
+					beforeSend: function () {
+						console.log('sending...');
+					},
+					success: function (response) {
+						console.log(response);
+					},
+					error: function (response) {
+						console.error(response);
+					},
+					complete: function () {
+						// 
+					}
+				});
+			});			
+		});
+
 	}
         
 
