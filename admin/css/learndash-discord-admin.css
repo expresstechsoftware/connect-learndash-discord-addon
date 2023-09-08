@@ -564,3 +564,13 @@ div.ets-learndash-discord-review-notice div.ets-learndash-discord-notice-icon{
 div.ets-learndash-discord-review-notice div.ets-learndash-discord-notice-content{
   padding: 20px;
 }
+div.ets-learndash-discord-review-notice div.ets-learndash-discord-notice-content p.ets-learndash-discord-signature {
+  display: flex; 
+  align-items: center;
+}
+div.ets-learndash-discord-review-notice div.ets-learndash-discord-notice-content img{
+  width: 45px;
+  height: auto;
+  border-radius: 50%;
+  margin-left: 15px;
+}
