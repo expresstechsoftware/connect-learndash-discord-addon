@@ -1,3 +1,6 @@
+= 1.0.12 =
+- Added documentation links for enhanced user guidance.
+
 = 1.0.11 =
 - Update thedismissible notification asking for review
 
