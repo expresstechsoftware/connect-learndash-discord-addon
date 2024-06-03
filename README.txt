@@ -1,13 +1,13 @@
 === Connect LearnDash to Discord ===
-Contributors: expresstechsoftware, webbdeveloper, sunnysoni 
+Contributors: expresstechsoftware, webbdeveloper, sunnysoni, vanbom 
 Tags: Discord, Talk, Video Chat, Hang Out, Friends, Memberships, discord role management, lms, learndash, learning community management.
 Donate link: https://paypal.me/supportets
 Author URI: https://www.expresstechsoftwares.com
 Author: ExpressTech Software Solutions Pvt. Ltd.
 Requires at least: 4.7
-Tested up to: 6.1
+Tested up to: 6.5
 Requires PHP: 7.0
-Stable tag: 1.0.4
+Stable tag: 1.0.14
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -62,6 +62,7 @@ Connect LearnDash to Discord Plugin Features:
 11. [connect Eduma Theme and  Discord](https://wordpress.org/plugins/connect-eduma-theme-to-discord/)
 12. [connect Restrict Content Pro and Discord Addon](https://wordpress.org/plugins/connect-restrictcontentpro-to-discord-addon/)
 13. [connect GamiPress and Discord](https://wordpress.org/plugins/connect-gamipress-and-discord/)
+14. [Connect Tutor LMS to Discord](https://wordpress.org/plugins/connect-tutorlms-to-discord/)
 
 == Frequently Asked Questions ==
 = I'm getting an error in error Log 'Missing Access'

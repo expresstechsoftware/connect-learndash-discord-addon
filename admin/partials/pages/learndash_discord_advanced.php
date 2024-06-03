@@ -13,14 +13,16 @@ $ets_learndash_discord_quiz_complete_message   = sanitize_text_field( trim( get_
 $ets_learndash_discord_send_assignment_approved_dm = sanitize_text_field( trim( get_option( 'ets_learndash_discord_send_assignment_approved_dm' ) ) );
 $ets_learndash_discord_assignment_approved_message = sanitize_text_field( trim( get_option( 'ets_learndash_discord_assignment_approved_message' ) ) );
 
-$retry_failed_api           = sanitize_text_field( trim( get_option( 'ets_learndash_discord_retry_failed_api' ) ) );
-$kick_upon_disconnect       = sanitize_text_field( trim( get_option( 'ets_learndash_discord_kick_upon_disconnect' ) ) );
-$retry_api_count            = sanitize_text_field( trim( get_option( 'ets_learndash_discord_retry_api_count' ) ) );
-$set_job_cnrc               = sanitize_text_field( trim( get_option( 'ets_learndash_discord_job_queue_concurrency' ) ) );
-$set_job_q_batch_size       = sanitize_text_field( trim( get_option( 'ets_learndash_discord_job_queue_batch_size' ) ) );
-$log_api_res                = sanitize_text_field( trim( get_option( 'ets_learndash_discord_log_api_response' ) ) );
-$embed_messaging_feature    = sanitize_text_field( trim( get_option( 'ets_learndash_discord_embed_messaging_feature' ) ) );
-$remove_role_course_expired = sanitize_text_field( trim( get_option( 'ets_learndash_discord_remove_role_course_expired' ) ) );
+$retry_failed_api                         = sanitize_text_field( trim( get_option( 'ets_learndash_discord_retry_failed_api' ) ) );
+$kick_upon_disconnect                     = sanitize_text_field( trim( get_option( 'ets_learndash_discord_kick_upon_disconnect' ) ) );
+$retry_api_count                          = sanitize_text_field( trim( get_option( 'ets_learndash_discord_retry_api_count' ) ) );
+$set_job_cnrc                             = sanitize_text_field( trim( get_option( 'ets_learndash_discord_job_queue_concurrency' ) ) );
+$set_job_q_batch_size                     = sanitize_text_field( trim( get_option( 'ets_learndash_discord_job_queue_batch_size' ) ) );
+$log_api_res                              = sanitize_text_field( trim( get_option( 'ets_learndash_discord_log_api_response' ) ) );
+$embed_messaging_feature                  = sanitize_text_field( trim( get_option( 'ets_learndash_discord_embed_messaging_feature' ) ) );
+$remove_role_course_expired               = sanitize_text_field( trim( get_option( 'ets_learndash_discord_remove_role_course_expired' ) ) );
+$ets_learndash_discord_data_erases        = sanitize_text_field( trim( get_option( 'ets_learndash_discord_data_erases' ) ) );
+$ets_learndash_discord_login_with_discord = sanitize_text_field( trim( get_option( 'ets_learndash_discord_login_with_discord' ) ) );
 
 ?>
 <form method="post" action="<?php echo esc_url( get_site_url() . '/wp-admin/admin-post.php' ); ?>">
@@ -37,6 +39,32 @@ $remove_role_course_expired = sanitize_text_field( trim( get_option( 'ets_learnd
 		<small><?php esc_html_e( 'Use this shortcode [learndash_discord] to display connect to discord button on any page.', 'connect-learndash-and-discord' ); ?></small>
 		</fieldset></td>
 	</tr>
+	<tr>
+		<th scope="row"><?php esc_html_e( 'Data erases on uninstall?', 'connect-learndash-and-discord' ); ?></th>
+		<td> <fieldset>
+		<input name="ets_learndash_discord_data_erases" type="checkbox" id="ets_learndash_discord_data_erases" 
+		<?php
+		if ( $ets_learndash_discord_data_erases == true ) {
+			echo esc_attr( 'checked="checked"' ); }
+		?>
+		 value="1">
+				<br/>
+				<small>By checking this box, you are indicating that you want to delete all data associated with the plugin when it is uninstalled.</small>                
+		</fieldset></td>
+	  </tr>
+	  <tr>
+		<th scope="row"><?php esc_html_e( 'Show login with Discord button?', 'connect-learndash-and-discord' ); ?></th>
+		<td> <fieldset>
+		<input name="ets_learndash_discord_login_with_discord" type="checkbox" id="ets_learndash_discord_login_with_discord" 
+		<?php
+		if ( $ets_learndash_discord_login_with_discord == true ) {
+			echo esc_attr( 'checked="checked"' ); }
+		?>
+		 value="1">
+				<br/>
+				<small>Offer the student to connect with his Discord account on the registration page.</small>                
+		</fieldset></td>
+	  </tr>	  		
 	<tr>
 		<th scope="row"><?php esc_html_e( 'Use rich embed messaging feature?', 'connect-learndash-and-discord' ); ?></th>
 		<td> <fieldset>
@@ -209,22 +237,22 @@ $remove_role_course_expired = sanitize_text_field( trim( get_option( 'ets_learnd
 	<tr>
 		<th scope="row"><?php esc_html_e( 'How many times a failed API call should get re-try', 'connect-learndash-and-discord' ); ?></th>
 		<td> <fieldset>
-			<?php $retry_api_count_value = isset( $retry_api_count ) ? $retry_api_count : 1 ?>
-		<input name="ets_learndash_retry_api_count" type="number" min="1" id="ets_learndash_retry_api_count" value="<?php echo esc_attr( intval( $retry_api_count_value ) );?>">
+			<?php $retry_api_count_value = isset( $retry_api_count ) ? $retry_api_count : 1; ?>
+		<input name="ets_learndash_retry_api_count" type="number" min="1" id="ets_learndash_retry_api_count" value="<?php echo esc_attr( intval( $retry_api_count_value ) ); ?>">
 		</fieldset></td>
 	  </tr> 
 	  <tr>
 		<th scope="row"><?php esc_html_e( 'Set job queue concurrency', 'connect-learndash-and-discord' ); ?></th>
 		<td> <fieldset>
 			<?php $set_job_cnrc_value = isset( $set_job_cnrc ) ? $set_job_cnrc : 1; ?>
-		<input name="set_job_cnrc" type="number" min="1" id="set_job_cnrc" value="<?php echo esc_attr( intval( $set_job_cnrc_value ) );?>">
+		<input name="set_job_cnrc" type="number" min="1" id="set_job_cnrc" value="<?php echo esc_attr( intval( $set_job_cnrc_value ) ); ?>">
 		</fieldset></td>
 	  </tr>
 	  <tr>
 		<th scope="row"><?php esc_html_e( 'Set job queue batch size', 'connect-learndash-and-discord' ); ?></th>
 		<td> <fieldset>
 			<?php $set_job_q_batch_size_value = isset( $set_job_q_batch_size ) ? $set_job_q_batch_size : 10; ?>
-		<input name="set_job_q_batch_size" type="number" min="1" id="set_job_q_batch_size" value="<?php echo esc_attr( intval( $set_job_q_batch_size_value ) );?>">
+		<input name="set_job_q_batch_size" type="number" min="1" id="set_job_q_batch_size" value="<?php echo esc_attr( intval( $set_job_q_batch_size_value ) ); ?>">
 		</fieldset></td>
 	  </tr>
 	<tr>

@@ -1,3 +1,33 @@
+= 1.0.14 =
+- Removed duplicate Discord role name from the 'Connect' button on the account student page.
+
+= 1.0.13 =
+- Updated plugin to support WordPress version 6.5
+
+= 1.0.12 =
+- Added documentation links for enhanced user guidance.
+
+= 1.0.11 =
+- Update thedismissible notification asking for review
+
+= 1.0.10 =
+- Add dismissible notification asking for review
+
+= 1.0.9 =
+- Add support WordPress 6.3
+
+= 1.0.8 =
+- Add links to github discord Addons Documentation
+
+= 1.0.7 =
+- Add support WordPress 6.2
+
+= 1.0.6 =
+- Add setting option : Show/ Hide the Connect With Discord button on registration page.
+- Add opting out
+= 1.0.5 =
+- Add link to support forum
+
 = 1.0.4 =
 - Fixed Remove option values when deleting the plugin
 
