@@ -205,15 +205,18 @@ class Learndash_Discord_Public {
 		$roles_color                                      = unserialize( get_option( 'ets_learndash_discord_roles_color' ) );
 		$enrolled_courses                                 = ets_learndash_discord_get_student_courses_id( $user_id );
 		$mapped_role_name                                 = '';
+		$final_roles                                      = array();
 		if ( is_array( $enrolled_courses ) && is_array( $all_roles ) && is_array( $ets_learndash_discord_role_mapping ) ) {
 			foreach ( $enrolled_courses as $key => $enrolled_course_id ) {
+
 				if ( array_key_exists( 'learndash_course_id_' . $enrolled_course_id, $ets_learndash_discord_role_mapping ) ) {
 
 					$mapped_role_id = $ets_learndash_discord_role_mapping[ 'learndash_course_id_' . $enrolled_course_id ];
-
-					if ( array_key_exists( $mapped_role_id, $all_roles ) ) {
+					
+					if ( array_key_exists( $mapped_role_id, $all_roles ) && ! in_array( $mapped_role_id, $final_roles ) ) {
 						$mapped_role_name .= '<span> <i style="background-color:#' . dechex( $roles_color[ $mapped_role_id ] ) . '"></i>' . $all_roles[ $mapped_role_id ] . '</span>';
 					}
+					array_push( $final_roles, $mapped_role_id );
 				}
 			}
 		}

@@ -1,3 +1,6 @@
+= 1.0.14 =
+- Removed duplicate Discord role name from the 'Connect' button on the account student page.
+
 = 1.0.13 =
 - Updated plugin to support WordPress version 6.5
 
